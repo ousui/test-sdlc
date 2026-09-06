@@ -1,0 +1,61 @@
+name: web-realflow
+on:
+  push:
+    branches: [verify/web-realflow-v1]
+permissions:
+  contents: read
+concurrency:
+  group: web-realflow-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: 7a454c76b62c41525fa3990dffdaa9a52b975679
+          path: inputs/spec
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: inputs/springgear
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: pallets-eco/flask-admin
+          ref: 7fee0246b05476fb6bc38e44bcfb7cc87b978853
+          path: inputs/flask-admin
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Capture source and environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/sources
+          for p in spec springgear flask-admin; do
+            git -C inputs/$p rev-parse HEAD > evidence/sources/$p.sha
+            git -C inputs/$p archive --format=tar HEAD | gzip -n > evidence/sources/$p.tar.gz
+          done
+          { python3 --version; java -version; mvn -version; go version; command -v bwrap || true; } > evidence/environment.txt 2>&1
+          sha256sum evidence/sources/* > evidence/SHA256SUMS
+      - name: Run existing runtime baseline (not product or host certification)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B inputs/spec/tools/validate.py --profile full --source-sha 7a454c76b62c41525fa3990dffdaa9a52b975679 --json-out "$GITHUB_WORKSPACE/evidence/baseline.json" 2>&1 | tee evidence/baseline.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preflight-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
