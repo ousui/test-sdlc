@@ -1,8 +1,4 @@
-"""Build an exploratory JDK21 candidate from the pinned SpringGear baseline.
-
-This is a declared, replayable candidate preparation step; Maven success alone
-is not an IMP Artifact, VFY Gate, or final SDLC confirmation.
-"""
+"""Prepare a replayable JDK21 business candidate; not an IMP or VFY certificate."""
 from pathlib import Path
 import sys
 
@@ -50,6 +46,7 @@ import org.springgear.core.engine.executor.DefaultSpringGearEngineExecutor;
 import org.springgear.core.engine.executor.handler.SpringGearHandlerInterface;
 import org.springgear.core.engine.request.SpringGearEngineParts;
 import org.springgear.exception.SpringGearException;
+import org.springgear.exception.SpringGearError;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -83,19 +80,19 @@ class Jdk21RegressionTest {
         assertThrows(IllegalArgumentException.class, () -> c.getArgument(-1));
         assertThrows(IllegalArgumentException.class, () -> c.getArgument(2));
     }
-    @Test void emptyPipelineRetainsItsExistingNullResult() {
+    @Test void emptyPipelineRetainsItsExistingNullResult() throws SpringGearError {
         DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();
         executor.setHandlers(List.of());
         assertNull(executor.execute(parts()));
     }
-    @Test void pipelinePreservesOrderAndContextBetweenHandlers() {
+    @Test void pipelinePreservesOrderAndContextBetweenHandlers() throws SpringGearError {
         DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();
         SpringGearHandlerInterface<String, String> first = c -> c.setValue("first", c.getRequest());
         SpringGearHandlerInterface<String, String> second = c -> c.setResponse(c.<String>getValue("first") + "-done");
         executor.setHandlers(List.of(first, second));
         assertEquals("hello-done", executor.execute(parts()));
     }
-    @Test void unsupportedHandlerDoesNotRun() {
+    @Test void unsupportedHandlerDoesNotRun() throws SpringGearError {
         DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();
         SpringGearHandlerInterface<String, String> ignored = new SpringGearHandlerInterface<>() {
             public boolean supports(SpringGearContext<String, String> c) { return false; }
