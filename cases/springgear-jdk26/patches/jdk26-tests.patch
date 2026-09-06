@@ -1,0 +1,154 @@
+--- /dev/null
++++ b/springgear-core/src/test/java/org/springgear/Jdk26RegressionTest.java
+@@ -0,0 +1,133 @@
++package org.springgear;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.beans.factory.support.BeanDefinitionBuilder;
++import org.springframework.context.annotation.AnnotationConfigApplicationContext;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springgear.core.annotation.SpringGearEngine;
++import org.springgear.core.context.SpringGearContext;
++import org.springgear.core.context.SpringGearContextValue;
++import org.springgear.core.engine.SpringGearEngineFactoryBean;
++import org.springgear.core.engine.executor.DefaultSpringGearEngineExecutor;
++import org.springgear.core.engine.executor.handler.SpringGearHandlerInterface;
++import org.springgear.core.engine.request.SpringGearEngineParts;
++import org.springgear.exception.SpringGearContinueException;
++import org.springgear.exception.SpringGearException;
++import org.springgear.exception.SpringGearInterruptException;
++
++import java.io.DataInputStream;
++import java.util.List;
++import static org.junit.jupiter.api.Assertions.*;
++
++class Jdk26RegressionTest {
++    private SpringGearEngineParts parts() {
++        return new SpringGearEngineParts("hello", new Object[]{"hello", 7},
++                "jdk26-regression", 1L, new SpringGearContextValue(), "echoEngine");
++    }
++    private SpringGearContext<String, String> context() {
++        return new SpringGearContext<>("hello", new Object[]{"hello", 7},
++                "jdk26-regression", 1L, new SpringGearContextValue());
++    }
++    @Test void runsOnDeclaredJdk26() { assertEquals(26, Runtime.version().feature()); }
++    @Test void producesJava26Bytecode() throws Exception {
++        try (var stream = SpringGearContext.class.getResourceAsStream("SpringGearContext.class")) {
++            assertNotNull(stream);
++            var input = new DataInputStream(stream);
++            assertEquals(0xCAFEBABE, input.readInt());
++            assertEquals(0, input.readUnsignedShort());
++            assertEquals(70, input.readUnsignedShort());
++        }
++    }
++    @Test void annotationProcessorGeneratesConstructorAndAccessors() {
++        assertEquals("hello", parts().<String>getRequest());
++        assertEquals(2, parts().getArgs().length);
++        assertEquals("echoEngine", parts().getBeanName());
++        var c = context(); c.setResponse("done"); assertEquals("done", c.getResponse());
++    }
++    @Test void contextPreservesArgumentsAndSharedValues() {
++        var c = context(); assertEquals(7, c.<Integer>getArgument(1));
++        c.setValue("shared", "value");
++        assertEquals("value", c.<String>getValue("shared"));
++        assertEquals("fallback", c.getValue("missing", "fallback"));
++    }
++    @Test void invalidArgumentIndicesRemainRejected() {
++        assertThrows(IllegalArgumentException.class, () -> context().getArgument(-1));
++        assertThrows(IllegalArgumentException.class, () -> context().getArgument(2));
++    }
++    @Test void emptyPipelineRetainsExistingNullOutcome() throws Exception {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        executor.setHandlers(List.of()); assertNull(executor.execute(parts()));
++    }
++    @Test void orderedHandlersShareOneContext() throws Exception {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        SpringGearHandlerInterface<String,String> first = c -> c.setValue("first", c.getRequest());
++        SpringGearHandlerInterface<String,String> second = c -> c.setResponse(c.<String>getValue("first") + "-done");
++        executor.setHandlers(List.of(first,second));
++        assertEquals("hello-done", executor.execute(parts()));
++    }
++    @Test void unsupportedHandlerIsNotCalled() throws Exception {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        SpringGearHandlerInterface<String,String> ignored = new SpringGearHandlerInterface<>() {
++            @Override public boolean supports(SpringGearContext<String,String> c) { return false; }
++            @Override public void handle(SpringGearContext<String,String> c) { fail("unsupported handler ran"); }
++        };
++        SpringGearHandlerInterface<String,String> last = c -> c.setResponse("last");
++        executor.setHandlers(List.of(ignored,last)); assertEquals("last",executor.execute(parts()));
++    }
++    @Test void ordinaryFailureIsConvertedToDomainFailure() {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        SpringGearHandlerInterface<String,String> failed = c -> { throw new IllegalArgumentException("invalid"); };
++        executor.setHandlers(List.of(failed));
++        var error=assertThrows(SpringGearException.class, () -> executor.execute(parts()));
++        assertEquals(400,error.getCode());
++    }
++    @Test void interruptionPreservesResponseAndDoesNotExecuteLaterHandler() {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        SpringGearHandlerInterface<String,String> stop = c -> {
++            c.setResponse("partial"); throw new SpringGearInterruptException("stop",200);
++        };
++        SpringGearHandlerInterface<String,String> later = c -> fail("ran after interruption");
++        executor.setHandlers(List.of(stop,later));
++        var error=assertThrows(SpringGearInterruptException.class, () -> executor.execute(parts()));
++        assertEquals("partial",error.getResponse());
++    }
++    @Test void continueExceptionAllowsNextHandler() throws Exception {
++        var executor = new DefaultSpringGearEngineExecutor<String>();
++        SpringGearHandlerInterface<String,String> next = c -> { throw new SpringGearContinueException("continue"); };
++        SpringGearHandlerInterface<String,String> last = c -> c.setResponse("last");
++        executor.setHandlers(List.of(next,last)); assertEquals("last",executor.execute(parts()));
++    }
++    public interface EchoContract {
++        @SpringGearEngine(name="echoEngine",handlers={}) String echo(String input);
++        String unannotated(String input);
++    }
++    @Configuration static class Config {
++        @Bean String marker() { return "jdk26-ready"; }
++        @Bean DefaultSpringGearEngineExecutor<String> echoEngine() {
++            var executor = new DefaultSpringGearEngineExecutor<String>();
++            SpringGearHandlerInterface<String,String> h = c -> c.setResponse(c.getRequest()+"-proxy");
++            executor.setHandlers(List.of(h)); return executor;
++        }
++    }
++    private AnnotationConfigApplicationContext application() {
++        var app = new AnnotationConfigApplicationContext();
++        app.register(Config.class);
++        app.registerBeanDefinition("echoContract",BeanDefinitionBuilder
++                .genericBeanDefinition(SpringGearEngineFactoryBean.class)
++                .addConstructorArgValue(EchoContract.class).getBeanDefinition());
++        app.refresh(); return app;
++    }
++    @Test void springConfigurationEnhancementWorksWithoutAddOpens() {
++        try(var app=application()) { assertEquals("jdk26-ready",app.getBean("marker")); }
++    }
++    @Test void actualFactoryProxyDispatchesAndCachesAsSingleton() {
++        try(var app=application()) {
++            var first=app.getBean(EchoContract.class);
++            assertSame(first,app.getBean(EchoContract.class));
++            assertEquals("hello-proxy",first.echo("hello"));
++            assertEquals("again-proxy",first.echo("again"));
++        }
++    }
++    @Test void unannotatedInterfaceMethodRemainsRejected() {
++        try(var app=application()) {
++            assertThrows(UnsupportedOperationException.class, () -> app.getBean(EchoContract.class).unannotated("bad"));
++        }
++    }
++}
+--- /dev/null
++++ b/JDK26-MIGRATION.md
+@@ -0,0 +1,13 @@
++# SpringGear JDK 26 migration
++
++Validated scope is the existing four-module reactor: build, parent, core and BOM.
++Compiler release 26, Lombok 1.18.48 explicitly configured as annotation processor,
++Spring Framework 7.0.9 and Surefire 3.5.5. Public SpringGear source is unchanged.
++Run `mvn -B -ntp verify` using JDK 26. Expect 14 JUnit tests, zero failures/errors/skips,
++and class major version 70. The earlier compile-only build contained no tests and
++is not the acceptance result. The active reactor contains no javax Servlet API;
++disabled historical web/extension modules are outside this migration and are not
++claimed compatible with Spring 7. Java 8 binary compatibility is intentionally not claimed.
++No Maven deployment/release goal or upstream branch update is performed.
