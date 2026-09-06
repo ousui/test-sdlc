@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/springgear-core/src/test/java/org/springgear/Jdk26RegressionTest.java
-@@ -0,0 +1,133 @@
+@@ -0,0 +1,137 @@
 +package org.springgear;
 +
 +import org.junit.jupiter.api.Test;
@@ -140,7 +140,7 @@
 +}
 --- /dev/null
 +++ b/JDK26-MIGRATION.md
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,11 @@
 +# SpringGear JDK 26 migration
 +
 +Validated scope is the existing four-module reactor: build, parent, core and BOM.
