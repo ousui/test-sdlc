@@ -1,0 +1,69 @@
+name: springgear-a17
+on:
+  push:
+    branches: [verify/web-realflow-26-20260907-a17]
+    paths: ['.github/workflows/springgear-a17.yml', 'cases/springgear-jdk26/patches/**']
+permissions:
+  contents: read
+concurrency:
+  group: springgear-a17-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  migrated-reactor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: inputs/springgear
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '26'
+      - name: Apply exact declared IMP patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          git -C inputs/springgear rev-parse HEAD > evidence/upstream.sha
+          git -C inputs/springgear apply --check "$GITHUB_WORKSPACE/cases/springgear-jdk26/patches/jdk26-build.patch"
+          git -C inputs/springgear apply "$GITHUB_WORKSPACE/cases/springgear-jdk26/patches/jdk26-build.patch"
+          if test -f cases/springgear-jdk26/patches/jdk26-tests.patch; then
+            git -C inputs/springgear apply --check "$GITHUB_WORKSPACE/cases/springgear-jdk26/patches/jdk26-tests.patch"
+            git -C inputs/springgear apply "$GITHUB_WORKSPACE/cases/springgear-jdk26/patches/jdk26-tests.patch"
+          fi
+          (cd inputs/springgear && find . -path './.git' -prune -o -type f -print0 | sort -z | xargs -0 sha256sum) > evidence/inputs.sha256
+          git -C inputs/springgear diff --check
+          git -C inputs/springgear diff > evidence/actual.patch
+          java -version > evidence/java.txt 2>&1
+          mvn -version > evidence/maven.txt 2>&1
+      - name: Verify real migrated reactor (never skip tests)
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd inputs/springgear && mvn -B -ntp -Dmaven.repo.local="$RUNNER_TEMP/m2" verify) 2>&1 | tee evidence/maven-verify.log
+          if test -d inputs/springgear/springgear-core/target/surefire-reports; then
+            cp -r inputs/springgear/springgear-core/target/surefire-reports evidence/
+          fi
+          javap -verbose inputs/springgear/springgear-core/target/classes/org/springgear/core/context/SpringGearContext.class > evidence/class-version.txt
+          grep -q 'major version: 70' evidence/class-version.txt
+      - name: Preserve build output and exact source
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p evidence
+          tar --exclude=.git --exclude=target -czf evidence/springgear-source.tar.gz -C inputs/springgear .
+          if test -d inputs/springgear/springgear-core/target/surefire-reports; then cp -r inputs/springgear/springgear-core/target/surefire-reports evidence/; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: springgear-a17-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
