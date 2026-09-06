@@ -1,0 +1,49 @@
+name: runtime-tools-a17
+on:
+  push:
+    branches: [verify/web-realflow-26-20260907-a17]
+    paths: ['.github/workflows/runtime-tools-a17.yml']
+permissions:
+  contents: read
+jobs:
+  runtime-and-tools:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: c25be3d06f646a429df41921187c4686a28df480
+          fetch-depth: 0
+          path: spec
+          persist-credentials: false
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.27.1'
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve pinned toolchain and browser library for offline execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          go version > evidence/go-version.txt
+          tar -czf evidence/go-toolchain.tar.gz -C "$(go env GOROOT)" bin pkg src lib VERSION go.env
+          curl --fail --location --proto '=https' --tlsv1.2 https://code.jquery.com/jquery-4.0.0.min.js -o evidence/jquery-4.0.0.min.js
+          head -c 200 evidence/jquery-4.0.0.min.js
+          sha256sum evidence/go-toolchain.tar.gz evidence/jquery-4.0.0.min.js > evidence/SHA256SUMS
+          git -C spec bundle create "$GITHUB_WORKSPACE/evidence/spec-repaired.bundle" HEAD
+      - name: Regress exact repaired runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B spec/tools/validate.py --profile full --source-sha c25be3d06f646a429df41921187c4686a28df480 --json-out "$GITHUB_WORKSPACE/evidence/repaired-full.json" 2>&1 | tee evidence/repaired-full.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-tools-a17-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
