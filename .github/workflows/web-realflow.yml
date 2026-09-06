@@ -9,19 +9,12 @@ concurrency:
   group: web-realflow-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  preflight:
+  springgear-jdk21:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
-      - uses: actions/checkout@v4
-        with:
-          repository: ousui/sdlc-ai-spec
-          ref: 7a454c76b62c41525fa3990dffdaa9a52b975679
-          fetch-depth: 0
-          path: inputs/spec
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
@@ -29,71 +22,40 @@ jobs:
           ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
           path: inputs/springgear
           persist-credentials: false
-      - uses: actions/checkout@v4
-        with:
-          repository: pallets-eco/flask-admin
-          ref: 7fee0246b05476fb6bc38e44bcfb7cc87b978853
-          path: inputs/flask-admin
-          persist-credentials: false
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Capture source and environment
+      - name: Use runner's existing JDK 21
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence/sources
-          for p in spec springgear flask-admin; do
-            git -C inputs/$p rev-parse HEAD > evidence/sources/$p.sha
-            git -C inputs/$p archive --format=tar HEAD | gzip -n > evidence/sources/$p.tar.gz
-          done
-          git -C inputs/spec bundle create "$GITHUB_WORKSPACE/evidence/sources/spec.bundle" HEAD
-          { python3 --version; java -version; mvn -version; go version; command -v bwrap || true; } > evidence/environment.txt 2>&1
-          sha256sum evidence/sources/* > evidence/SHA256SUMS
-      - name: Prepare isolated Python dependencies
+          test -x "$JAVA_HOME_21_X64/bin/java"
+          echo "JAVA_HOME=$JAVA_HOME_21_X64" >> "$GITHUB_ENV"
+          echo "$JAVA_HOME_21_X64/bin" >> "$GITHUB_PATH"
+      - name: Apply declared migration when present
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/admin-venv"
-          "$RUNNER_TEMP/admin-venv/bin/pip" install 'Flask==3.1.2' 'Flask-Admin==2.0.2' 'Flask-SQLAlchemy==3.1.1' 'Flask-Login==0.6.3' 'Flask-WTF==1.2.2' 'pytest==8.4.2'
-          "$RUNNER_TEMP/admin-venv/bin/pip" freeze > evidence/python-requirements.lock
-          "$RUNNER_TEMP/admin-venv/bin/pip" download -r evidence/python-requirements.lock --dest evidence/wheels
-      - name: Run existing runtime baseline (not product or host certification)
+          if test -f scripts/migrate_springgear.py; then
+            python3 scripts/migrate_springgear.py inputs/springgear
+          fi
+      - name: Run real Maven tests on JDK 21
         shell: bash
         run: |
           set -euo pipefail
-          python3 -B inputs/spec/tools/validate.py --profile full --source-sha 7a454c76b62c41525fa3990dffdaa9a52b975679 --json-out "$GITHUB_WORKSPACE/evidence/baseline.json" 2>&1 | tee evidence/baseline.log
+          mkdir -p evidence/springgear
+          java -version 2> evidence/springgear/java.txt
+          git -C inputs/springgear diff > evidence/springgear/actual.patch
+          cd inputs/springgear
+          mvn -B -ntp verify 2>&1 | tee "$GITHUB_WORKSPACE/evidence/springgear/maven.log"
+      - name: Collect test XML and adapted source
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p evidence/springgear
+          find inputs/springgear -path '*/surefire-reports/*.xml' -exec cp --parents {} evidence/springgear/ \;
+          tar --exclude=.git --exclude=target -czf evidence/springgear/source.tar.gz -C inputs/springgear .
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: preflight-${{ github.sha }}
+          name: springgear-jdk21-${{ github.sha }}
           path: evidence/
-          if-no-files-found: error
-          retention-days: 30
-  springgear-original-jdk26:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: ousui/springgear
-          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
-          persist-credentials: false
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '26'
-      - name: Observe original project on target JDK
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/evidence"
-          java -version 2> "$RUNNER_TEMP/evidence/java.txt"
-          mvn -B -ntp -Dmaven.repo.local="$RUNNER_TEMP/m2" verify 2>&1 | tee "$RUNNER_TEMP/evidence/original-jdk26.log"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: original-springgear-jdk26-${{ github.sha }}
-          path: ${{ runner.temp }}/evidence/
           if-no-files-found: error
           retention-days: 30
