@@ -1,0 +1,129 @@
+name: integration-springgear-continuation
+on:
+  push:
+    branches: [verify/integration-three-project-20260907]
+    paths: [.github/workflows/integration-springgear-continuation.yml]
+permissions:
+  contents: read
+concurrency:
+  group: integration-springgear-continuation-20260907
+  cancel-in-progress: false
+env:
+  SDLC_SOURCE_SHA: 254972ba17d8e429500a684d8a86073b7c673eb9
+  TEST_SOURCE_SHA: 849783ddbc9b2ffd5300e3b1582049a390a2e2a8
+jobs:
+  springgear:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TEST_SOURCE_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ env.SDLC_SOURCE_SHA }}
+          fetch-depth: 0
+          path: _spec
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: _upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare exact authored input and warm dependencies with bounded retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/tools" "$RUNNER_TEMP/m2"
+          python3 scripts/prepare_springgear.py --upstream _upstream --out "$RUNNER_TEMP/springgear-inputs"
+          success=0
+          : > "$RUNNER_TEMP/evidence/dependency-preparation.log"
+          for attempt in 1 2 3 4; do
+            echo "=== dependency preparation attempt $attempt/4 ===" | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"
+            if (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp -Dmaven.repo.local="$RUNNER_TEMP/m2" verify) 2>&1 | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"; then
+              success=1
+              break
+            fi
+            sleep $((attempt * 4))
+          done
+          test "$success" = 1
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil
+          p=Path(os.environ['RUNNER_TEMP'])/'springgear-inputs'
+          for target in (p/'candidate').rglob('target'):
+              if target.is_dir(): shutil.rmtree(target)
+          expected=json.loads((p/'candidate-files.json').read_text())
+          actual={q.relative_to(p/'candidate').as_posix():hashlib.sha256(q.read_bytes()).hexdigest() for q in (p/'candidate').rglob('*') if q.is_file()}
+          assert actual==expected,'Dependency preparation changed authored input bytes'
+          PY
+          tar -czf "$RUNNER_TEMP/evidence/authored-inputs.tar.gz" -C "$RUNNER_TEMP" springgear-inputs
+          echo "SDLC_PREPARED_MAVEN_REPOSITORY=$RUNNER_TEMP/m2" >> "$GITHUB_ENV"
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Freeze exact source identities and docs-free runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TEST_SOURCE_SHA"
+          test "$(git -C _spec rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          test "$(git -C _upstream rev-parse HEAD)" = e855096ff19dcdb303dc4250ba19c30acd743ac7
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/test-source.sha"
+          git -C _spec rev-parse HEAD > "$RUNNER_TEMP/evidence/runtime-source.sha"
+          git -C _upstream rev-parse HEAD > "$RUNNER_TEMP/evidence/upstream-source.sha"
+          git -C _spec bundle create "$RUNNER_TEMP/evidence/runtime-source.bundle" HEAD
+          git archive --format=tar HEAD | gzip -n > "$RUNNER_TEMP/evidence/test-source.tar.gz"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil
+          source=Path('_spec');runtime=Path(os.environ['RUNNER_TEMP'])/'runtime'
+          for name in ('skills','packages','scripts'):
+              shutil.copytree(source/name,runtime/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','AGENTS.md'))
+          assert not (runtime/'docs').exists() and not (runtime/'tests').exists()
+          rows={p.relative_to(runtime).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+          (Path(os.environ['RUNNER_TEMP'])/'evidence/runtime-files.json').write_text(json.dumps(rows,sort_keys=True,indent=2))
+          PY
+          { python --version; java -version; mvn -version; bwrap --version; } > "$RUNNER_TEMP/evidence/environment.txt" 2>&1
+      - name: Execute SpringGear formal lifecycle through final Status
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B scripts/replay_springgear.py --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --case-root "$RUNNER_TEMP/springgear-inputs" --until STATUS 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+      - name: Preserve terminal source and validate complete original evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence/readable/runs"
+          if test -d "$RUNNER_TEMP/product/source"; then
+            cp -a "$RUNNER_TEMP/product/source" "$RUNNER_TEMP/evidence/product-source"
+            git -C "$RUNNER_TEMP/product" diff > "$RUNNER_TEMP/evidence/product.patch"
+            tar -czf "$RUNNER_TEMP/evidence/recovery.tar.gz" -C "$RUNNER_TEMP" product
+          fi
+          cp scripts/replay_springgear.py scripts/scenario_io.py scripts/review_artifact.py scripts/close_release.py "$RUNNER_TEMP/evidence/"
+          if test -f "$RUNNER_TEMP/evidence/run/status.json"; then
+            python -B scripts/publish_springgear.py --evidence "$RUNNER_TEMP/evidence" --destination "$RUNNER_TEMP/evidence/readable/runs" --run-id "${{ github.run_id }}" --runtime-sha "$SDLC_SOURCE_SHA"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-springgear-continuation-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
