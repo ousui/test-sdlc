@@ -1,7 +1,7 @@
 """Host orchestration of the real RLS CLI and separate artifact review.
 
 The only release effect is the existing isolated Sandbox version contract.
-This never asserts production deployment of the application.
+This never asserts production deployment of an application or library.
 """
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess,sys,tempfile,uuid,shutil
@@ -13,7 +13,7 @@ from rls_service import RlsService
 from rls_target import SandboxReleaseTarget
 from rls_trusted_effect import TrustedEffectRecords
 service=RlsService(work);checkpoint=out/'release-checkpoint.json'
-state=json.loads(checkpoint.read_text()) if checkpoint.exists() else {'sequence':0,'sandbox_root':str(Path(tempfile.gettempdir())/('sdlc-release-'+uuid.uuid4().hex)),'target':'local-validation','release_reference':'admin-'+hashlib.sha256(a.vfy.encode()).hexdigest()[:16]}
+state=json.loads(checkpoint.read_text()) if checkpoint.exists() else {'sequence':0,'sandbox_root':str(Path(tempfile.gettempdir())/('sdlc-release-'+uuid.uuid4().hex)),'target':'local-validation','release_reference':'qualification-'+hashlib.sha256(a.vfy.encode()).hexdigest()[:16]}
 def save():checkpoint.write_text(json.dumps(state,indent=2)+'\n')
 save();target=SandboxReleaseTarget(state['sandbox_root'],state['target'])
 def call(operation,body,inputs=(),reference=None):
@@ -58,5 +58,5 @@ assert actual['artifact']['revision_state']=='frozen' and actual['artifact_gate'
 snapshot=target.snapshot();assert snapshot['version']==state['release_reference']
 (out/'sandbox-target-snapshot.json').write_text(json.dumps(snapshot,indent=2)+'\n')
 shutil.copytree(target.root,out/'sandbox-target',dirs_exist_ok=True)
-(out/'rls-closed.json').write_text(json.dumps({'reference':reference,'artifact_gate':actual['artifact_gate'],'release_conclusion':actual['release_conclusion'],'target_snapshot':snapshot,'scope':'local Sandbox contract; not deployment of the Flask application'},indent=2)+'\n')
+(out/'rls-closed.json').write_text(json.dumps({'reference':reference,'artifact_gate':actual['artifact_gate'],'release_conclusion':actual['release_conclusion'],'target_snapshot':snapshot,'scope':'local Sandbox contract; not application or library deployment'},indent=2)+'\n')
 print(json.dumps({'reference':reference,'gate':'pass','release_conclusion':'success'}))
