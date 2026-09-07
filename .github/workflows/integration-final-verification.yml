@@ -9,7 +9,7 @@ concurrency:
   group: integration-final-verification-20260907
   cancel-in-progress: false
 env:
-  SDLC_SOURCE_SHA: 327d256d0ed45ec65f2cb0409e8c04419863d77a
+  SDLC_SOURCE_SHA: a166d0a06dccf929ee00809985ec1e6cd2dc04f5
   TEST_SOURCE_SHA: 849783ddbc9b2ffd5300e3b1582049a390a2e2a8
 jobs:
   strict:
