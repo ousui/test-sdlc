@@ -1,0 +1,14 @@
+{
+  "reference": "RLS-20260907112737-01@1",
+  "artifact_gate": "pass",
+  "release_conclusion": "success",
+  "target_snapshot": {
+    "applied": [
+      "RLI-001"
+    ],
+    "partial": [],
+    "target": "local-validation",
+    "version": "qualification-53823ebf8ba72eab"
+  },
+  "scope": "local Sandbox contract; not application or library deployment"
+}
