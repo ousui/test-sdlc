@@ -1,0 +1,234 @@
+name: integration-final-verification
+on:
+  push:
+    branches: [verify/integration-three-project-20260907]
+    paths: [.github/workflows/integration-final-verification.yml]
+permissions:
+  contents: read
+concurrency:
+  group: integration-final-verification-20260907
+  cancel-in-progress: false
+env:
+  SDLC_SOURCE_SHA: 327d256d0ed45ec65f2cb0409e8c04419863d77a
+  TEST_SOURCE_SHA: 849783ddbc9b2ffd5300e3b1582049a390a2e2a8
+jobs:
+  strict:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ env.SDLC_SOURCE_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Prepare exact strict environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/strict" "$RUNNER_TEMP/tools"
+          python -m pip install --require-hashes -r packages/sdlc_github/requirements.lock
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Run strict on exact integration SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          echo "$SDLC_SOURCE_SHA" > "$RUNNER_TEMP/strict/source.sha"
+          python3 -B tools/validate.py --profile strict --source-sha "$SDLC_SOURCE_SHA" --json-out "$RUNNER_TEMP/strict/strict.json" 2>&1 | tee "$RUNNER_TEMP/strict/strict.log"
+          test -z "$(git status --porcelain --untracked-files=all)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-strict-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict/
+          if-no-files-found: error
+          retention-days: 30
+  project:
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [admin, springgear, fansite]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      PROJECT: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TEST_SOURCE_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ env.SDLC_SOURCE_SHA }}
+          fetch-depth: 0
+          path: _spec
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        if: matrix.project == 'springgear'
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: _upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v5
+        if: matrix.project == 'springgear'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare only external dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/tools"
+          if test "$PROJECT" = admin; then
+            python3 -m venv "$RUNNER_TEMP/admin-env"
+            "$RUNNER_TEMP/admin-env/bin/pip" install -r cases/admin/requirements.lock
+            echo "$RUNNER_TEMP/admin-env/bin" >> "$GITHUB_PATH"
+          elif test "$PROJECT" = springgear; then
+            python3 scripts/prepare_springgear.py --upstream _upstream --out "$RUNNER_TEMP/springgear-inputs"
+            success=0
+            : > "$RUNNER_TEMP/evidence/dependency-preparation.log"
+            for attempt in 1 2 3 4; do
+              echo "=== Maven preparation attempt $attempt/4 ===" | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"
+              if (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp verify) 2>&1 | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"; then success=1; break; fi
+              sleep $((attempt * 4))
+            done
+            test "$success" = 1
+            test -d "$HOME/.m2/repository"
+            python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil
+          p=Path(os.environ['RUNNER_TEMP'])/'springgear-inputs'
+          for target in (p/'candidate').rglob('target'):
+              if target.is_dir(): shutil.rmtree(target)
+          expected=json.loads((p/'candidate-files.json').read_text())
+          actual={q.relative_to(p/'candidate').as_posix():hashlib.sha256(q.read_bytes()).hexdigest() for q in (p/'candidate').rglob('*') if q.is_file()}
+          assert actual==expected,'Dependency preparation changed authored source'
+          PY
+            tar -czf "$RUNNER_TEMP/evidence/authored-inputs.tar.gz" -C "$RUNNER_TEMP" springgear-inputs
+          else
+            go version
+            node --check cases/fansite/candidate/web/app.js
+            test "$(git hash-object cases/fansite/candidate/vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go)" = 28cd99c7f3fc50b03f3789b1013401db46d40bf9
+            echo 'GOPROXY=off' >> "$GITHUB_ENV"
+            echo 'GOTOOLCHAIN=local' >> "$GITHUB_ENV"
+          fi
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Freeze exact provenance and docs-free runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TEST_SOURCE_SHA"
+          test "$(git -C _spec rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          if test "$PROJECT" = springgear; then test "$(git -C _upstream rev-parse HEAD)" = e855096ff19dcdb303dc4250ba19c30acd743ac7; fi
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/test-source.sha"
+          git -C _spec rev-parse HEAD > "$RUNNER_TEMP/evidence/runtime-source.sha"
+          git -C _spec bundle create "$RUNNER_TEMP/evidence/runtime-source.bundle" HEAD
+          git archive --format=tar HEAD | gzip -n > "$RUNNER_TEMP/evidence/test-source.tar.gz"
+          if test "$PROJECT" = springgear; then git -C _upstream rev-parse HEAD > "$RUNNER_TEMP/evidence/upstream-source.sha"; fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil
+          source=Path('_spec');runtime=Path(os.environ['RUNNER_TEMP'])/'runtime'
+          for name in ('skills','packages','scripts'):
+              shutil.copytree(source/name,runtime/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','AGENTS.md'))
+          assert not (runtime/'docs').exists() and not (runtime/'tests').exists()
+          rows={p.relative_to(runtime).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+          (Path(os.environ['RUNNER_TEMP'])/'evidence/runtime-files.json').write_text(json.dumps(rows,sort_keys=True,indent=2))
+          PY
+          { python --version; java -version; mvn -version; go version; bwrap --version; node --version; } > "$RUNNER_TEMP/evidence/environment.txt" 2>&1
+      - name: Execute formal lifecycle through final Status
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test "$PROJECT" = admin; then
+            python -B scripts/replay_admin.py --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --until STATUS --exercise-design-revision 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+          elif test "$PROJECT" = springgear; then
+            python -B scripts/replay_springgear.py --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --case-root "$RUNNER_TEMP/springgear-inputs" --until STATUS 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+          else
+            python -B scripts/replay_fansite.py --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --case-root "$GITHUB_WORKSPACE/cases/fansite" --until STATUS 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+          fi
+      - name: Preserve and independently re-read original evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence/readable/runs"
+          if test -d "$RUNNER_TEMP/product/source"; then
+            cp -a "$RUNNER_TEMP/product/source" "$RUNNER_TEMP/evidence/product-source"
+            tar -czf "$RUNNER_TEMP/evidence/recovery.tar.gz" -C "$RUNNER_TEMP" product
+            if test "$PROJECT" = springgear; then git -C "$RUNNER_TEMP/product" diff > "$RUNNER_TEMP/evidence/product.patch"; fi
+          fi
+          cp "scripts/replay_$PROJECT.py" scripts/scenario_io.py scripts/review_artifact.py scripts/close_release.py "$RUNNER_TEMP/evidence/"
+          if test -f "$RUNNER_TEMP/evidence/run/status.json"; then
+            python -B "scripts/publish_$PROJECT.py" --evidence "$RUNNER_TEMP/evidence" --destination "$RUNNER_TEMP/evidence/readable/runs" --run-id "${{ github.run_id }}" --runtime-sha "$SDLC_SOURCE_SHA"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-${{ matrix.project }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  aggregate:
+    needs: [strict, project]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: final-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/projects
+      - uses: actions/download-artifact@v4
+        with:
+          name: final-strict-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict
+      - name: Bind all PASS results to one exact SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          root=Path(os.environ['RUNNER_TEMP']);run=os.environ['GITHUB_RUN_ID'];source=os.environ['SDLC_SOURCE_SHA']
+          strict=json.loads((root/'strict/strict.json').read_text())
+          assert strict['success'] and strict['source_sha']==source and strict['profile']=='strict'
+          results={}
+          for case,prefix,count in [('admin','ADMIN',13),('springgear','SPRINGGEAR',10),('fansite','FANSITE',24)]:
+              base=root/'projects'/f'final-{case}-{run}'
+              assert (base/'runtime-source.sha').read_text().strip()==source
+              status=json.loads((base/'run/status.json').read_text())
+              assert status['ok'] and status['next_action']['code']=='LIFECYCLE_COMPLETE' and not status['projection']['blockers']
+              readable=base/'readable/runs'/f'{prefix}-{run}'
+              assert (readable/'README.md').is_file() and (readable/'SHA256SUMS.json').is_file()
+              results[case]={'status':'CLOSED','tests':count}
+          receipt={'status':'PASS','runtime_source_sha':source,'test_source_sha':os.environ['TEST_SOURCE_SHA'],'strict_tests':strict['collection']['unique_tests'],'strict_registry_cases':strict['collection']['registry_cases'],'projects':results}
+          out=root/'final-receipt';out.mkdir();(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-integration-receipt-${{ github.run_id }}
+          path: ${{ runner.temp }}/final-receipt/
+          if-no-files-found: error
+          retention-days: 30
