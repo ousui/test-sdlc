@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     env:
-      SDLC_SOURCE_SHA: b15a4b30707130e24f74b9744f9e7bf226da5b19
+      SDLC_SOURCE_SHA: 3af50e8ea4f6aed41f9c5ff963e7dbff0d273387
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ousui/sdlc-ai-spec
-          ref: b15a4b30707130e24f74b9744f9e7bf226da5b19
+          ref: 3af50e8ea4f6aed41f9c5ff963e7dbff0d273387
           fetch-depth: 0
           path: _spec
           persist-credentials: false
@@ -89,3 +89,31 @@ jobs:
           path: ${{ runner.temp }}/admin-evidence/
           if-no-files-found: error
           retention-days: 30
+  publish-readable-evidence:
+    needs: real-lifecycle
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: admin-lifecycle-${{ github.run_id }}-${{ github.run_attempt }}
+          path: _evidence
+      - name: Validate actual terminal evidence before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/publish_admin.py --evidence _evidence --destination runs --run-id "$GITHUB_RUN_ID" --runtime-sha 3af50e8ea4f6aed41f9c5ff963e7dbff0d273387
+          test "$GITHUB_REF_NAME" = verify/admin-springgear-closure-v1
+          test "$(git ls-remote origin refs/heads/verify/admin-springgear-closure-v1 | cut -f1)" = "$GITHUB_SHA"
+          git add -- "runs/ADMIN-$GITHUB_RUN_ID"
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "test(admin): archive verified lifecycle from run $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/verify/admin-springgear-closure-v1
