@@ -1,0 +1,80 @@
+ method={'considerations':[{'name':n,'disposition':'required' if n in names else 'n/a','basis':('Required by account state, revocation and test consistency.' if n in names else ('Use existing password-hashing library, no new calculation rule.' if number==1 else 'This work item adds regression and usage instructions, not new product calculation/decision/data/state rules.')),'steps':['STEP-001'] if n in names else [],'exception':'N/A'} for n in CONSIDERATIONS], 'steps':[{'id':'STEP-001','order':1,'purpose':work[number-1]['outcome'],'target':['resource:RSC-001'],'basis_references':[f'{plnref}#WI-{number:03d}',change1 if number==1 else change2],'considerations':names,'logic':['Read the exact current baseline and declared design.','Apply only the preconditioned implementation files.' if number==1 else 'Add isolated current-source tests and reproducible account-state instructions.','Execute the declared local checks, retaining actual output and immutable final source.'],'expected_result':work[number-1]['completion_criteria'],'transaction_boundary':'One bounded source implementation work item; request-time data transactions follow the approved design.','failure_boundary':'Any failed precondition, source check or test leaves a visible incomplete work item.','blocks':blocks}], 'resources':[{'id':'RSC-001','root':'source'}],'operations':ops,'checks':[{'id':'CHK-001','name':'Parse application Python source','resource':'RSC-001','kind':'python_syntax','path':'main.py'}], 'design_decision_references':[dsref+'#DEC-001'],'exceptions':[],'open_items':[]}
+ if number==2:
+  method['checks'] += [{'id':'CHK-002','name':'Parse account lifecycle regression','resource':'RSC-001','kind':'python_syntax','path':'test_enabled.py'},{'id':'CHK-003','name':'Actual isolated account lifecycle tests','resource':'RSC-001','kind':'project_command','cwd':'.','command':['python','-m','unittest','test_enabled','-v'],'timeout_seconds':120}]
+ return method
+
+for number in (1,2):
+ label=f'IMP-{number}'
+ if label in state['stages']:continue
+ method_path=OUT/f'implementation-{number}.json'
+ if method_path.exists():method=json.loads(method_path.read_text())
+ else:method=implementation(number);method_path.write_text(json.dumps(method,ensure_ascii=False,indent=2)+'\n')
+ body={'inputs':{'implementation':method}}
+ upstream=[plnref]+([state['stages']['IMP-1']] if number==2 else [])
+ pending=state.get('pending',{}).get(label)
+ r=invoke('400-imp','revise' if pending else 'create',body,reference=pending,inputs=upstream,binding=f'{plnref}#WI-{number:03d}')
+ reference=ref(r);state.setdefault('pending',{})[label]=reference;save()
+ assert not r.get('errors') and r['gate']['result']!='fail',r
+ conf=review(reference,r);body['inputs']['final_confirmation']=conf
+ r=invoke('400-imp','revise',body,reference=reference,inputs=upstream,binding=f'{plnref}#WI-{number:03d}')
+ assert r['ok'] and r['artifact']['revision_state']=='frozen',r
+ assert next(w for w in r['warnings'] if w['code']=='IMP_EXECUTION_STATE')['claim_state']=='completed',r
+ state['stages'][label]=reference;state['pending'].pop(label,None);save();export(reference,label)
+if a.until=='IMP':raise SystemExit(0)
+
+# VFY consumes the entire Plan and only the current terminal implementation result.
+terminal=state['stages']['IMP-2']+'/RESULT-RES-001'
+vfy_obligations=sorted([f'{dsref}#{x}' for x in vfps]+[f'{dsref}#{x}' for x in ('VFM-001','VPC-001','VEC-001')]+[f'{plnref}#WI-{i:03d}' for i in (1,2,3)])
+from packages.sdlc_runtime import parse_markdown_tables
+vfo_rows=[row for member in stored(dsref).payload.members if member.member_id=='DOM-510'
+          for t in parse_markdown_tables(member.raw_bytes.decode()) for row in t.rows if row.get('ID')=='VFO-001']
+assert len(vfo_rows)==1
+vfo=vfo_rows[0]
+vfy_candidate={'targets':[{'reference':dsref+'#VFO-001','purpose':vfo['Kind'],
+ 'summary':vfo['可观察结果 Observable Result'],'source_kind':'vfo',
+ 'obligation_references':[dsref+'#'+x.strip() for x in vfo['Domain VFY Point References'].split(',')]}], 'methods':[{
+ 'id':'VFM-001','title':'Current-subject account lifecycle integration','purpose':'both',
+ 'target_references':[dsref+'#VFO-001'],'subject_references':[terminal],
+ 'obligation_references':vfy_obligations,'method_type':'test','disposition':'required',
+ 'execution_mode':'automated','executor_identity':EXECUTOR,
+ 'environment':{'project_root':'.','data_contract':'Ephemeral synthetic SQLite; exact current terminal source; existing prepared interpreter dependencies'},
+ 'procedure':{'kind':'command','argv':['python','-m','unittest','test_enabled','-v'],
+   'policy':'deterministic-test-v1','workspace':'isolated-copy','network':'disabled','cwd':'source','timeout_seconds':120,'max_output_bytes':262144},
+ 'pass_criteria':'All thirteen current-source integration tests execute with zero failure, error or skip; enabled-account, session revocation, CSRF, restart and legacy migration assertions hold.',
+ 'evidence_requirement':'Actual stdout/stderr and exit code, test identities, OS containment and source snapshot digests; not earlier standalone test results.'}]}
+if 'VFY' not in state['stages']:
+ pending=state.get('pending',{}).get('VFY')
+ if not pending:
+  result=invoke('500-vfy','create',{'persist':True,'run_automated':False,'candidate':vfy_candidate},inputs=[plnref,terminal])
+  assert result.get('ok'),result
+  pending=ref(result);state.setdefault('pending',{})['VFY']=pending;save()
+ if a.until=='VFY-CONTRACT':raise SystemExit(0)
+ result=invoke('500-vfy','run',{'persist':True,'allow_commands':True,'finalize':False},reference=pending)
+ assert result.get('ok') and result['product_result']=='pass',result
+ # Public deterministic helpers recompute phase-specific bindings from the
+ # actual readback state. The independent reviewer checks canonical bytes itself.
+ sys.path.insert(0,str(RUNTIME/'skills/sdlc-500-vfy/scripts'))
+ from vfy_handler import VfyHandler
+ from vfy_builder import confirmation_subject_digest
+ actual=VfyHandler(WORK).check(reference=pending)['state']
+ expected=VfyHandler(WORK).confirmation_requirements(actual)
+ conf=review(pending,result);conf['subject_digest']=confirmation_subject_digest(actual)
+ assert all(conf[k]==v for k,v in expected.items()),(conf,expected)
+ result=invoke('500-vfy','run',{'persist':True,'allow_commands':True,'finalize':True,'confirmation':conf},reference=pending)
+ assert result.get('ok') and result['artifact']['revision_state']=='frozen' and result['product_result']=='pass' and result['rls_ready'],result
+ state['stages']['VFY']=pending;state['pending'].pop('VFY',None);save();export(pending,'VFY')
+if a.until=='VFY':raise SystemExit(0)
+
+# RLS does not deploy a real site. Its authorized effect is the existing local
+# sandbox target's version transition, tied to the exact VFY/IMP source set.
+# The host adapter is a separate subprocess; it cannot sign artifact review.
+rlsargs=[sys.executable,'-B',str(HERE/'close_release.py'),'--runtime',str(RUNTIME),'--work',str(WORK),
+         '--output',str(OUT),'--vfy',state['stages']['VFY'],'--executor',EXECUTOR]
+result=subprocess.run(rlsargs,text=True,capture_output=True,timeout=180)
+(OUT/'rls-adapter.stdout').write_text(result.stdout);(OUT/'rls-adapter.stderr').write_text(result.stderr)
+assert result.returncode==0,result.stderr
+rlsresult=json.loads((OUT/'rls-closed.json').read_text());state['stages']['RLS']=rlsresult['reference'];save();export(rlsresult['reference'],'RLS')
+statusrun=subprocess.run([sys.executable,'-B',str(RUNTIME/'skills/sdlc-status/scripts/runtime.py'),'inspect','-p',str(WORK),'-r',reqref,'-f','json'],text=True,capture_output=True,timeout=60)
+(OUT/'status.json').write_text(statusrun.stdout);(OUT/'status.stderr').write_text(statusrun.stderr)
+assert statusrun.returncode==0,statusrun.stderr
+print('STATUS',statusrun.stdout,flush=True)
