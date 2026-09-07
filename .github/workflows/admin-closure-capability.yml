@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   capability:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
       - name: Verify available OS containment without sudo or system changes
@@ -23,8 +23,8 @@ jobs:
           fi
           bwrap --version | tee ../evidence/version.txt
           readlink /proc/self/ns/net > ../evidence/host-network.txt
-          bwrap --die-with-parent --unshare-all --ro-bind / / --bind "$RUNNER_TEMP/capability" "$RUNNER_TEMP/capability" --proc /proc --dev /dev -- /usr/bin/python3 -c 'import os,socket,pathlib; print("network",os.readlink("/proc/self/ns/net")); p=pathlib.Path(os.environ["RUNNER_TEMP"])/"capability/evidence/inside.txt"; p.write_text("isolated local write observed\n"); s=socket.socket(); s.settimeout(1); print("external_connect_code",s.connect_ex(("1.1.1.1",443))); assert s.connect_ex(("1.1.1.1",443))!=0' | tee ../evidence/probe.txt
           tar -czf ../evidence/bubblewrap-tools.tar.gz .
+          bwrap --die-with-parent --unshare-all --ro-bind / / --bind "$RUNNER_TEMP/capability" "$RUNNER_TEMP/capability" --proc /proc --dev /dev -- /usr/bin/python3 -c 'import os,socket,pathlib; print("network",os.readlink("/proc/self/ns/net")); p=pathlib.Path(os.environ["RUNNER_TEMP"])/"capability/evidence/inside.txt"; p.write_text("isolated local write observed\n"); s=socket.socket(); s.settimeout(1); result=s.connect_ex(("1.1.1.1",443)); print("external_connect_code",result); assert result!=0' | tee ../evidence/probe.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
