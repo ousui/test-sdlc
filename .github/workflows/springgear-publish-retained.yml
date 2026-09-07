@@ -1,0 +1,66 @@
+name: springgear-publish-retained
+on:
+  push:
+    branches: [verify/admin-springgear-closure-v1]
+    paths: [.github/workflows/springgear-publish-retained.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ousui/test-sdlc
+          run-id: 34116147376
+          name: springgear-lifecycle-34116147376-1
+          path: _evidence
+      - name: Recover only service-omitted dotfiles from original captured product
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import tarfile
+          root=Path('_evidence/product-source').resolve()
+          visible={p.relative_to(root).as_posix():p.read_bytes() for p in root.rglob('*') if p.is_file()}
+          original={}
+          with tarfile.open('_evidence/recovery.tar.gz','r:gz') as archive:
+              for item in archive:
+                  path=PurePosixPath(item.name)
+                  if path.parts[:2]!=('springgear-product','source') or item.isdir():continue
+                  assert item.isfile() and '..' not in path.parts and item.size<4*1024*1024
+                  relative=PurePosixPath(*path.parts[2:]).as_posix();assert relative not in original
+                  original[relative]=archive.extractfile(item).read()
+          assert original and set(visible)<=set(original)
+          assert all(original[name]==value for name,value in visible.items())
+          missing=set(original)-set(visible)
+          assert all(any(part.startswith('.') for part in PurePosixPath(name).parts) for name in missing)
+          for name in missing:
+              target=root/name;target.resolve().relative_to(root)
+              target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(original[name])
+          print('Recovered artifact-service omitted files:',sorted(missing))
+          PY
+      - name: Validate exact results, scope and executed identities before archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/publish_springgear.py --evidence _evidence --destination runs --run-id 34116147376 --runtime-sha 0102b8f42a87809f58f978e2c2611705b30e7869
+          test "$GITHUB_REF_NAME" = verify/admin-springgear-closure-v1
+          test "$(git ls-remote origin refs/heads/verify/admin-springgear-closure-v1 | cut -f1)" = "$GITHUB_SHA"
+          git add -- runs/SPRINGGEAR-34116147376
+          git diff --cached --check -- runs/SPRINGGEAR-34116147376/README.md runs/SPRINGGEAR-34116147376/source/JDK21-MIGRATION.md runs/SPRINGGEAR-34116147376/source/springgear-core/src/test/java/org/springgear/Jdk21RegressionTest.java
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'test(springgear): archive closed JDK21 lifecycle and ten executed behavior tests' -m 'Runtime 0102b8f42a87809f58f978e2c2611705b30e7869; actual run34116147376. Preserve unchanged upstream Java and original evidence; local Sandbox qualification only.'
+          git push origin HEAD:refs/heads/verify/admin-springgear-closure-v1
