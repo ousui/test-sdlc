@@ -1,0 +1,61 @@
+name: web-realflow
+on:
+  push:
+    branches: [verify/web-realflow-v1]
+    paths: ['.github/workflows/**', 'scripts/**', 'cases/**/source/**', 'cases/**/patches/**']
+permissions:
+  contents: read
+concurrency:
+  group: web-realflow-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  springgear-jdk21:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: inputs/springgear
+          persist-credentials: false
+      - name: Use runner's existing JDK 21
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x "$JAVA_HOME_21_X64/bin/java"
+          echo "JAVA_HOME=$JAVA_HOME_21_X64" >> "$GITHUB_ENV"
+          echo "$JAVA_HOME_21_X64/bin" >> "$GITHUB_PATH"
+      - name: Apply declared migration when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f scripts/migrate_springgear.py; then
+            python3 scripts/migrate_springgear.py inputs/springgear
+          fi
+      - name: Run real Maven tests on JDK 21
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/springgear
+          java -version 2> evidence/springgear/java.txt
+          git -C inputs/springgear diff > evidence/springgear/actual.patch
+          cd inputs/springgear
+          mvn -B -ntp verify 2>&1 | tee "$GITHUB_WORKSPACE/evidence/springgear/maven.log"
+      - name: Collect test XML and adapted source
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p evidence/springgear
+          find inputs/springgear -path '*/surefire-reports/*.xml' -exec cp --parents {} evidence/springgear/ \;
+          tar --exclude=.git --exclude=target -czf evidence/springgear/source.tar.gz -C inputs/springgear .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: springgear-jdk21-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
