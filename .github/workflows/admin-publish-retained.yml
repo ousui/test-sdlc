@@ -1,0 +1,42 @@
+name: admin-publish-retained
+on:
+  push:
+    branches: [verify/admin-springgear-closure-v1]
+    paths: [.github/workflows/admin-publish-retained.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ousui/test-sdlc
+          run-id: 34110902576
+          name: admin-lifecycle-34110902576-1
+          path: _evidence
+      - name: Recheck frozen artifacts and publish their unmodified original bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/publish_admin.py --evidence _evidence --destination runs --run-id 34110902576 --runtime-sha 3af50e8ea4f6aed41f9c5ff963e7dbff0d273387
+          test "$GITHUB_REF_NAME" = verify/admin-springgear-closure-v1
+          test "$(git ls-remote origin refs/heads/verify/admin-springgear-closure-v1 | cut -f1)" = "$GITHUB_SHA"
+          git add -- runs/ADMIN-34110902576
+          # Code/readme formatting is checked; raw observed logs must retain exact bytes.
+          # The publisher separately verifies content hashes and actual test identities.
+          git diff --cached --check -- runs/ADMIN-34110902576/source runs/ADMIN-34110902576/README.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'test(admin): preserve closed lifecycle, current results and 13 actual tests' -m 'Runtime 3af50e8ea4f6aed41f9c5ff963e7dbff0d273387; original execution run 34110902576. Raw evidence bytes retained, not whitespace-normalized.'
+          git push origin HEAD:refs/heads/verify/admin-springgear-closure-v1
