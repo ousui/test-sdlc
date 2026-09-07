@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 25
     env:
-      SDLC_SOURCE_SHA: c047951e9f1e29dcf61b67cc81252d959b74309d
+      SDLC_SOURCE_SHA: 0102b8f42a87809f58f978e2c2611705b30e7869
     steps:
       - uses: actions/checkout@v4
         with:
