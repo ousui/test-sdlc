@@ -2,7 +2,7 @@ name: springgear-closure
 on:
   push:
     branches: [verify/admin-springgear-closure-v1]
-    paths: [.github/workflows/springgear-closure.yml]
+    paths: [.github/workflows/springgear-closure.yml, scripts/replay_springgear.py, scripts/scenario_io.py]
 permissions:
   contents: read
 concurrency:
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ousui/sdlc-ai-spec
-          ref: c047951e9f1e29dcf61b67cc81252d959b74309d
+          ref: ${{ env.SDLC_SOURCE_SHA }}
           fetch-depth: 0
           path: _spec
           persist-credentials: false
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Select existing JDK21 and prepare allowed local containment
+      - name: Select existing JDK21 and local containment
         shell: bash
         run: |
           set -euo pipefail
@@ -50,7 +50,7 @@ jobs:
             for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
             echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
           fi
-      - name: Preserve authored inputs and prepare Maven cache before runtime
+      - name: Prepare dependencies outside formal runtime
         shell: bash
         run: |
           set -euo pipefail
@@ -93,7 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -B scripts/replay_springgear.py --runtime "$RUNNER_TEMP/springgear-runtime" --work "$RUNNER_TEMP/springgear-product" --output "$RUNNER_TEMP/springgear-evidence/run" --case-root "$RUNNER_TEMP/springgear-inputs" --until STATUS 2>&1 | tee "$RUNNER_TEMP/springgear-evidence/replay.log"
-      - name: Preserve actual product, source delta and recovery state
+      - name: Preserve actual product and recovery state
         if: always()
         shell: bash
         run: |
