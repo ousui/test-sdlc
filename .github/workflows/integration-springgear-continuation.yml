@@ -41,23 +41,24 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Prepare exact authored input and warm dependencies with bounded retry
+      - name: Prepare exact authored input and warm default Maven repository with bounded retry
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/tools" "$RUNNER_TEMP/m2"
+          mkdir -p "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/tools"
           python3 scripts/prepare_springgear.py --upstream _upstream --out "$RUNNER_TEMP/springgear-inputs"
           success=0
           : > "$RUNNER_TEMP/evidence/dependency-preparation.log"
           for attempt in 1 2 3 4; do
             echo "=== dependency preparation attempt $attempt/4 ===" | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"
-            if (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp -Dmaven.repo.local="$RUNNER_TEMP/m2" verify) 2>&1 | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"; then
+            if (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp verify) 2>&1 | tee -a "$RUNNER_TEMP/evidence/dependency-preparation.log"; then
               success=1
               break
             fi
             sleep $((attempt * 4))
           done
           test "$success" = 1
+          test -d "$HOME/.m2/repository"
           python3 - <<'PY'
           from pathlib import Path
           import hashlib,json,os,shutil
@@ -69,7 +70,6 @@ jobs:
           assert actual==expected,'Dependency preparation changed authored input bytes'
           PY
           tar -czf "$RUNNER_TEMP/evidence/authored-inputs.tar.gz" -C "$RUNNER_TEMP" springgear-inputs
-          echo "SDLC_PREPARED_MAVEN_REPOSITORY=$RUNNER_TEMP/m2" >> "$GITHUB_ENV"
           if ! command -v bwrap >/dev/null; then
             cd "$RUNNER_TEMP/tools"
             apt-get download bubblewrap
