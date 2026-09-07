@@ -1,0 +1,121 @@
+name: admin-closure
+on:
+  push:
+    branches: [verify/admin-springgear-closure-v1]
+    paths: [.github/workflows/admin-closure.yml]
+permissions:
+  contents: read
+concurrency:
+  group: admin-closure
+  cancel-in-progress: false
+jobs:
+  prepare-input:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    outputs:
+      source: ${{ steps.publish.outputs.source }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: pallets-eco/flask-admin
+          ref: 7fee0246b05476fb6bc38e44bcfb7cc87b978853
+          path: _upstream
+          persist-credentials: false
+      - name: Preserve exact authored source before running any business Skill
+        id: publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = verify/admin-springgear-closure-v1
+          if ! test -f scripts/replay_admin.py; then
+            python3 scripts/prepare_admin.py _upstream
+            git add scripts/replay_admin.py cases/admin .transport
+            git diff --cached --check
+            test "$(git ls-remote origin refs/heads/verify/admin-springgear-closure-v1 | cut -f1)" = "$GITHUB_SHA"
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'test(admin): materialize complete replay inputs and source before execution'
+            git push origin HEAD:refs/heads/verify/admin-springgear-closure-v1
+          fi
+          echo "source=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  real-lifecycle:
+    needs: prepare-input
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      SDLC_SOURCE_SHA: 5b088ef978644308c14ec6459a44bec9fe8aedee
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare-input.outputs.source }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: 5b088ef978644308c14ec6459a44bec9fe8aedee
+          path: _spec
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare existing dependencies and supported OS containment outside runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/admin-evidence" "$RUNNER_TEMP/admin-tools"
+          python3 -m venv "$RUNNER_TEMP/admin-env"
+          "$RUNNER_TEMP/admin-env/bin/pip" install -r cases/admin/requirements.lock
+          echo "$RUNNER_TEMP/admin-env/bin" >> "$GITHUB_PATH"
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/admin-tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Freeze runtime resources and source provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _spec rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          git rev-parse HEAD > "$RUNNER_TEMP/admin-evidence/test-source.sha"
+          git -C _spec rev-parse HEAD > "$RUNNER_TEMP/admin-evidence/runtime-source.sha"
+          python - <<'PY'
+          from pathlib import Path
+          import os,shutil,hashlib,json
+          source=Path('_spec');runtime=Path(os.environ['RUNNER_TEMP'])/'admin-runtime'
+          for name in ('skills','packages','scripts'):
+              shutil.copytree(source/name,runtime/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','AGENTS.md'))
+          assert not (runtime/'docs').exists() and not (runtime/'tests').exists()
+          rows={p.relative_to(runtime).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+          (Path(os.environ['RUNNER_TEMP'])/'admin-evidence/runtime-files.json').write_text(json.dumps(rows,sort_keys=True,indent=2))
+          PY
+          { python --version; bwrap --version; } > "$RUNNER_TEMP/admin-evidence/environment.txt" 2>&1
+      - name: Execute authored requirement through actual CTX REQ DSN PLN IMP VFY RLS Status
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B scripts/replay_admin.py --runtime "$RUNNER_TEMP/admin-runtime" --work "$RUNNER_TEMP/admin-product" --output "$RUNNER_TEMP/admin-evidence/run" --until STATUS --exercise-design-revision 2>&1 | tee "$RUNNER_TEMP/admin-evidence/replay.log"
+      - name: Retain actual product and complete recoverable synthetic state
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/admin-evidence"
+          if test -d "$RUNNER_TEMP/admin-product"; then
+            cp -a "$RUNNER_TEMP/admin-product/source" "$RUNNER_TEMP/admin-evidence/product-source"
+            tar -czf "$RUNNER_TEMP/admin-evidence/recovery.tar.gz" -C "$RUNNER_TEMP" admin-product
+          fi
+          cp scripts/replay_admin.py scripts/review_artifact.py scripts/close_release.py "$RUNNER_TEMP/admin-evidence/"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: admin-lifecycle-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/admin-evidence/
+          if-no-files-found: error
+          retention-days: 30
