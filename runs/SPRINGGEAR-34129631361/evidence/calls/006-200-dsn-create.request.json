@@ -1,0 +1,532 @@
+{
+  "inputs": {
+    "design": {
+      "title": "SpringGear JDK21 compatibility design",
+      "summary": "Retain reactor/public APIs; align build dependencies and prove behavior with current-result tests.",
+      "boundary": "Isolated SpringGear four-module Maven reactor migration to JDK21; no disabled-module claim, upstream write or production deployment.",
+      "change_type": "incremental",
+      "baseline_references": [
+        "CTX-20260907135104-01@1"
+      ],
+      "target_state_summary": "The active SpringGear reactor works on JDK21 with unchanged public Java source, Java21 bytecode and passing workflow compatibility tests.",
+      "impact_summary": "POM compatibility and new regression/usage documentation only.",
+      "changes": [
+        {
+          "id": "CHG-001",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "modify",
+          "baseline_references": [
+            "CTX-20260907135104-01@1"
+          ],
+          "baseline_state": "Java8 target and older processor/build versions.",
+          "target_state": "JDK21 build-compatible POMs without public Java source change.",
+          "affected_domains": [
+            "DOM-210",
+            "DOM-220",
+            "DOM-340",
+            "DOM-410"
+          ]
+        },
+        {
+          "id": "CHG-002",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "add",
+          "baseline_references": [
+            "CTX-20260907135104-01@1"
+          ],
+          "baseline_state": "No JDK21 migration assertions.",
+          "target_state": "Ten actual compatibility tests and precise migration notes.",
+          "affected_domains": [
+            "DOM-350",
+            "DOM-510"
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "id": "DEC-001",
+          "requirement_references": [
+            "REQ-20260907135105-01@1#R-003"
+          ],
+          "question": "Which compatibility path minimizes unrelated API migration?",
+          "options": [
+            "Move to a new Spring major",
+            "Retain Spring5 API generation and align JDK21-compatible build/processor versions"
+          ],
+          "decision": "Retain Spring5.3.39, use Lombok1.18.30, compiler3.11.0 and Surefire3.2.5.",
+          "rationale": "Meets JDK21 while preserving existing framework code and avoiding unrelated service/web changes.",
+          "affected_domains": [
+            "DOM-210",
+            "DOM-220",
+            "DOM-340"
+          ]
+        }
+      ],
+      "traceability": [
+        {
+          "source_references": [
+            "REQ-20260907135105-01@1#R-001",
+            "REQ-20260907135105-01@1#AC-001"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907135105-01@1#R-002",
+            "REQ-20260907135105-01@1#AC-002"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907135105-01@1#R-003",
+            "REQ-20260907135105-01@1#AC-003"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907135105-01@1#R-004",
+            "REQ-20260907135105-01@1#AC-004"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907135105-01@1#R-005",
+            "REQ-20260907135105-01@1#AC-005"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        }
+      ],
+      "domains": {
+        "DOM-110": {
+          "disposition": "n/a",
+          "reason": "No new business workflow; existing library behavior is preserved and tested in DOM-220/350.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-120": {
+          "disposition": "n/a",
+          "reason": "No interactive page or user journey in this library migration.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-130": {
+          "disposition": "n/a",
+          "reason": "No UI components or display logic exist in the active migration scope.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-140": {
+          "disposition": "n/a",
+          "reason": "No UI, language resources or accessibility changes in this library migration.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-210": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Java maintainer",
+          "basis_references": [
+            "REQ-20260907135105-01@1#R-001",
+            "REQ-20260907135105-01@1#R-003"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Retain reactor architecture\n\nKeep build, parent, core and BOM relationships and the existing Spring5 generation. Upgrade only compatibility dependencies; disabled modules remain outside the claim.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain exact migration boundary, no public-source redesign or upstream publication.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907135105-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-210-001",
+              "references": [
+                "REQ-20260907135105-01@1#AC-001",
+                "REQ-20260907135105-01@1#AC-003"
+              ],
+              "verification_object": "Retain reactor architecture",
+              "observable_result": "Active modules compile together without a new service or public API redesign.",
+              "expected_evidence": "Current-source compiler/test output and immutable source/diff evidence."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907135104-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Upstream reactor baseline and scope"
+            }
+          ]
+        },
+        "DOM-220": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Java maintainer",
+          "basis_references": [
+            "REQ-20260907135105-01@1#R-001",
+            "REQ-20260907135105-01@1#R-002",
+            "REQ-20260907135105-01@1#R-003"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Build and processor compatibility\n\nUse compiler release21, compiler plugin3.11.0, Lombok1.18.30, Spring5.3.39 and SLF4J2 log binding. Keep framework Java sources unchanged.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain exact migration boundary, no public-source redesign or upstream publication.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907135105-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-220-001",
+              "references": [
+                "REQ-20260907135105-01@1#AC-001",
+                "REQ-20260907135105-01@1#AC-002",
+                "REQ-20260907135105-01@1#AC-003"
+              ],
+              "verification_object": "Build and processor compatibility",
+              "observable_result": "Generated accessors/constructors compile and Spring context enhancement works on21.",
+              "expected_evidence": "Current-source compiler/test output and immutable source/diff evidence."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907135104-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Upstream reactor baseline and scope"
+            }
+          ]
+        },
+        "DOM-230": {
+          "disposition": "n/a",
+          "reason": "No interface/schema/HTTP contract change; public Java code is preserved, compatibility checked in DOM-220.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-240": {
+          "disposition": "n/a",
+          "reason": "No persistent data model, collection or serialized schema is added.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-310": {
+          "disposition": "n/a",
+          "reason": "No auth, trust or personal-data boundary change; dependencies are changed for compatibility, not claimed a security certification.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-320": {
+          "disposition": "n/a",
+          "reason": "No throughput or capacity requirement; no performance guarantee is asserted.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-330": {
+          "disposition": "n/a",
+          "reason": "No new distributed runtime, service availability or recovery topology; existing exception behavior is regression-tested.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-340": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Java maintainer",
+          "basis_references": [
+            "REQ-20260907135105-01@1#R-002",
+            "REQ-20260907135105-01@1#R-003",
+            "REQ-20260907135105-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Source-only compatibility migration\n\nPOM edits have exact old-content preconditions. No production data/schema migration; preserve all public Java source and existing resources.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain exact migration boundary, no public-source redesign or upstream publication.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907135105-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-340-001",
+              "references": [
+                "REQ-20260907135105-01@1#AC-002",
+                "REQ-20260907135105-01@1#AC-003",
+                "REQ-20260907135105-01@1#AC-005"
+              ],
+              "verification_object": "Source-only compatibility migration",
+              "observable_result": "Diff touches only declared POMs, new tests and migration instructions.",
+              "expected_evidence": "Current-source compiler/test output and immutable source/diff evidence."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907135104-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Upstream reactor baseline and scope"
+            }
+          ]
+        },
+        "DOM-350": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Java maintainer",
+          "basis_references": [
+            "REQ-20260907135105-01@1#R-001",
+            "REQ-20260907135105-01@1#R-002",
+            "REQ-20260907135105-01@1#R-003",
+            "REQ-20260907135105-01@1#R-004"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Executable compatibility tests\n\nUse JUnit5.7 API and engine with Surefire3.2.5. Add10 deterministic tests, including bytecode65; emit each actually executed method identity through JUnit AfterEach.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain exact migration boundary, no public-source redesign or upstream publication.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907135105-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-350-001",
+              "references": [
+                "REQ-20260907135105-01@1#AC-001",
+                "REQ-20260907135105-01@1#AC-002",
+                "REQ-20260907135105-01@1#AC-003",
+                "REQ-20260907135105-01@1#AC-004"
+              ],
+              "verification_object": "Executable compatibility tests",
+              "observable_result": "Ten tests execute without skip/failure, covering the stated runtime and behavior claims.",
+              "expected_evidence": "Current-source compiler/test output and immutable source/diff evidence."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907135104-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Upstream reactor baseline and scope"
+            }
+          ]
+        },
+        "DOM-410": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Java maintainer",
+          "basis_references": [
+            "REQ-20260907135105-01@1#R-004",
+            "REQ-20260907135105-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Local artifact and release boundary\n\nBuild offline from preinstalled JDK21 and a prepared Maven cache. Use verify for reactor packaging, then an independent current-result test in VFY. RLS only observes a disposable Sandbox version, never Maven deployment.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain exact migration boundary, no public-source redesign or upstream publication.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907135105-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-410-001",
+              "references": [
+                "REQ-20260907135105-01@1#AC-004",
+                "REQ-20260907135105-01@1#AC-005"
+              ],
+              "verification_object": "Local artifact and release boundary",
+              "observable_result": "Maven verify builds the active reactor; test evidence and local target match the qualified current version.",
+              "expected_evidence": "Current-source compiler/test output and immutable source/diff evidence."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907135104-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Upstream reactor baseline and scope"
+            }
+          ]
+        },
+        "DOM-420": {
+          "disposition": "n/a",
+          "reason": "No new telemetry or production operational workflow.",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ]
+        },
+        "DOM-510": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Verification designer",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### VFY 目标 VFY Objectives\n\n| ID | Kind | Requirement, AC, Goal or Intended-use References | Design or Decision References | Domain VFY Point References | 可观察结果 Observable Result | 风险或重要性 Risk or Importance | Method References | Pass Criteria References | Evidence Contract References |\n|---|---|---|---|---|---|---|---|---|---|\n| VFO-001 | both | REQ-20260907135105-01@1#AC-001, REQ-20260907135105-01@1#AC-002, REQ-20260907135105-01@1#AC-003, REQ-20260907135105-01@1#AC-004, REQ-20260907135105-01@1#AC-005, REQ-20260907135105-01@1#GOAL-001 | CHG-001, CHG-002, DEC-001 | VFP-210-001, VFP-220-001, VFP-340-001, VFP-350-001, VFP-410-001 | The active SpringGear reactor works on JDK21 with unchanged public Java source, Java21 bytecode and passing workflow compatibility tests. | Prevent build success with missing tests or broken framework behavior. | VFM-001 | VPC-001 | VEC-001 |\n\n### 方法选择 VFY Methods\n\n| ID | 类型 Type | Disposition | 方法明细 Method Detail | 适用范围 Scope | 方法 Method | 选择依据 Selection Basis | 承载位置 Host | Exception Reference |\n|---|---|---|---|---|---|---|---|---|\n| VFM-001 | test | required | level=integration, mode=automated | VFO-001 | Offline Maven test of the current terminal result. | Real Java runtime, bytecode and workflow assertions verify intended library use. | VFY | N/A |\n\n### 可验证性设计 Verifiability Design\n\nUse existing public context/executor types and a real Spring application context. JUnit tests assert Java feature21 and actual class major65, not just configuration strings.\n\n### 环境与数据 Environment and Data\n\nJDK21 and external Maven dependency cache are prepared before runtime. Formal execution is an OS-isolated copy without network. Tests use no external database or server.\n\n### 覆盖策略 Coverage Strategy\n\nTen unique JUnit tests cover runtime21, bytecode65, Lombok construction, argument/value transport, invalid indices, empty/order/skip/failure pipeline behavior and Spring enhancement. All existing public sources and disabled-module exclusion are retained.\n\n### 通过条件 Pass Criteria\n\n| ID | VFY Objective | 输入或条件 Input or Condition | 预期结果 Expected Result | 容差 Tolerance | 失败条件 Failure Condition |\n|---|---|---|---|---|---|\n| VPC-001 | VFO-001 | Current terminal source and JDK21 toolchain | Ten executed tests; zero failure, error or skip; existing behavior and Java21 class assertion pass. | None | Missing test identity, wrong runtime or bytecode, test failure, source drift or unsupported environment. |\n\n### Evidence Contract\n\n| ID | VFY Objective | Evidence Type | 生成方或来源 Producer or Source | 必要内容 Required Content | 敏感性与处理 Sensitivity and Handling | 保留要求 Retention Requirement | 保存或引用位置 Storage or Reference |\n|---|---|---|---|---|---|---|---|\n| VEC-001 | VFO-001 | Execution log and immutable result | Actual Maven/JUnit process | Current result hashes, Java version assertions, executed method identities, Maven summary and exit code | Public source and synthetic test values only | Retain original evidence with delivery | VFY supporting evidence and readable case archive |",
+          "constraints_impacts": [],
+          "vfy_points": [],
+          "evidence_references": []
+        }
+      },
+      "composite_subdomains": [
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "可访问性 Accessibility",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "reason": "No UI, language resources or accessibility changes in this library migration.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "国际化 Internationalization",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "reason": "No UI, language resources or accessibility changes in this library migration.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "安全 Security",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "reason": "No auth, trust or personal-data boundary change; dependencies are changed for compatibility, not claimed a security certification.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "隐私 Privacy",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "reason": "No personal data is processed.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "合规 Compliance",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907135105-01@1"
+          ],
+          "reason": "No new regulated processing; preserve existing open-source licensing.",
+          "exception_references": []
+        }
+      ],
+      "cross_domain_conflicts": [],
+      "scope_expansion": false,
+      "simplicity_rationale": "Existing Maven reactor and public code retained; no new shared abstraction, server, UI or provider.",
+      "lifecycle_applicability": [
+        {
+          "phase": "PLN",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered migration and test work, current-result verification and local Sandbox qualification."
+        },
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered migration and test work, current-result verification and local Sandbox qualification."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered migration and test work, current-result verification and local Sandbox qualification."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered migration and test work, current-result verification and local Sandbox qualification."
+        }
+      ],
+      "evidence": [],
+      "supporting_members": [],
+      "open_items": [],
+      "exceptions": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

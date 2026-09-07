@@ -1,3 +1,19 @@
+# SDLC 真实项目闭环验证
+
+## 2026-09-07：修复版三项目同源闭环
+
+准确 Runtime：`eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4`。共同测试源码：`849783ddbc9b2ffd5300e3b1582049a390a2e2a8`。
+
+strict **1092/1092**；Admin **13**项；SpringGear JDK21 **10**项；粉丝站 **24**项。三项目均完成正式 VFY、本地 Sandbox RLS 与最终 Status。
+
+[汇总与失败/续跑记录](runs/CLOSURE-eff4ac2-20260907/README.md) · [机器可核验记录](runs/CLOSURE-eff4ac2-20260907/verification.json)
+
+[完整原始归档 Actions](https://github.com/ousui/test-sdlc/actions/runs/34131105815)：包含四份原始ZIP、Runtime源码bundle、测试输入、完整恢复包、逐文件哈希及原始作业状态。归档只消费已完成证据，没有重放效果。
+
+本轮没有修改规范、增加Runtime项目特判、修改main/fixed/full-verify，或以旧版本PASS替代修复版通过。RLS仅为本地Sandbox，不是生产部署或原生客户端认证。最终verified引用在完整归档读回之后单独固定。
+
+<details><summary>历史双项目基线与早期验证记录（非本次修复版证据）</summary>
+
 # SDLC 真实项目回归实验室
 
 目标是以真实需求验证 `ousui/sdlc-ai-spec` 的通用 Skill/Runtime 衔接，而非生产发布或 UI 美观认证。原始失败与旧范围保留，但 JDK26 不计入当前 JDK21 验收。
@@ -26,3 +42,5 @@ AI编写正常需求、设计与候选实现，经各Skill规定的正式Runtime
 RLS为当前支持的**本地Sandbox版本状态转换**，不等同于应用部署或Java库发布安装。无生产、无上游维护分支写入，无真实用户资料、凭据、未经授权的艺人音频或照片。
 
 每个结果入口包含完整可读正文、最终源码、测试和调用记录。原始恢复包随对应Actions附件保留30天；固定源码和可读证据在Git中保留。总控与缺陷见 [Issue #1](https://github.com/ousui/test-sdlc/issues/1)。
+
+</details>

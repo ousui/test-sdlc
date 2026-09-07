@@ -1,0 +1,180 @@
+{
+  "contract": "sdlc-ai-spec/runtime-invocation/v1",
+  "operation": "revise",
+  "project_root": "/home/runner/work/_temp/product",
+  "artifact_reference": "CTX-20260907134707-01@1",
+  "inputs": {
+    "context": {
+      "summary": "New application scaffold, Go1.23 language floor, licensed vendored PBKDF2 and no existing business implementation.",
+      "project_identity": {
+        "project_name": {
+          "value": "Miriam Yeung unofficial fan site",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "purpose": {
+          "value": "New local showcase and fan-account application for real SDLC verification",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "boundary": {
+          "value": "One new unofficial fan-site Go application, local single-process JSON data and disposable Sandbox delivery; no artist media, production or external writes.",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "primary_resource_reference": {
+          "value": "RSC-001",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "authoritative_references": {
+          "value": "User-approved new-project scope; exact local versioned scaffold and vendored upstream provenance.",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "id": "RSC-001",
+          "type": "application",
+          "name": "Fan-site application",
+          "role": "primary",
+          "locator": "source",
+          "baseline_reference": "edc2c28baf1594b694e9b3f48082ec3c48c310c9",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "technologies": [
+        {
+          "id": "TEC-001",
+          "category": "runtime",
+          "name": "Go + HTML + native JavaScript",
+          "version_or_constraint": "Go language >=1.23; use existing toolchain; no npm or remote frontend dependency",
+          "purpose": "Single executable HTTP application with embedded assets",
+          "basis": "referenced",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "engineering_entries": [
+        {
+          "id": "ENG-001",
+          "purpose": "test",
+          "command_or_entry_point": "go test -count=1 -v ./...",
+          "working_scope": "source",
+          "preconditions": "Existing Go and complete vendor files; no dependency installation during execution",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "id": "CMP-001",
+          "name": "New single-process application",
+          "type": "application",
+          "resource_reference": "RSC-001",
+          "responsibility": "To implement public content, accounts, media and management over local state",
+          "entry_point": "source",
+          "depends_on": "None",
+          "authority_reference": "EVD-001",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "rules": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "environments": [
+        {
+          "id": "ENV-001",
+          "environment": "test",
+          "purpose": "In-process HTTP tests and disposable local Sandbox",
+          "accessibility": "available",
+          "data_and_network_boundary": "Synthetic accounts and self-generated media; no network during formal tests",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "constraints": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "exceptions": []
+    },
+    "evidence": [
+      {
+        "id": "EVD-001",
+        "type": "source-inspection",
+        "supports_references": [
+          "RSC-001"
+        ],
+        "source_or_producer": "web-realflow-fansite-executor",
+        "reference": "SUP-001",
+        "integrity_or_digest": "sha256:b9d230c484bcdbd4ddbc911be0d48d5d1aa9c09a8415919d34c617cbebd2f454",
+        "produced_at": "2026-09-07T13:47:07+00:00",
+        "sensitivity_or_access": "Public scaffold and authorized synthetic data only"
+      }
+    ],
+    "supporting_members": [
+      {
+        "member_id": "SUP-001",
+        "canonical_name": "source-provenance.md",
+        "media_type": "text/markdown",
+        "purpose": "New-project scope, existing tools and upstream dependency source",
+        "content": "# Source and scope\n\nNew Go>=1.23 + HTML/native JavaScript unofficial Miriam Yeung fan site, created for the authorized SDLC real-flow qualification. No original application code or recoverable authority from prior fan-site attempts is assumed.\n\nUser approved: public showcase, fans/account lifecycle, music previews, albums and basic administrator operations. Adjustments approved in conversation: existing tools, no jQuery dependency, no UI/UX gate, no production deployment. This iteration supports test PCM WAV previews and PNG/JPEG photos, single-process atomic JSON storage, fresh authentication after process restart. It does not contain artist recordings/photos or actual personal data.\n\nPBKDF2 is the unchanged golang.org/x/crypto v0.31.0 implementation, vendored with BSD license. Git blob SHA:28cd99c7f3fc50b03f3789b1013401db46d40bf9. Source: https://github.com/golang/crypto/blob/v0.31.0/pbkdf2/pbkdf2.go. Work factor reference: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html. SHA256-based derivation uses600000 iterations, per-account random salt and constant-time verification. No cryptographic certification is claimed. These references are build/review provenance, not runtime network dependencies.\n"
+      }
+    ],
+    "refresh": {
+      "base_revision": null,
+      "observed_at": "2026-09-07T13:47:07+00:00",
+      "observation_baseline": "edc2c28baf1594b694e9b3f48082ec3c48c310c9",
+      "refresh_reason": "Confirm complete observed project context",
+      "effective_change_references": "None",
+      "evidence_references": "EVD-001"
+    }
+  },
+  "confirmations": [
+    {
+      "type": "write",
+      "approved": true
+    },
+    {
+      "type": "project_boundary",
+      "value": "One new unofficial fan-site Go application, local single-process JSON data and disposable Sandbox delivery; no artist media, production or external writes.",
+      "authority_reference": "EVD-001"
+    }
+  ],
+  "options": {
+    "dry_run": false,
+    "prepare_confirmation": true
+  }
+}

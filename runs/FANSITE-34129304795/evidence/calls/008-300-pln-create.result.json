@@ -1,0 +1,45 @@
+{
+  "artifact": {
+    "artifact_status": "waiting_input",
+    "id": "PLN-20260907134709-01",
+    "reference": null,
+    "revision": 1,
+    "revision_state": "open",
+    "type": "PLN"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pending"
+  },
+  "next_action": {
+    "code": "COMPLETE_PLN",
+    "command": "/sdlc-300-pln revise --reference PLN-20260907134709-01@1",
+    "message": "补充或修正 PLN 内容、决策或 Final Confirmation",
+    "requires_user": true
+  },
+  "ok": false,
+  "open_items": [
+    {
+      "blocked_references": "CORE-G-009",
+      "expected_source": "Plan Authority",
+      "id": "OPI-001",
+      "needed": "Confirm the current Plan Artifact",
+      "resolution": "N/A",
+      "state": "open"
+    }
+  ],
+  "operation": "create",
+  "status": "action_required",
+  "warnings": [
+    {
+      "code": "FINAL_CONFIRMATION_BINDINGS",
+      "details": {
+        "artifact_reference": "PLN-20260907134709-01@1",
+        "subject_digest": "sha256:94247d34c21e42805d2f4ae8455c236d134d77d01082ce8d56d37e11414ad730"
+      },
+      "message": "Review the persisted candidate before confirming this exact binding"
+    }
+  ]
+}

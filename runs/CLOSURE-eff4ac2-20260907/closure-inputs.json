@@ -1,0 +1,38 @@
+[
+  {
+    "case": "strict",
+    "artifact_id": 10021750738,
+    "run_id": 34129304795,
+    "trigger_sha": "849783ddbc9b2ffd5300e3b1582049a390a2e2a8",
+    "job": "strict-runtime",
+    "sha256": "b2d6c36fcedb065999487ef6ea3eae7ac4714cdc04d6a00eb0fa53548d2384bb",
+    "original_name": "strict-34129304795"
+  },
+  {
+    "case": "admin",
+    "artifact_id": 10021433778,
+    "run_id": 34129304795,
+    "trigger_sha": "849783ddbc9b2ffd5300e3b1582049a390a2e2a8",
+    "job": "real-project (admin)",
+    "sha256": "a1a7cf886c83eb4ab7a843c138e9369af26d7bb19e4dfffce2a159b65bbde3b6",
+    "original_name": "project-admin-34129304795"
+  },
+  {
+    "case": "fansite",
+    "artifact_id": 10021454030,
+    "run_id": 34129304795,
+    "trigger_sha": "849783ddbc9b2ffd5300e3b1582049a390a2e2a8",
+    "job": "real-project (fansite)",
+    "sha256": "b53e43882f1705d311d96800bd20f29308c65bafcfca5046d282775c9abd31bc",
+    "original_name": "project-fansite-34129304795"
+  },
+  {
+    "case": "springgear",
+    "artifact_id": 10021569139,
+    "run_id": 34129631361,
+    "trigger_sha": "a74f1d24c38616ea18a81e6ab0c345d26ed4b14a",
+    "job": "real-lifecycle",
+    "sha256": "b2f1cecc1eb489ab5eeb2a39fe531ad5b083d86adfdbd9205274fddf11893669",
+    "original_name": "springgear-lifecycle-34129631361-1"
+  }
+]

@@ -1,0 +1,146 @@
+{
+  "inputs": {
+    "implementation": {
+      "considerations": [
+        {
+          "name": "Calculation Rules",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Decision Rules",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "State Transitions",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Algorithm & Invariants",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Data Contract & Transformation",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Boundary & Failure Handling",
+          "disposition": "required",
+          "basis": "Preserve bounded source and build effects with visible failures.",
+          "steps": [
+            "STEP-001"
+          ],
+          "exception": "N/A"
+        },
+        {
+          "name": "Effects & Consistency",
+          "disposition": "required",
+          "basis": "Preserve bounded source and build effects with visible failures.",
+          "steps": [
+            "STEP-001"
+          ],
+          "exception": "N/A"
+        }
+      ],
+      "steps": [
+        {
+          "id": "STEP-001",
+          "order": 1,
+          "purpose": "Align the reactor build and processor dependencies for JDK21.",
+          "target": [
+            "resource:RSC-001"
+          ],
+          "basis_references": [
+            "PLN-20260907135106-01@1#WI-001",
+            "DSN-20260907135106-01@1#CHG-001"
+          ],
+          "considerations": [
+            "Boundary & Failure Handling",
+            "Effects & Consistency"
+          ],
+          "logic": [
+            "Read exact selected design and current resource baseline.",
+            "Apply only declared compatibility or regression files with content preconditions.",
+            "Execute bounded checks and retain the complete current immutable source result."
+          ],
+          "expected_result": "POMs explicitly target JDK21 and retain public Java source.",
+          "transaction_boundary": "One dependency-ordered source migration increment; isolated local build outputs only.",
+          "failure_boundary": "Any incompatible source, toolchain or test result prevents completion.",
+          "blocks": [
+            {
+              "consideration": "Boundary & Failure Handling",
+              "id": "ERR-001",
+              "trigger": "Source precondition, compilation, test discovery or compatibility assertion fails.",
+              "classification": "Incomplete migration rather than successful delivery.",
+              "handling": "Retain exact failure and source result; correct the bounded migration or environment and retry.",
+              "observable_result": "No false VFY-ready state or hidden failed tests.",
+              "recovery": "Resume the same valid attempt or use the formal rework path without deleting evidence."
+            },
+            {
+              "consideration": "Effects & Consistency",
+              "id": "EFF-001",
+              "resource_or_effect": "Declared Maven reactor files and isolated test/build outputs",
+              "order_and_condition": "Align POMs before adding tests; all writes bind current expected content.",
+              "consistency_or_atomicity": "Each source effect has a persistent checkpoint and immutable resource result.",
+              "idempotency": "Completed writes are not replayed on confirmation or retry.",
+              "failure_handling": "Leave failed checks visible; no Maven deployment, Git update or external system mutation."
+            }
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "id": "RSC-001",
+          "root": "source"
+        }
+      ],
+      "operations": [
+        {
+          "resource": "RSC-001",
+          "path": "pom.xml",
+          "step": "STEP-001",
+          "op": "write_text",
+          "expected_sha256": "sha256:98875d07f26dd2ffd690d830bbbab18abed46491e025b98d27bfd0f6ce256da7",
+          "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>org.ousui.springgear</groupId>\n    <artifactId>springgear-build</artifactId>\n    <version>2.1.0-SNAPSHOT</version>\n\n    <licenses>\n        <license>\n            <name>Apache License 2.0</name>\n            <url>https://www.apache.org/licenses/LICENSE-2.0</url>\n            <distribution>repo</distribution>\n        </license>\n    </licenses>\n    <developers>\n        <developer>\n            <name>ousui</name>\n            <url>https://ousui.org</url>\n            <email>x@ousui.org</email>\n        </developer>\n    </developers>\n    <scm>\n        <connection>scm:git:https://github.com/ousui/springgear.git</connection>\n        <url>https://github.com/ousui/springgear/</url>\n        <developerConnection>scm:git:git@github.com:ousui/springgear.git</developerConnection>\n        <tag>HEAD</tag>\n    </scm>\n    <issueManagement>\n        <url>https://github.com/ousui/springgear/issues</url>\n    </issueManagement>\n\n    <modules>\n        <module>springgear-core</module>\n<!--        <module>springgear-impl</module>-->\n<!--        <module>springgear-eventbus</module>-->\n<!--        <module>springgear-webmvc</module>-->\n<!--        <module>springgear-pending</module>-->\n\n        <module>springgear-parent</module>\n        <module>springgear-bom</module>\n        <!--        <module>springgear-ext-parent</module>-->\n\n    </modules>\n\n    <packaging>pom</packaging>\n\n    <properties>\n        <maven.compiler.release>21</maven.compiler.release>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    </properties>\n\n    <profiles>\n        <profile>\n            <id>snapshot</id>\n            <activation>\n                <activeByDefault>true</activeByDefault>\n            </activation>\n            <properties>\n                <ver.revision.suffix>-SNAPSHOT</ver.revision.suffix>\n            </properties>\n        </profile>\n        <profile>\n            <id>release</id>\n        </profile>\n\n    </profiles>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-surefire-plugin</artifactId>\n                <version>3.2.5</version>\n            </plugin>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-compiler-plugin</artifactId>\n                <version>3.11.0</version>\n                <configuration>\n                    <release>${maven.compiler.release}</release>\n                    <encoding>${project.build.sourceEncoding}</encoding>\n                </configuration>\n            </plugin>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-resources-plugin</artifactId>\n                <version>3.2.0</version>\n                <configuration>\n                    <encoding>${project.build.sourceEncoding}</encoding>\n                </configuration>\n            </plugin>\n<!--            <plugin>-->\n<!--                <groupId>org.apache.maven.plugins</groupId>-->\n<!--                <artifactId>maven-javadoc-plugin</artifactId>-->\n<!--                <version>2.9.1</version>-->\n<!--                <executions>-->\n<!--                    <execution>-->\n<!--                        <id>attach-javadocs</id>-->\n<!--                        <goals>-->\n<!--                            <goal>jar</goal>-->\n<!--                        </goals>-->\n<!--                    </execution>-->\n<!--                </executions>-->\n<!--            </plugin>-->\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-source-plugin</artifactId>\n                <version>3.2.1</version>\n                <configuration>\n                    <attach>true</attach>\n                </configuration>\n                <executions>\n                    <execution>\n                        <id>attach-sources</id>\n                        <goals>\n                            <goal>jar-no-fork</goal>\n                        </goals>\n                    </execution>\n                    <execution>\n                        <phase>install</phase>\n                        <goals>\n                            <goal>jar</goal>\n                        </goals>\n                    </execution>\n                </executions>\n            </plugin>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-deploy-plugin</artifactId>\n                <version>2.8.2</version>\n                <configuration>\n                    <skip>true</skip>\n                </configuration>\n            </plugin>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-release-plugin</artifactId>\n                <version>3.0.0-M7</version>\n<!--                <version>2.5.3</version>-->\n                <configuration>\n                    <tagNameFormat>v${project.version}</tagNameFormat>\n                    <autoVersionSubmodules>true</autoVersionSubmodules>\n                    <arguments>-DskipTests</arguments>\n                    <useReleaseProfile>false</useReleaseProfile>\n                    <releaseProfiles>release</releaseProfiles>\n                    <goals>deploy</goals>\n                </configuration>\n            </plugin>\n            <plugin>\n                <groupId>org.sonatype.plugins</groupId>\n                <artifactId>nexus-staging-maven-plugin</artifactId>\n                <version>1.6.7</version>\n                <extensions>true</extensions>\n                <configuration>\n                    <serverId>oss-rh</serverId>\n                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>\n                    <autoReleaseAfterClose>true</autoReleaseAfterClose>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n\n    <distributionManagement>\n        <snapshotRepository>\n            <id>oss-rh</id>\n            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>\n        </snapshotRepository>\n        <repository>\n            <id>oss-rh</id>\n            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>\n        </repository>\n    </distributionManagement>\n\n\n\n</project>"
+        },
+        {
+          "resource": "RSC-001",
+          "path": "springgear-parent/pom.xml",
+          "step": "STEP-001",
+          "op": "write_text",
+          "expected_sha256": "sha256:25ffaa695a90c826d2cd137ff96877b1672846f3dd7d38214f140ddb61a844cd",
+          "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <parent>\n        <artifactId>springgear-build</artifactId>\n        <groupId>org.ousui.springgear</groupId>\n        <version>2.1.0-SNAPSHOT</version>\n    </parent>\n    <artifactId>springgear-parent</artifactId>\n    <packaging>pom</packaging>\n\n    <licenses>\n        <license>\n            <name>Apache License 2.0</name>\n            <url>https://www.apache.org/licenses/LICENSE-2.0</url>\n            <distribution>repo</distribution>\n        </license>\n    </licenses>\n    <developers>\n        <developer>\n            <name>ousui</name>\n            <url>https://ousui.org</url>\n            <email>x@ousui.org</email>\n        </developer>\n    </developers>\n    <scm>\n        <connection>scm:git:https://github.com/ousui/springgear.git</connection>\n        <url>https://github.com/ousui/springgear/</url>\n        <developerConnection>scm:git:git@github.com:ousui/springgear.git</developerConnection>\n        <tag>HEAD</tag>\n    </scm>\n    <issueManagement>\n        <url>https://github.com/ousui/springgear/issues</url>\n    </issueManagement>\n\n    <properties>\n        <!-- 常用版本 -->\n        <ver.spring>5.3.39</ver.spring>\n\n        <ver.guava>20.0</ver.guava>\n\n        <ver.slf4j>2.0.5</ver.slf4j>\n        <ver.log4j2>2.19.0</ver.log4j2>\n    </properties>\n\n    <dependencyManagement>\n\n        <dependencies>\n\n            <dependency>\n                <groupId>org.ousui.springgear</groupId>\n                <artifactId>springgear-bom</artifactId>\n                <version>${project.version}</version>\n                <scope>import</scope>\n                <type>pom</type>\n            </dependency>\n\n            <dependency>\n                <groupId>org.springframework</groupId>\n                <artifactId>spring-framework-bom</artifactId>\n                <version>${ver.spring}</version>\n                <scope>import</scope>\n                <type>pom</type>\n            </dependency>\n\n            <dependency>\n                <groupId>com.google.guava</groupId>\n                <artifactId>guava</artifactId>\n                <version>${ver.guava}</version>\n            </dependency>\n\n        </dependencies>\n\n    </dependencyManagement>\n\n    <dependencies>\n        <!-- test case junit -->\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter-api</artifactId>\n            <version>5.7.0</version>\n            <scope>test</scope>\n        </dependency>\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter-engine</artifactId>\n            <version>5.7.0</version>\n            <scope>test</scope>\n        </dependency>\n        <!-- /test case junit -->\n\n        <!-- jdk 11+ -->\n        <dependency>\n            <groupId>javax.annotation</groupId>\n            <artifactId>javax.annotation-api</artifactId>\n            <version>1.3.2</version>\n            <optional>true</optional>\n            <scope>compile</scope>\n        </dependency>\n\n        <!-- log -->\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>slf4j-api</artifactId>\n            <version>${ver.slf4j}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>jcl-over-slf4j</artifactId>\n            <version>${ver.slf4j}</version>\n        </dependency>\n\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>jul-to-slf4j</artifactId>\n            <version>${ver.slf4j}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>log4j-over-slf4j</artifactId>\n            <version>${ver.slf4j}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>osgi-over-slf4j</artifactId>\n            <version>${ver.slf4j}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.apache.logging.log4j</groupId>\n            <artifactId>log4j-api</artifactId>\n            <version>${ver.log4j2}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.apache.logging.log4j</groupId>\n            <artifactId>log4j-core</artifactId>\n            <version>${ver.log4j2}</version>\n        </dependency>\n        <dependency>\n            <groupId>org.apache.logging.log4j</groupId>\n            <artifactId>log4j-slf4j2-impl</artifactId>\n            <version>${ver.log4j2}</version>\n        </dependency>\n        <!--/ log -->\n\n        <!-- lombok -->\n        <dependency>\n            <groupId>org.projectlombok</groupId>\n            <artifactId>lombok</artifactId>\n            <version>1.18.30</version>\n            <scope>provided</scope>\n        </dependency>\n\n        <!-- /基础依赖，用于所有模块 -->\n    </dependencies>\n</project>"
+        }
+      ],
+      "checks": [
+        {
+          "id": "CHK-001",
+          "name": "Declared Java21 compiler release",
+          "resource": "RSC-001",
+          "kind": "contains",
+          "path": "pom.xml",
+          "expected": "<maven.compiler.release>21</maven.compiler.release>"
+        }
+      ],
+      "design_decision_references": [
+        "DSN-20260907135106-01@1#DEC-001"
+      ],
+      "exceptions": [],
+      "open_items": []
+    }
+  }
+}

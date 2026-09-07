@@ -1,0 +1,85 @@
+{
+  "persist": true,
+  "run_automated": false,
+  "candidate": {
+    "targets": [
+      {
+        "reference": "DSN-20260907134730-01@2#VFO-001",
+        "purpose": "both",
+        "summary": "An enabled manager suspends and restores another account without data loss or revival of revoked sessions; actual request and persistence tests pass.",
+        "source_kind": "vfo",
+        "obligation_references": [
+          "DSN-20260907134730-01@2#VFP-110-001",
+          "DSN-20260907134730-01@2#VFP-120-001",
+          "DSN-20260907134730-01@2#VFP-130-001",
+          "DSN-20260907134730-01@2#VFP-220-001",
+          "DSN-20260907134730-01@2#VFP-230-001",
+          "DSN-20260907134730-01@2#VFP-240-001",
+          "DSN-20260907134730-01@2#VFP-310-001",
+          "DSN-20260907134730-01@2#VFP-330-001",
+          "DSN-20260907134730-01@2#VFP-340-001",
+          "DSN-20260907134730-01@2#VFP-350-001",
+          "DSN-20260907134730-01@2#VFP-410-001"
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "id": "VFM-001",
+        "title": "Current-subject account lifecycle integration",
+        "purpose": "both",
+        "target_references": [
+          "DSN-20260907134730-01@2#VFO-001"
+        ],
+        "subject_references": [
+          "IMP-20260907134735-01@1/RESULT-RES-001"
+        ],
+        "obligation_references": [
+          "DSN-20260907134730-01@2#VEC-001",
+          "DSN-20260907134730-01@2#VFM-001",
+          "DSN-20260907134730-01@2#VFP-110-001",
+          "DSN-20260907134730-01@2#VFP-120-001",
+          "DSN-20260907134730-01@2#VFP-130-001",
+          "DSN-20260907134730-01@2#VFP-220-001",
+          "DSN-20260907134730-01@2#VFP-230-001",
+          "DSN-20260907134730-01@2#VFP-240-001",
+          "DSN-20260907134730-01@2#VFP-310-001",
+          "DSN-20260907134730-01@2#VFP-330-001",
+          "DSN-20260907134730-01@2#VFP-340-001",
+          "DSN-20260907134730-01@2#VFP-350-001",
+          "DSN-20260907134730-01@2#VFP-410-001",
+          "DSN-20260907134730-01@2#VPC-001",
+          "PLN-20260907134731-01@1#WI-001",
+          "PLN-20260907134731-01@1#WI-002",
+          "PLN-20260907134731-01@1#WI-003"
+        ],
+        "method_type": "test",
+        "disposition": "required",
+        "execution_mode": "automated",
+        "executor_identity": "web-realflow-admin-executor",
+        "environment": {
+          "project_root": ".",
+          "data_contract": "Ephemeral synthetic SQLite; exact current terminal source; existing prepared interpreter dependencies"
+        },
+        "procedure": {
+          "kind": "command",
+          "argv": [
+            "python",
+            "-m",
+            "unittest",
+            "test_enabled",
+            "-v"
+          ],
+          "policy": "deterministic-test-v1",
+          "workspace": "isolated-copy",
+          "network": "disabled",
+          "cwd": "source",
+          "timeout_seconds": 120,
+          "max_output_bytes": 262144
+        },
+        "pass_criteria": "All thirteen current-source integration tests execute with zero failure, error or skip; enabled-account, session revocation, CSRF, restart and legacy migration assertions hold.",
+        "evidence_requirement": "Actual stdout/stderr and exit code, test identities, OS containment and source snapshot digests; not earlier standalone test results."
+      }
+    ]
+  }
+}

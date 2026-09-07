@@ -1,0 +1,59 @@
+{
+  "artifact": {
+    "artifact_status": "ready",
+    "id": "IMP-20260907134732-01",
+    "reference": "IMP-20260907134732-01@1",
+    "revision": 1,
+    "revision_state": "frozen",
+    "type": "IMP"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pass"
+  },
+  "next_action": {
+    "code": "VFY_READY",
+    "command": null,
+    "message": "VFY ready：局部实施记录完整",
+    "requires_user": false
+  },
+  "ok": true,
+  "open_items": [],
+  "operation": "revise",
+  "status": "completed",
+  "warnings": [
+    {
+      "approach": [
+        "Implement account availability, protected admin editing, revocation and additive SQLite migration."
+      ],
+      "attempt": 1,
+      "baseline": [
+        "IMP-20260907134732-01@1/BASE-RES-001"
+      ],
+      "binding": "PLN-20260907134731-01@1#WI-001",
+      "changed_scope": [
+        "resource:RSC-001"
+      ],
+      "claim_state": "completed",
+      "code": "IMP_EXECUTION_STATE",
+      "context": "CTX-20260907134729-01@1",
+      "final_confirmation_bindings": {
+        "check_set_result_digest": "sha256:d632081a57e8e6e884d0a1250c5bcb3bbba6645fdebd0dbd8ed96d22a5a462e8",
+        "control_input_digest": "sha256:48b775f10b23210cd18f96d72cce77b4eefc784908158ee48055ea8f160455e8",
+        "evaluation_contract_set": "docs/v1.1/400-imp-spec.md@sha256:1942f7eb0aaa641c04ddd29581d672fcbbd954d539f752a8ad4f606812f0d84c, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b"
+      },
+      "message": "IMP 当前实施状态",
+      "owner": "web-realflow-admin-executor",
+      "results": [
+        "IMP-20260907134732-01@1/RESULT-RES-001"
+      ],
+      "scope": [
+        "resource:RSC-001"
+      ],
+      "subject_digest": "sha256:7a38a0415713b5588057d4dfa05fbf433b83fc12e4fc3a4bdc21a66b770da39c",
+      "vfy_ready": true
+    }
+  ]
+}

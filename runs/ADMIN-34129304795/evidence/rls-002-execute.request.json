@@ -1,0 +1,39 @@
+{
+  "items": [
+    "RLI-001"
+  ],
+  "effect_authorization": {
+    "contract": "sdlc-ai-spec/effect-authorization/v1",
+    "authorization_id": "EA-4bc5fcfaa93b4898",
+    "rls_artifact_id": "RLS-20260907134757-01",
+    "rls_artifact_reference": "RLS-20260907134757-01@1",
+    "revision": 1,
+    "release_reference": "qualification-ceaf0e338842da26",
+    "scope_reference": "PLN-20260907134731-01@1",
+    "result_references": [
+      "IMP-20260907134735-01@1/RESULT-RES-001"
+    ],
+    "vfy_reference": "VFY-20260907134747-01@1",
+    "vfy_source_digest": "sha256:7c5c053561f818c36f66632b7a1dc01f02b46e0d06b7a326cb83a28d67585819",
+    "vfy_candidate_digest": "sha256:57f7b147b3b3d00174a1388cd93f123fb323cb9213410f598a89dbf0115e351e",
+    "release_target": "local-validation",
+    "target_baseline_digest": "d6101c37a2fd6264fefbb037e57497d22e800470ce0e26299ef3f7882319d932",
+    "release_contract_digest": "5fd8e0d75be58298aed5d55b1d37fd3792e6f8bd80b77aefa202feb01ef15fe4",
+    "rli_ids": [
+      "RLI-001"
+    ],
+    "action_summaries": [
+      "apply exact verified Result Set"
+    ],
+    "selected_rli_contract_digest": "daca0cf93b0e3976e050e212f14aeecd292c6f151d869d80dc226ddc3c6f11e3",
+    "release_item_set_digest": "daca0cf93b0e3976e050e212f14aeecd292c6f151d869d80dc226ddc3c6f11e3",
+    "confirmation_set_digest": "a8e02d4b08828ed8a6a207e2f4c6793e5e5ce86161837f51872777a0b1e964fc",
+    "pre_execution_checklist_digest": "1503d80e1a02720bb28a21248062dad5f1cb1901837c82f0ba2b80ce8c6f4f72",
+    "authorizer_identity": "web-realflow-isolated-host",
+    "authorized_at": "2026-09-07T13:47:58Z",
+    "valid_until": "2026-09-07T14:02:58Z",
+    "effect_digest": "933bf647c821de69afceb264945b96a33d5da92153fecbf498f4b6d1f8cbaca9"
+  },
+  "sandbox_root": "/tmp/sdlc-release-6a1a74ec784a4ba79b167f9c104b221c",
+  "target": "local-validation"
+}

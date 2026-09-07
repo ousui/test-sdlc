@@ -1,0 +1,104 @@
+{
+  "persist": true,
+  "run_automated": false,
+  "candidate": {
+    "targets": [
+      {
+        "reference": "DSN-20260907134709-01@1#VFO-001",
+        "purpose": "both",
+        "summary": "Accounts, authorization, session lifecycle and private profile are correct.",
+        "source_kind": "vfo",
+        "obligation_references": [
+          "DSN-20260907134709-01@1#VFP-110-001",
+          "DSN-20260907134709-01@1#VFP-220-001",
+          "DSN-20260907134709-01@1#VFP-310-001"
+        ]
+      },
+      {
+        "reference": "DSN-20260907134709-01@1#VFO-002",
+        "purpose": "both",
+        "summary": "Public pages, manager operations, streaming and album associations remain connected.",
+        "source_kind": "vfo",
+        "obligation_references": [
+          "DSN-20260907134709-01@1#VFP-120-001",
+          "DSN-20260907134709-01@1#VFP-130-001",
+          "DSN-20260907134709-01@1#VFP-210-001",
+          "DSN-20260907134709-01@1#VFP-230-001",
+          "DSN-20260907134709-01@1#VFP-410-001"
+        ]
+      },
+      {
+        "reference": "DSN-20260907134709-01@1#VFO-003",
+        "purpose": "both",
+        "summary": "Persistent state is restart-safe and no concurrent or failed mutation publishes invalid data.",
+        "source_kind": "vfo",
+        "obligation_references": [
+          "DSN-20260907134709-01@1#VFP-240-001",
+          "DSN-20260907134709-01@1#VFP-330-001",
+          "DSN-20260907134709-01@1#VFP-350-001"
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "id": "VFM-001",
+        "title": "Current-source complete fan/admin/media/store integration",
+        "purpose": "both",
+        "target_references": [
+          "DSN-20260907134709-01@1#VFO-001",
+          "DSN-20260907134709-01@1#VFO-002",
+          "DSN-20260907134709-01@1#VFO-003"
+        ],
+        "subject_references": [
+          "IMP-20260907134738-01@1/RESULT-RES-001"
+        ],
+        "obligation_references": [
+          "DSN-20260907134709-01@1#VEC-001",
+          "DSN-20260907134709-01@1#VFM-001",
+          "DSN-20260907134709-01@1#VFP-110-001",
+          "DSN-20260907134709-01@1#VFP-120-001",
+          "DSN-20260907134709-01@1#VFP-130-001",
+          "DSN-20260907134709-01@1#VFP-210-001",
+          "DSN-20260907134709-01@1#VFP-220-001",
+          "DSN-20260907134709-01@1#VFP-230-001",
+          "DSN-20260907134709-01@1#VFP-240-001",
+          "DSN-20260907134709-01@1#VFP-310-001",
+          "DSN-20260907134709-01@1#VFP-330-001",
+          "DSN-20260907134709-01@1#VFP-350-001",
+          "DSN-20260907134709-01@1#VFP-410-001",
+          "DSN-20260907134709-01@1#VPC-001",
+          "PLN-20260907134709-01@1#WI-001",
+          "PLN-20260907134709-01@1#WI-002",
+          "PLN-20260907134709-01@1#WI-003",
+          "PLN-20260907134709-01@1#WI-004"
+        ],
+        "method_type": "test",
+        "disposition": "required",
+        "execution_mode": "automated",
+        "executor_identity": "web-realflow-fansite-executor",
+        "environment": {
+          "project_root": ".",
+          "data_contract": "Vendored offline dependencies, synthetic accounts/WAV/PNG and real temporary local persistence; OS isolation, no network."
+        },
+        "procedure": {
+          "kind": "command",
+          "argv": [
+            "go",
+            "test",
+            "-count=1",
+            "-v",
+            "./..."
+          ],
+          "policy": "deterministic-test-v1",
+          "workspace": "isolated-copy",
+          "network": "disabled",
+          "cwd": "source",
+          "timeout_seconds": 180,
+          "max_output_bytes": 1048576
+        },
+        "pass_criteria": "All24 named tests execute on this current terminal source with zero failure, error or skip, and all three authoritative objectives pass.",
+        "evidence_requirement": "Actual named Go output and exit code, OS containment, source hashes and complete test evidence; preparation logs do not substitute."
+      }
+    ]
+  }
+}

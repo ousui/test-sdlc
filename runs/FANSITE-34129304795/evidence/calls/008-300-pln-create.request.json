@@ -1,0 +1,185 @@
+{
+  "inputs": {
+    "plan": {
+      "title": "粉丝站三个工作项与完整交付计划",
+      "summary": "Core state → functional web modules → combined tests → current-result VFY → local Sandbox.",
+      "profile": "full",
+      "pln_disposition": "required",
+      "delivery_scope": [
+        {
+          "source_artifact_reference": "DSN-20260907134709-01@1",
+          "inclusion_basis": "All modules and obligations of the complete selected fan-site design."
+        }
+      ],
+      "obligations": [
+        "DSN-20260907134709-01@1#CHG-001",
+        "DSN-20260907134709-01@1#CHG-002",
+        "DSN-20260907134709-01@1#CHG-003",
+        "DSN-20260907134709-01@1#VFP-110-001",
+        "DSN-20260907134709-01@1#VFP-120-001",
+        "DSN-20260907134709-01@1#VFP-130-001",
+        "DSN-20260907134709-01@1#VFP-210-001",
+        "DSN-20260907134709-01@1#VFP-220-001",
+        "DSN-20260907134709-01@1#VFP-230-001",
+        "DSN-20260907134709-01@1#VFP-240-001",
+        "DSN-20260907134709-01@1#VFP-310-001",
+        "DSN-20260907134709-01@1#VFP-330-001",
+        "DSN-20260907134709-01@1#VFP-350-001",
+        "DSN-20260907134709-01@1#VFP-410-001"
+      ],
+      "work_items": [
+        {
+          "id": "WI-001",
+          "target_phase": "IMP",
+          "outcome": "Implement local transactional state and account core.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907134709-01@1#CHG-001",
+            "DSN-20260907134709-01@1#VFP-220-001",
+            "DSN-20260907134709-01@1#VFP-240-001",
+            "DSN-20260907134709-01@1#VFP-330-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [],
+          "completion_criteria": "Source compiles with licensed offline dependencies and implements the specified account/store rules.",
+          "expected_evidence": "Exact authored source and actual isolated compilation evidence.",
+          "responsible_role": "Application executor"
+        },
+        {
+          "id": "WI-002",
+          "target_phase": "IMP",
+          "outcome": "Connect pages, accounts, administrative controls and media endpoints.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907134709-01@1#CHG-002",
+            "DSN-20260907134709-01@1#VFP-110-001",
+            "DSN-20260907134709-01@1#VFP-120-001",
+            "DSN-20260907134709-01@1#VFP-130-001",
+            "DSN-20260907134709-01@1#VFP-210-001",
+            "DSN-20260907134709-01@1#VFP-230-001",
+            "DSN-20260907134709-01@1#VFP-310-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-001"
+          ],
+          "completion_criteria": "Complete frontend and backend build without remote dependencies; all declared modules have handlers and pages.",
+          "expected_evidence": "Exact HTTP/asset source and actual isolated build output.",
+          "responsible_role": "Application executor"
+        },
+        {
+          "id": "WI-003",
+          "target_phase": "IMP",
+          "outcome": "Implement and execute all functional regression and operating instructions.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907134709-01@1#CHG-003",
+            "DSN-20260907134709-01@1#VFP-350-001",
+            "DSN-20260907134709-01@1#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-002"
+          ],
+          "completion_criteria": "All24 named tests pass with zero skipped or failed tests on the complete candidate.",
+          "expected_evidence": "Actual named test output, traceability, sample generator and final immutable result.",
+          "responsible_role": "Application executor"
+        },
+        {
+          "id": "WI-004",
+          "target_phase": "VFY",
+          "outcome": "Independently verify the entire current account/media/storage scope.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907134709-01@1#VFP-110-001",
+            "DSN-20260907134709-01@1#VFP-120-001",
+            "DSN-20260907134709-01@1#VFP-130-001",
+            "DSN-20260907134709-01@1#VFP-210-001",
+            "DSN-20260907134709-01@1#VFP-220-001",
+            "DSN-20260907134709-01@1#VFP-230-001",
+            "DSN-20260907134709-01@1#VFP-240-001",
+            "DSN-20260907134709-01@1#VFP-310-001",
+            "DSN-20260907134709-01@1#VFP-330-001",
+            "DSN-20260907134709-01@1#VFP-350-001",
+            "DSN-20260907134709-01@1#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-003"
+          ],
+          "completion_criteria": "All authoritative objectives and current source pass the real test method.",
+          "expected_evidence": "Fresh OS-contained full Go test execution and exact source bindings.",
+          "responsible_role": "Verifier"
+        },
+        {
+          "id": "WI-005",
+          "target_phase": "RLS",
+          "outcome": "Qualify the exact current result in the local Sandbox target.",
+          "execution_scope": [
+            "resource:RSC-001",
+            "environment:local-validation"
+          ],
+          "source_references": [
+            "DSN-20260907134709-01@1#VFP-110-001",
+            "DSN-20260907134709-01@1#VFP-120-001",
+            "DSN-20260907134709-01@1#VFP-130-001",
+            "DSN-20260907134709-01@1#VFP-210-001",
+            "DSN-20260907134709-01@1#VFP-220-001",
+            "DSN-20260907134709-01@1#VFP-230-001",
+            "DSN-20260907134709-01@1#VFP-240-001",
+            "DSN-20260907134709-01@1#VFP-310-001",
+            "DSN-20260907134709-01@1#VFP-330-001",
+            "DSN-20260907134709-01@1#VFP-350-001",
+            "DSN-20260907134709-01@1#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-004"
+          ],
+          "completion_criteria": "Local target version and confirmation match the verified current result.",
+          "expected_evidence": "Actual target-side Sandbox evidence and final Status with zero blockers.",
+          "responsible_role": "Sandbox host"
+        }
+      ],
+      "aggregated_applicability": [],
+      "lifecycle_applicability": [
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Entire scope with dependency-ordered implementation and one terminal source."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Entire scope with dependency-ordered implementation and one terminal source."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Entire scope with dependency-ordered implementation and one terminal source."
+        }
+      ],
+      "open_items": [],
+      "exceptions": [],
+      "evidence": [],
+      "supporting_members": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

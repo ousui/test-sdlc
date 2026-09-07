@@ -1,0 +1,73 @@
+{
+  "persist": true,
+  "run_automated": false,
+  "candidate": {
+    "targets": [
+      {
+        "reference": "DSN-20260907135106-01@1#VFO-001",
+        "purpose": "both",
+        "summary": "The active SpringGear reactor works on JDK21 with unchanged public Java source, Java21 bytecode and passing workflow compatibility tests.",
+        "source_kind": "vfo",
+        "obligation_references": [
+          "DSN-20260907135106-01@1#VFP-210-001",
+          "DSN-20260907135106-01@1#VFP-220-001",
+          "DSN-20260907135106-01@1#VFP-340-001",
+          "DSN-20260907135106-01@1#VFP-350-001",
+          "DSN-20260907135106-01@1#VFP-410-001"
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "id": "VFM-001",
+        "title": "Current-result JDK21 reactor tests",
+        "purpose": "both",
+        "target_references": [
+          "DSN-20260907135106-01@1#VFO-001"
+        ],
+        "subject_references": [
+          "IMP-20260907135111-01@1/RESULT-RES-001"
+        ],
+        "obligation_references": [
+          "DSN-20260907135106-01@1#VEC-001",
+          "DSN-20260907135106-01@1#VFM-001",
+          "DSN-20260907135106-01@1#VFP-210-001",
+          "DSN-20260907135106-01@1#VFP-220-001",
+          "DSN-20260907135106-01@1#VFP-340-001",
+          "DSN-20260907135106-01@1#VFP-350-001",
+          "DSN-20260907135106-01@1#VFP-410-001",
+          "DSN-20260907135106-01@1#VPC-001",
+          "PLN-20260907135106-01@1#WI-001",
+          "PLN-20260907135106-01@1#WI-002",
+          "PLN-20260907135106-01@1#WI-003"
+        ],
+        "method_type": "test",
+        "disposition": "required",
+        "execution_mode": "automated",
+        "executor_identity": "web-realflow-springgear-executor",
+        "environment": {
+          "project_root": ".",
+          "data_contract": "Public exact current source; JDK21 and prepared offline Maven cache; no external services."
+        },
+        "procedure": {
+          "kind": "command",
+          "argv": [
+            "mvn",
+            "-o",
+            "-B",
+            "-ntp",
+            "test"
+          ],
+          "policy": "deterministic-test-v1",
+          "workspace": "isolated-copy",
+          "network": "disabled",
+          "cwd": "source",
+          "timeout_seconds": 180,
+          "max_output_bytes": 1048576
+        },
+        "pass_criteria": "Ten actually executed JUnit methods, zero failures/errors/skips, runtime21 and bytecode65 assertions, preserved context and pipeline behavior.",
+        "evidence_requirement": "Actual Maven output, JUnit execution identities, exit code, OS containment and unchanged source hashes; no reuse of preparation output."
+      }
+    ]
+  }
+}

@@ -1,0 +1,914 @@
+{
+  "inputs": {
+    "design": {
+      "title": "粉丝站完整最小单体设计",
+      "summary": "Complete local public/fan/media/admin application; dependency-ordered work with exact multi-objective verification.",
+      "boundary": "One new unofficial fan-site Go application, local single-process JSON data and disposable Sandbox delivery; no artist media, production or external writes.",
+      "change_type": "new",
+      "baseline_references": [
+        "CTX-20260907134707-01@1"
+      ],
+      "target_state_summary": "A runnable local Go fan site whose modules and privacy/state boundaries work together.",
+      "impact_summary": "Create only declared new application source, embedded frontend, tests and local instructions.",
+      "changes": [
+        {
+          "id": "CHG-001",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "add",
+          "baseline_references": [
+            "CTX-20260907134707-01@1"
+          ],
+          "baseline_state": "Empty application scaffold with no business implementation.",
+          "target_state": "Transactional state, password verification, administrator bootstrap and session structures.",
+          "affected_domains": [
+            "DOM-210",
+            "DOM-220",
+            "DOM-240",
+            "DOM-310",
+            "DOM-330"
+          ]
+        },
+        {
+          "id": "CHG-002",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "add",
+          "baseline_references": [
+            "CTX-20260907134707-01@1"
+          ],
+          "baseline_state": "Empty application scaffold with no business implementation.",
+          "target_state": "Functional public/account/admin HTTP endpoints, embedded pages and bounded streaming/album features.",
+          "affected_domains": [
+            "DOM-110",
+            "DOM-120",
+            "DOM-130",
+            "DOM-230",
+            "DOM-310",
+            "DOM-410"
+          ]
+        },
+        {
+          "id": "CHG-003",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "add",
+          "baseline_references": [
+            "CTX-20260907134707-01@1"
+          ],
+          "baseline_state": "Empty application scaffold with no business implementation.",
+          "target_state": "Named combined and negative tests, sample-media generator and accurate operating instructions.",
+          "affected_domains": [
+            "DOM-350",
+            "DOM-510",
+            "DOM-410"
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "id": "DEC-001",
+          "requirement_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-007",
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#R-009",
+            "REQ-20260907134708-01@1#R-010"
+          ],
+          "question": "How to preserve all modules without an unavailable database, frontend build chain or invented cryptography?",
+          "options": [
+            "External database, SPA and remote assets",
+            "Go monolith with native DOM, atomic local JSON and licensed vendored PBKDF2"
+          ],
+          "decision": "Go>=1.23, single-process local JSON transactions, ephemeral hashed-key sessions with persisted generation, native HTML/JS, and unchanged x/crypto PBKDF2; bounded WAV/PNG/JPEG.",
+          "rationale": "Fits authorized existing environment while keeping accounts, media, management and consistency truly functional.",
+          "affected_domains": [
+            "DOM-210",
+            "DOM-220",
+            "DOM-240",
+            "DOM-310",
+            "DOM-410"
+          ]
+        }
+      ],
+      "traceability": [
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#AC-001"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-002"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#AC-002"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001",
+            "VFO-003"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#AC-003"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#AC-004"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#AC-005"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-002"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#AC-006"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-002"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-007",
+            "REQ-20260907134708-01@1#AC-007"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-002"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#AC-008"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-003"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-009",
+            "REQ-20260907134708-01@1#AC-009"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001",
+            "VFO-003"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907134708-01@1#R-010",
+            "REQ-20260907134708-01@1#AC-010"
+          ],
+          "design_references": [
+            "CHG-002",
+            "CHG-003",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-002"
+          ]
+        }
+      ],
+      "domains": {
+        "DOM-110": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-007"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Fan and administration business rules\n\nPublic users see only published media. Normal registration is always a fan; one-time private bootstrap is the only administrator entry. Login, own-profile editing, logout, management and revocation form one connected journey.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-110-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-004",
+                "REQ-20260907134708-01@1#AC-007"
+              ],
+              "verification_object": "Fan and administration business rules",
+              "observable_result": "Full fan/admin journey succeeds and cross-role actions are denied.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-120": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-007"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Functional page journey\n\nRoutes /, /music, /albums, /login, /register, /profile and /admin are served by one escaped template. Existing native JavaScript calls same-origin JSON endpoints. User feedback shows actual server errors; no subjective design rating.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-120-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-006",
+                "REQ-20260907134708-01@1#AC-007"
+              ],
+              "verification_object": "Functional page journey",
+              "observable_result": "All required routes and forms map to real backend features.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-130": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-007",
+            "REQ-20260907134708-01@1#R-009"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### View and controller wiring\n\nNative DOM uses textContent, audio controls and image nodes. Administration exposes create/edit/publish/delete controls and file upload as bounded base64 JSON. No external scripts/CDN are required.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-130-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-005",
+                "REQ-20260907134708-01@1#AC-006",
+                "REQ-20260907134708-01@1#AC-007",
+                "REQ-20260907134708-01@1#AC-009"
+              ],
+              "verification_object": "View and controller wiring",
+              "observable_result": "Public assets are local and admin operations reflect current backend state.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-140": {
+          "disposition": "n/a",
+          "reason": "Chinese-only test site; no multilingual requirement or formal accessibility certification. Basic labels/HTML structure remain implemented in DOM130.",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ]
+        },
+        "DOM-210": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#R-010"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Small monolith with owned state\n\nUse net/http, embedded HTML/JS/CSS, one Store and in-memory opaque sessions. No external service, plugin, ORM or database server. Source stages are storage/account, HTTP/media/views, then combined verification.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-210-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-008",
+                "REQ-20260907134708-01@1#AC-010"
+              ],
+              "verification_object": "Small monolith with owned state",
+              "observable_result": "A single offline-built executable covers all required modules.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-220": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-009"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Implementation and dependency choices\n\nUse Go language1.23 and vendored unchanged golang.org/x/crypto v0.31.0 PBKDF2. Random per-account salt, HMAC-SHA256600000 iterations and constant-time comparison; no new crypto algorithm. HTTP routes retain one public/admin boundary.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-220-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-004",
+                "REQ-20260907134708-01@1#AC-009"
+              ],
+              "verification_object": "Implementation and dependency choices",
+              "observable_result": "Password representation and concrete handlers implement the specified rules.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-230": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-009"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### HTTP and media contracts\n\nPublic GET endpoints expose only projections without hashes/media bytes except dedicated media routes. Writes are POST application/json with exact field sets, 2MiB body cap and CSRF. Audio URLs support GET/HEAD/Range; photo URLs recheck published parent.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-230-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-004",
+                "REQ-20260907134708-01@1#AC-005",
+                "REQ-20260907134708-01@1#AC-006",
+                "REQ-20260907134708-01@1#AC-009"
+              ],
+              "verification_object": "HTTP and media contracts",
+              "observable_result": "Statuses, projection fields, protected writes and stream bytes match API contracts.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-240": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-008"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Entities and persistence shape\n\nVersion1 JSON state has users, tracks, albums with inline photos and site text. Media capped1MiB and image dimension validation. Store mutation clones under a mutex, validates, writes same-dir temporary file/sync/rename, then swaps memory. Sessions remain outside persisted data.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-240-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-005",
+                "REQ-20260907134708-01@1#AC-006",
+                "REQ-20260907134708-01@1#AC-008"
+              ],
+              "verification_object": "Entities and persistence shape",
+              "observable_result": "Entity relations persist, duplicate emails and lost concurrent writes are prevented.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-310": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-009",
+            "REQ-20260907134708-01@1#R-010"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Account security and data minimization\n\nSession cookies are HttpOnly/SameSiteStrict with Secure when TLS configured; raw tokens are not persisted. Server-issued independent CSRF values and Origin checks protect writes; session version increments on disable, so stale in-flight authentication cannot restore revoked sessions. Private credentials never appear in response projections. Test identities/media are synthetic.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-310-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-004",
+                "REQ-20260907134708-01@1#AC-009",
+                "REQ-20260907134708-01@1#AC-010"
+              ],
+              "verification_object": "Account security and data minimization",
+              "observable_result": "Security/privacy negative tests reject role injection, CSRF, forged/expired/revoked sessions and unauthorized edits.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-320": {
+          "disposition": "n/a",
+          "reason": "No throughput/latency/capacity SLA; input size and bounded hashing concurrency are covered by DOM230/310.",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ]
+        },
+        "DOM-330": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#R-009"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Failure consistency\n\nA failed persistence step leaves both committed memory and existing file unchanged. Corrupt or linked state files fail startup; no silent reset. Restart intentionally drops all sessions while preserving content. No distributed availability claim.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-330-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-008",
+                "REQ-20260907134708-01@1#AC-009"
+              ],
+              "verification_object": "Failure consistency",
+              "observable_result": "Failure injection, corruption and restart tests retain the required state semantics.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-340": {
+          "disposition": "n/a",
+          "reason": "This is a new empty project, no existing production data or backward schema migration is requested.",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ]
+        },
+        "DOM-350": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-002",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-004",
+            "REQ-20260907134708-01@1#R-005",
+            "REQ-20260907134708-01@1#R-006",
+            "REQ-20260907134708-01@1#R-007",
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#R-009",
+            "REQ-20260907134708-01@1#R-010"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Executable functional validation\n\n24 named Go tests use real App.ServeHTTP via httptest request/response and real temporary persistence. Test fixtures are generated runtime values; do not open a socket or use remote services. Include a combined fan/admin journey plus independent negative cases.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-350-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-002",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-004",
+                "REQ-20260907134708-01@1#AC-005",
+                "REQ-20260907134708-01@1#AC-006",
+                "REQ-20260907134708-01@1#AC-007",
+                "REQ-20260907134708-01@1#AC-008",
+                "REQ-20260907134708-01@1#AC-009",
+                "REQ-20260907134708-01@1#AC-010"
+              ],
+              "verification_object": "Executable functional validation",
+              "observable_result": "All24 test identities pass with zero skips on the current terminal source.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-410": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application maintainer",
+          "basis_references": [
+            "REQ-20260907134708-01@1#R-001",
+            "REQ-20260907134708-01@1#R-003",
+            "REQ-20260907134708-01@1#R-008",
+            "REQ-20260907134708-01@1#R-010"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Local executable and Sandbox-only qualification\n\ngo build produces one executable, vendor makes execution offline. Bootstrap credentials come only from environment; default bind127.0.0.1. User can upload generated sample media using the supplied script. RLS is existing disposable local version-state target, not application installation/production deployment.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Retain all requested modules, bounded local scope and the selected trust/consistency rules.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907134708-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-410-001",
+              "references": [
+                "REQ-20260907134708-01@1#AC-001",
+                "REQ-20260907134708-01@1#AC-003",
+                "REQ-20260907134708-01@1#AC-008",
+                "REQ-20260907134708-01@1#AC-010"
+              ],
+              "verification_object": "Local executable and Sandbox-only qualification",
+              "observable_result": "Run instructions, offline build and bounded lifecycle target are truthful.",
+              "expected_evidence": "Named current-source tests, actual logs, immutable result and matching source/permission boundaries."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907134707-01@1/SUP-001",
+              "supports": [
+                "CHG-001",
+                "CHG-002",
+                "CHG-003"
+              ],
+              "purpose": "Authorized new-project scope and dependency provenance"
+            }
+          ]
+        },
+        "DOM-420": {
+          "disposition": "n/a",
+          "reason": "No production observability requirement; minimal non-sensitive start/error logs suffice.",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ]
+        },
+        "DOM-510": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Verification designer",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### VFY 目标 VFY Objectives\n\n| ID | Kind | Requirement, AC, Goal or Intended-use References | Design or Decision References | Domain VFY Point References | 可观察结果 Observable Result | 风险或重要性 Risk or Importance | Method References | Pass Criteria References | Evidence Contract References |\n|---|---|---|---|---|---|---|---|---|---|\n| VFO-001 | both | REQ-20260907134708-01@1#AC-002, REQ-20260907134708-01@1#AC-003, REQ-20260907134708-01@1#AC-004, REQ-20260907134708-01@1#AC-009, REQ-20260907134708-01@1#GOAL-001 | CHG-001, CHG-002, CHG-003, DEC-001 | VFP-110-001, VFP-220-001, VFP-310-001 | Accounts, authorization, session lifecycle and private profile are correct. | Prevent omission or false independence between modules. | VFM-001 | VPC-001 | VEC-001 |\n| VFO-002 | both | REQ-20260907134708-01@1#AC-001, REQ-20260907134708-01@1#AC-005, REQ-20260907134708-01@1#AC-006, REQ-20260907134708-01@1#AC-007, REQ-20260907134708-01@1#AC-010, REQ-20260907134708-01@1#GOAL-001 | CHG-001, CHG-002, CHG-003, DEC-001 | VFP-120-001, VFP-130-001, VFP-210-001, VFP-230-001, VFP-410-001 | Public pages, manager operations, streaming and album associations remain connected. | Prevent omission or false independence between modules. | VFM-001 | VPC-001 | VEC-001 |\n| VFO-003 | both | REQ-20260907134708-01@1#AC-002, REQ-20260907134708-01@1#AC-008, REQ-20260907134708-01@1#AC-009, REQ-20260907134708-01@1#GOAL-001 | CHG-001, CHG-002, CHG-003, DEC-001 | VFP-240-001, VFP-330-001, VFP-350-001 | Persistent state is restart-safe and no concurrent or failed mutation publishes invalid data. | Prevent omission or false independence between modules. | VFM-001 | VPC-001 | VEC-001 |\n\n### 方法选择 VFY Methods\n\n| ID | 类型 Type | Disposition | 方法明细 Method Detail | 适用范围 Scope | 方法 Method | 选择依据 Selection Basis | 承载位置 Host | Exception Reference |\n|---|---|---|---|---|---|---|---|---|\n| VFM-001 | test | required | level=integration, mode=automated | VFO-001, VFO-002, VFO-003 | Run all24 actual named Go tests on the current terminal result. | One test execution exercises real HTTP handlers and storage across all modules without network. | VFY | N/A |\n\n### 可验证性设计 Verifiability Design\n\nTest App.ServeHTTP, temporary real JSON persistence and independently generated WAV/PNG bytes. Source files and selectors are checked, without claiming a browser UX review.\n\n### 环境与数据 Environment and Data\n\nExisting Go, full vendor directory, OS sandbox, no network and no external database. Passwords and accounts generated per test; no real data.\n\n### 覆盖策略 Coverage Strategy\n\nCASE-TRACEABILITY maps each AC to exact Test names. Include negative auth/CSRF/role paths, draft URL denial, byte streaming, mutation failure, revocation generation, restart and concurrency. Do not infer coverage from compilation alone.\n\n### 通过条件 Pass Criteria\n\n| ID | VFY Objective | 输入或条件 Input or Condition | 预期结果 Expected Result | 容差 Tolerance | 失败条件 Failure Condition |\n|---|---|---|---|---|---|\n| VPC-001 | VFO-001, VFO-002, VFO-003 | Current terminal source in isolated workspace | All24 uniquely named tests execute and pass without skip; raw evidence and source hashes are retained. | None | Failure, missing test identity, skip, stale source or unsupported containment. |\n\n### Evidence Contract\n\n| ID | VFY Objective | Evidence Type | 生成方或来源 Producer or Source | 必要内容 Required Content | 敏感性与处理 Sensitivity and Handling | 保留要求 Retention Requirement | 保存或引用位置 Storage or Reference |\n|---|---|---|---|---|---|---|---|\n| VEC-001 | VFO-001, VFO-002, VFO-003 | Execution and immutable result | Actual Go test process | All test names/results, stdout/stderr, exit code, source hashes and OS containment | Synthetic values only; never credential/session dumps | Preserve originals plus online readable projection | VFY supporting evidence and experiment repository |",
+          "constraints_impacts": [],
+          "vfy_points": [],
+          "evidence_references": []
+        }
+      },
+      "composite_subdomains": [
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "可访问性 Accessibility",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "reason": "Chinese-only test site; no multilingual requirement or formal accessibility certification. Basic labels/HTML structure remain implemented in DOM130.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "国际化 Internationalization",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "reason": "Chinese-only scope; no translation or language switch requested.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "安全 Security",
+          "disposition": "required",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "reason": "Session cookies are HttpOnly/SameSiteStrict with Secure when TLS configured; raw tokens are not persisted. Server-issued independent CSRF values and Origin checks protect writes; session version increments on disable, so stale in-flight authentication cannot restore revoked sessions. Private credentials never appear in response projections. Test identities/media are synthetic.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "隐私 Privacy",
+          "disposition": "required",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "reason": "Email and profile data require private access; no credentials in public output; synthetic qualification data only.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "合规 Compliance",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907134708-01@1"
+          ],
+          "reason": "No regulated production processing; no licensing/legal certification. Preserve third-party code license and use self-generated media.",
+          "exception_references": []
+        }
+      ],
+      "cross_domain_conflicts": [],
+      "scope_expansion": false,
+      "simplicity_rationale": "One application and local state only; no external provider, public installation or new framework.",
+      "lifecycle_applicability": [
+        {
+          "phase": "PLN",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Three dependency-ordered implementation work items, complete current-result verification and local Sandbox."
+        },
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Three dependency-ordered implementation work items, complete current-result verification and local Sandbox."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Three dependency-ordered implementation work items, complete current-result verification and local Sandbox."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Three dependency-ordered implementation work items, complete current-result verification and local Sandbox."
+        }
+      ],
+      "evidence": [],
+      "supporting_members": [],
+      "open_items": [],
+      "exceptions": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

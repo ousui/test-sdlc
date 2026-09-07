@@ -1,0 +1,220 @@
+{
+  "considerations": [
+    {
+      "name": "Calculation Rules",
+      "disposition": "n/a",
+      "basis": "Use existing vetted derivation library, no new product formula; verification work introduces no new business rule.",
+      "steps": [],
+      "exception": "N/A"
+    },
+    {
+      "name": "Decision Rules",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "State Transitions",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Algorithm & Invariants",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Data Contract & Transformation",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Boundary & Failure Handling",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Effects & Consistency",
+      "disposition": "required",
+      "basis": "Account/content rules and transactional state require the declared reasoning.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    }
+  ],
+  "steps": [
+    {
+      "id": "STEP-001",
+      "order": 1,
+      "purpose": "Implement local transactional state and account core.",
+      "target": [
+        "resource:RSC-001"
+      ],
+      "basis_references": [
+        "PLN-20260907134709-01@1#WI-001",
+        "DSN-20260907134709-01@1#CHG-001"
+      ],
+      "considerations": [
+        "Decision Rules",
+        "State Transitions",
+        "Algorithm & Invariants",
+        "Data Contract & Transformation",
+        "Boundary & Failure Handling",
+        "Effects & Consistency"
+      ],
+      "logic": [
+        "Read current exact upstream design and resource baseline.",
+        "Implement only this dependency-ordered bounded application increment.",
+        "Run declared isolated checks and preserve complete current result and evidence."
+      ],
+      "expected_result": "Source compiles with licensed offline dependencies and implements the specified account/store rules.",
+      "transaction_boundary": "One versioned application increment; runtime request transactions follow the approved local Store design.",
+      "failure_boundary": "Any stale source, missing authority, invalid mutation, compile failure or failed check blocks completion.",
+      "blocks": [
+        {
+          "consideration": "Decision Rules",
+          "id": "DEC-001",
+          "rules": [
+            {
+              "id": "DR-001",
+              "priority": "1",
+              "conditions": "missing authority, disabled/stale session, malformed input or mismatched state",
+              "outcome": "Reject without publishing changes"
+            },
+            {
+              "id": "DR-002",
+              "priority": "2",
+              "conditions": "DEFAULT",
+              "outcome": "Perform the exact allowed account or content operation after validation"
+            }
+          ]
+        },
+        {
+          "consideration": "State Transitions",
+          "id": "STA-001",
+          "transitions": [
+            {
+              "id": "TR-001",
+              "current": "enabled account / published content",
+              "event": "authorized disable or unpublish/delete",
+              "next": "disabled account / hidden or removed content",
+              "effect": "Increment revocation generation or remove public visibility together with committed state",
+              "illegal_handling": "Reject unauthorized or missing entity without partial state"
+            },
+            {
+              "id": "TR-002",
+              "current": "disabled account",
+              "event": "administrator re-enables",
+              "next": "enabled account with prior generation retained",
+              "effect": "Require a fresh login; old sessions stay rejected",
+              "illegal_handling": "Never restore previous authentication authority"
+            }
+          ]
+        },
+        {
+          "consideration": "Algorithm & Invariants",
+          "id": "ALG-001",
+          "inputs": "Validated account/content input and exact current stored state.",
+          "outputs": "Committed state or explicit rejection, with no secret material in public output.",
+          "invariants": "Unique normalized email, current session generation, published-parent media and no partial disk/memory mutation.",
+          "scale_or_limits": "Single process, bounded bodies/media, bounded concurrent derivations; no production scale claim.",
+          "pseudocode": "Load authoritative state; validate roles and inputs; clone under mutex; apply bounded mutation; persist complete bytes; publish memory only on success."
+        },
+        {
+          "consideration": "Data Contract & Transformation",
+          "id": "MAP-001",
+          "mappings": [
+            {
+              "source": "Submitted account credentials and profile",
+              "target": "Normalized private account record",
+              "transformation": "Validate email/password limits, salt and derive with vendored PBKDF2; expose only public projection",
+              "validation": "Unique email, declared lengths, protected role assignment",
+              "null_or_default": "New account enabled as fan unless explicit empty-store bootstrap"
+            },
+            {
+              "source": "Submitted media and published-parent state",
+              "target": "Bounded track/album/photo records and controlled bytes",
+              "transformation": "Validate MIME/size/dimensions, persist complete association and recheck publication on reads",
+              "validation": "Reject missing parent, bad content and unauthorized changes",
+              "null_or_default": "New content draft unless explicitly published"
+            }
+          ]
+        },
+        {
+          "consideration": "Boundary & Failure Handling",
+          "id": "ERR-001",
+          "trigger": "Invalid input, unauthorized operation, stale source, failed storage, compilation or test.",
+          "classification": "Visible bounded failure, never silently completed work.",
+          "handling": "Reject before invalid mutation; preserve successful committed state and exact failure evidence.",
+          "observable_result": "Denied HTTP or nonpassing runtime check; no fabricated authority.",
+          "recovery": "Correct bounded source or execution environment, then retry under the same valid scope or formal rework."
+        },
+        {
+          "consideration": "Effects & Consistency",
+          "id": "EFF-001",
+          "resource_or_effect": "Current source snapshot and in-application local state effects only.",
+          "order_and_condition": "Core source first, dependent web handlers next, then actual tests; writes bind exact existing content.",
+          "consistency_or_atomicity": "Store clone/validate/persist/rename precedes memory publication; runtime checkpoints each declared source effect.",
+          "idempotency": "Confirmation and retry never replay completed source operations.",
+          "failure_handling": "Keep failure evidence; no remote service, production write or history replacement."
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "RSC-001",
+      "root": "source"
+    }
+  ],
+  "operations": [
+    {
+      "resource": "RSC-001",
+      "path": "store.go",
+      "step": "STEP-001",
+      "op": "write_text",
+      "expected_sha256": "absent",
+      "content": "package main\n\nimport (\n \"bytes\"\n \"crypto/rand\"\n \"crypto/sha256\"\n \"crypto/subtle\"\n \"encoding/hex\"\n \"encoding/json\"\n \"errors\"\n \"fmt\"\n \"net/mail\"\n \"os\"\n \"path/filepath\"\n \"sort\"\n \"strings\"\n \"sync\"\n \"time\"\n \"unicode/utf8\"\n \"golang.org/x/crypto/pbkdf2\"\n)\n\nvar errInput = errors.New(\"invalid input\")\nvar errDenied = errors.New(\"not authorized\")\nvar errNotFound = errors.New(\"not found\")\nvar errConflict = errors.New(\"conflict\")\nconst rounds = 600000\n\ntype User struct {\n ID string `json:\"id\"`\n Email string `json:\"email\"`\n Name string `json:\"name\"`\n Bio string `json:\"bio\"`\n Admin bool `json:\"admin\"`\n Enabled bool `json:\"enabled\"`\n SessionVersion uint64 `json:\"session_version\"`\n Salt string `json:\"salt\"`\n PasswordHash string `json:\"password_hash\"`\n}\ntype Track struct { ID string; Title string; Published bool; Audio []byte }\ntype Photo struct { ID string; Caption string; ContentType string; Data []byte }\ntype Album struct { ID string; Title string; Description string; Published bool; Photos map[string]Photo }\ntype State struct { Version int; Title string; Intro string; Users map[string]User; Tracks map[string]Track; Albums map[string]Album }\ntype Store struct { mu sync.RWMutex; data State; path string; persist func([]byte) error }\nfunc randomID() string { b:=make([]byte,32);if _,e:=rand.Read(b);e!=nil { panic(e) };return hex.EncodeToString(b) }\nfunc cleanText(v string,max int) bool { return utf8.ValidString(v)&&utf8.RuneCountInString(v)<=max }\nfunc emailKey(v string)(string,error) {\n v=strings.ToLower(strings.TrimSpace(v));a,e:=mail.ParseAddress(v)\n if e!=nil || a.Address!=v || len(v)>254 { return \"\",errInput };return v,nil\n}\nfunc hashPassword(phrase,salt string) string { return hex.EncodeToString(pbkdf2.Key([]byte(phrase),[]byte(salt),rounds,32,sha256.New)) }\nfunc validPassword(phrase string) bool { return len(phrase)>=10&&len(phrase)<=72&&utf8.ValidString(phrase) }\nfunc cloneState(s State) State { b,_:=json.Marshal(s);var n State;if e:=json.Unmarshal(b,&n);e!=nil { panic(e) };return n }\nfunc OpenStore(dir string)(*Store,error) {\n if e:=os.MkdirAll(dir,0700);e!=nil{return nil,e}\n s:=&Store{path:filepath.Join(dir,\"state.json\"),data:State{Version:1,Title:\"杨千嬅 · 粉丝小站\",Intro:\"非官方网站。音乐与图片为功能测试素材，不代表艺人录音或照片。\",Users:map[string]User{},Tracks:map[string]Track{},Albums:map[string]Album{}}}\n if st,e:=os.Lstat(s.path);e==nil {\n  if !st.Mode().IsRegular(){return nil,errInput};b,e:=os.ReadFile(s.path);if e!=nil{return nil,e}\n  dec:=json.NewDecoder(bytes.NewReader(b));dec.DisallowUnknownFields();if e=dec.Decode(&s.data);e!=nil{return nil,e}\n  if s.data.Version!=1||s.data.Users==nil||s.data.Tracks==nil||s.data.Albums==nil{return nil,errInput}\n }else if !os.IsNotExist(e){return nil,e}\n s.persist=func(b []byte) error {\n  f,e:=os.CreateTemp(dir,\".state-*\");if e!=nil{return e};name:=f.Name();defer os.Remove(name)\n  if _,e=f.Write(b);e!=nil{f.Close();return e};if e=f.Sync();e!=nil{f.Close();return e};if e=f.Close();e!=nil{return e}\n  return os.Rename(name,s.path)\n }\n return s,nil\n}\nfunc(s *Store) Snapshot()State{s.mu.RLock();defer s.mu.RUnlock();return cloneState(s.data)}\nfunc(s *Store) Update(fn func(*State)error)error {\n s.mu.Lock();defer s.mu.Unlock();next:=cloneState(s.data);if e:=fn(&next);e!=nil{return e}\n b,e:=json.Marshal(next);if e!=nil{return e};if e=s.persist(b);e!=nil{return fmt.Errorf(\"storage unavailable: %w\",e)};s.data=next;return nil\n}\nfunc(s *Store) Register(email,phrase,name string,admin bool)(User,error) {\n email,e:=emailKey(email);if e!=nil||!validPassword(phrase)||!cleanText(name,80){return User{},errInput}\n u:=User{ID:randomID(),Email:email,Name:strings.TrimSpace(name),Admin:admin,Enabled:true,Salt:randomID()};u.PasswordHash=hashPassword(phrase,u.Salt)\n e=s.Update(func(st *State)error{for _,old:=range st.Users{if old.Email==email{return errConflict}};st.Users[u.ID]=u;return nil});return u,e\n}\nfunc(s *Store) Authenticate(email,phrase string)(User,error) {\n email,e:=emailKey(email);if e!=nil||!validPassword(phrase){return User{},errDenied}\n st:=s.Snapshot();for _,u:=range st.Users{if u.Email==email&&u.Enabled {\n  h:=hashPassword(phrase,u.Salt);if subtle.ConstantTimeCompare([]byte(h),[]byte(u.PasswordHash))==1{return u,nil};break\n }};return User{},errDenied\n}\nfunc(s *Store) Bootstrap(email,phrase string)error {\n if email==\"\"&&phrase==\"\"{return nil};if email==\"\"||phrase==\"\"{return errInput}\n if len(s.Snapshot().Users)>0{return nil};_,e:=s.Register(email,phrase,\"站点管理员\",true);return e\n}\nfunc sortedKeys[T any](m map[string]T)[]string{v:=make([]string,0,len(m));for k:=range m{v=append(v,k)};sort.Strings(v);return v}\ntype Session struct { UserID string; Version uint64; CSRF string; Expires time.Time }\n"
+    }
+  ],
+  "checks": [
+    {
+      "id": "CHK-001",
+      "name": "Actual offline package compilation",
+      "resource": "RSC-001",
+      "kind": "project_command",
+      "cwd": ".",
+      "command": [
+        "go",
+        "test",
+        "./..."
+      ],
+      "timeout_seconds": 180
+    }
+  ],
+  "design_decision_references": [
+    "DSN-20260907134709-01@1#DEC-001"
+  ],
+  "exceptions": [],
+  "open_items": []
+}

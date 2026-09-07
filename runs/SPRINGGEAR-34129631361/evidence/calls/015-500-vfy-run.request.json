@@ -1,0 +1,12 @@
+{
+  "persist": true,
+  "allow_commands": true,
+  "finalize": false,
+  "failure_returns": {
+    "VFM-001": {
+      "return_phase": "PLN",
+      "observed_gap": "The declared automated method returned a non-passing observation; its exact evidence identifies the diagnostic cause.",
+      "required_outcome": "Resolve execution readiness or route the observed implementation defect, then reverify this complete scope."
+    }
+  }
+}

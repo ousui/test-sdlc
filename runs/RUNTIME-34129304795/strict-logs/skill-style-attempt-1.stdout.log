@@ -1,0 +1,63 @@
+{
+  "contract": "sdlc-ai-spec/skill-style-result/v1",
+  "success": true,
+  "skills": [
+    {
+      "skill": "sdlc-000-ctx",
+      "commands": 8,
+      "parameters": 7,
+      "lines": 108,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-100-req",
+      "commands": 8,
+      "parameters": 7,
+      "lines": 107,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-200-dsn",
+      "commands": 8,
+      "parameters": 8,
+      "lines": 91,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-300-pln",
+      "commands": 8,
+      "parameters": 8,
+      "lines": 89,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-400-imp",
+      "commands": 9,
+      "parameters": 10,
+      "lines": 115,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-500-vfy",
+      "commands": 9,
+      "parameters": 9,
+      "lines": 83,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-600-rls",
+      "commands": 12,
+      "parameters": 11,
+      "lines": 88,
+      "status": "PASS"
+    },
+    {
+      "skill": "sdlc-status",
+      "commands": 7,
+      "parameters": 7,
+      "lines": 89,
+      "status": "PASS"
+    }
+  ],
+  "scope": "Local presentation and interface agreement; not native behavior certification"
+}

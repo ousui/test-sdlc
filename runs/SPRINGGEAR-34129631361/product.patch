@@ -1,0 +1,79 @@
+diff --git a/source/pom.xml b/source/pom.xml
+index 658a51e..1895439 100644
+--- a/source/pom.xml
++++ b/source/pom.xml
+@@ -46,8 +46,7 @@
+     <packaging>pom</packaging>
+ 
+     <properties>
+-        <maven.compiler.source>8</maven.compiler.source>
+-        <maven.compiler.target>8</maven.compiler.target>
++        <maven.compiler.release>21</maven.compiler.release>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+@@ -69,13 +68,17 @@
+ 
+     <build>
+         <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-surefire-plugin</artifactId>
++                <version>3.2.5</version>
++            </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+-                <version>3.8.1</version>
++                <version>3.11.0</version>
+                 <configuration>
+-                    <source>1.8</source>
+-                    <target>1.8</target>
++                    <release>${maven.compiler.release}</release>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+diff --git a/source/springgear-parent/pom.xml b/source/springgear-parent/pom.xml
+index 6464daf..e14cff9 100644
+--- a/source/springgear-parent/pom.xml
++++ b/source/springgear-parent/pom.xml
+@@ -38,7 +38,7 @@
+ 
+     <properties>
+         <!-- 常用版本 -->
+-        <ver.spring>5.3.22</ver.spring>
++        <ver.spring>5.3.39</ver.spring>
+ 
+         <ver.guava>20.0</ver.guava>
+ 
+@@ -84,6 +84,12 @@
+             <version>5.7.0</version>
+             <scope>test</scope>
+         </dependency>
++        <dependency>
++            <groupId>org.junit.jupiter</groupId>
++            <artifactId>junit-jupiter-engine</artifactId>
++            <version>5.7.0</version>
++            <scope>test</scope>
++        </dependency>
+         <!-- /test case junit -->
+ 
+         <!-- jdk 11+ -->
+@@ -134,7 +140,7 @@
+         </dependency>
+         <dependency>
+             <groupId>org.apache.logging.log4j</groupId>
+-            <artifactId>log4j-slf4j-impl</artifactId>
++            <artifactId>log4j-slf4j2-impl</artifactId>
+             <version>${ver.log4j2}</version>
+         </dependency>
+         <!--/ log -->
+@@ -143,7 +149,7 @@
+         <dependency>
+             <groupId>org.projectlombok</groupId>
+             <artifactId>lombok</artifactId>
+-            <version>1.18.24</version>
++            <version>1.18.30</version>
+             <scope>provided</scope>
+         </dependency>
+ 

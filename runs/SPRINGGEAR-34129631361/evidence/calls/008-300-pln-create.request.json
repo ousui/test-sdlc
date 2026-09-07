@@ -1,0 +1,133 @@
+{
+  "inputs": {
+    "plan": {
+      "title": "SpringGear ordered JDK21 migration",
+      "summary": "Build alignment, executable behavior tests, full verification and local Sandbox release.",
+      "profile": "full",
+      "pln_disposition": "required",
+      "delivery_scope": [
+        {
+          "source_artifact_reference": "DSN-20260907135106-01@1",
+          "inclusion_basis": "Complete selected JDK21 design; no partial obligation selection."
+        }
+      ],
+      "obligations": [
+        "DSN-20260907135106-01@1#CHG-001",
+        "DSN-20260907135106-01@1#CHG-002",
+        "DSN-20260907135106-01@1#VFP-210-001",
+        "DSN-20260907135106-01@1#VFP-220-001",
+        "DSN-20260907135106-01@1#VFP-340-001",
+        "DSN-20260907135106-01@1#VFP-350-001",
+        "DSN-20260907135106-01@1#VFP-410-001"
+      ],
+      "work_items": [
+        {
+          "id": "WI-001",
+          "target_phase": "IMP",
+          "outcome": "Align the reactor build and processor dependencies for JDK21.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907135106-01@1#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [],
+          "completion_criteria": "POMs explicitly target JDK21 and retain public Java source.",
+          "expected_evidence": "Exact preconditioned POM changes and content checks.",
+          "responsible_role": "Java maintainer"
+        },
+        {
+          "id": "WI-002",
+          "target_phase": "IMP",
+          "outcome": "Add and execute JDK21 behavior regression and migration instructions.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907135106-01@1#CHG-002"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-001"
+          ],
+          "completion_criteria": "Ten real compatibility tests and migration notes exist and Maven verify succeeds.",
+          "expected_evidence": "Current immutable result, actual Maven test output and packaging log.",
+          "responsible_role": "Java maintainer"
+        },
+        {
+          "id": "WI-003",
+          "target_phase": "VFY",
+          "outcome": "Verify the full current migration requirement and design.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907135106-01@1#VFP-210-001",
+            "DSN-20260907135106-01@1#VFP-220-001",
+            "DSN-20260907135106-01@1#VFP-340-001",
+            "DSN-20260907135106-01@1#VFP-350-001",
+            "DSN-20260907135106-01@1#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-002"
+          ],
+          "completion_criteria": "All current objectives have real passing JDK21 behavior evidence.",
+          "expected_evidence": "Actual current-subject Maven/JUnit output and source hashes.",
+          "responsible_role": "Verification or local release executor"
+        },
+        {
+          "id": "WI-004",
+          "target_phase": "RLS",
+          "outcome": "Qualify the approved version in a disposable local Sandbox.",
+          "execution_scope": [
+            "resource:RSC-001",
+            "environment:ENV-001"
+          ],
+          "source_references": [
+            "DSN-20260907135106-01@1#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-003"
+          ],
+          "completion_criteria": "The exact qualified version is applied and observed on the local target.",
+          "expected_evidence": "Bound release effect and target version readback.",
+          "responsible_role": "Verification or local release executor"
+        }
+      ],
+      "aggregated_applicability": [],
+      "lifecycle_applicability": [
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        }
+      ],
+      "open_items": [],
+      "exceptions": [],
+      "evidence": [],
+      "supporting_members": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

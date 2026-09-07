@@ -1,0 +1,30 @@
+REPOSITORY_QUICK = FAIL
+[2026-09-07T13:56:38.405650+00:00] fixture/spring-probe: create real CTX
+[2026-09-07T13:56:38.438419+00:00] fixture/spring-probe: create real REQ
+[2026-09-07T13:56:38.460200+00:00] fixture/spring-probe: create real DSN
+[2026-09-07T13:56:38.489154+00:00] fixture/spring-probe: create real PLN and select WI-001
+[2026-09-07T13:56:38.531031+00:00] fixture/spring-probe: acquire Claim, execute README edit and complete IMP
+[2026-09-07T13:56:39.460873+00:00] fixture/spring-probe: read-only IMP check and lifecycle projection
+[2026-09-07T13:56:39.670451+00:00] fixture/spring-probe: cleanup restored exact initial Git state
+[2026-09-07T13:56:39.682026+00:00] fixture/go-vue-probe: create real CTX
+[2026-09-07T13:56:39.714559+00:00] fixture/go-vue-probe: create real REQ
+[2026-09-07T13:56:39.736158+00:00] fixture/go-vue-probe: create real DSN
+[2026-09-07T13:56:39.764758+00:00] fixture/go-vue-probe: create real PLN and select WI-001
+[2026-09-07T13:56:39.806718+00:00] fixture/go-vue-probe: acquire Claim, execute README edit and complete IMP
+[2026-09-07T13:56:40.730523+00:00] fixture/go-vue-probe: read-only IMP check and lifecycle projection
+[2026-09-07T13:56:40.939575+00:00] fixture/go-vue-probe: cleanup restored exact initial Git state
+[2026-09-07T13:56:41Z] CTX: execute external_imp._create_context
+[2026-09-07T13:56:41Z] REQ: execute external_imp._create_requirement
+[2026-09-07T13:56:41Z] DSN: execute external_imp._create_design
+[2026-09-07T13:56:41Z] PLN: execute external_imp._create_plan
+[2026-09-07T13:56:41Z] IMP: execute external_imp._complete_imp
+[2026-09-07T13:56:42Z] VFY: execute VfyHandler.create+run
+[2026-09-07T13:56:43Z] fixture/springgear: cleanup restored exact initial state
+[2026-09-07T13:56:43Z] CTX: execute external_imp._create_context
+[2026-09-07T13:56:43Z] REQ: execute external_imp._create_requirement
+[2026-09-07T13:56:43Z] DSN: execute external_imp._create_design
+[2026-09-07T13:56:43Z] PLN: execute external_imp._create_plan
+[2026-09-07T13:56:43Z] IMP: execute external_imp._complete_imp
+[2026-09-07T13:56:44Z] VFY: execute VfyHandler.create+run
+[2026-09-07T13:56:45Z] fixture/gin-vue-admin: cleanup restored exact initial state
+REPOSITORY_STRICT = PASS

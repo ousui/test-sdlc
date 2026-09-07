@@ -1,0 +1,161 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 101766370979,
+      "run_id": 34129631361,
+      "workflow_name": "springgear-closure",
+      "head_branch": "verify/fansite-closure-v1",
+      "run_url": "https://api.github.com/repos/ousui/test-sdlc/actions/runs/34129631361",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUQWoSc8AAAAXsb-Wow",
+      "head_sha": "a74f1d24c38616ea18a81e6ab0c345d26ed4b14a",
+      "url": "https://api.github.com/repos/ousui/test-sdlc/actions/jobs/101766370979",
+      "html_url": "https://github.com/ousui/test-sdlc/actions/runs/34129631361/job/101766370979",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-07T13:50:19Z",
+      "started_at": "2026-09-07T13:50:21Z",
+      "completed_at": "2026-09-07T13:51:48Z",
+      "name": "real-lifecycle",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-07T13:50:22Z",
+          "completed_at": "2026-09-07T13:50:23Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-07T13:50:23Z",
+          "completed_at": "2026-09-07T13:50:24Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-07T13:50:24Z",
+          "completed_at": "2026-09-07T13:50:26Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-09-07T13:50:26Z",
+          "completed_at": "2026-09-07T13:50:27Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-09-07T13:50:27Z",
+          "completed_at": "2026-09-07T13:50:27Z"
+        },
+        {
+          "name": "Select existing JDK21 and local containment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-07T13:50:27Z",
+          "completed_at": "2026-09-07T13:50:34Z"
+        },
+        {
+          "name": "Prepare dependencies outside formal runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-09-07T13:50:34Z",
+          "completed_at": "2026-09-07T13:51:03Z"
+        },
+        {
+          "name": "Freeze exact runtime and provenance",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-09-07T13:51:03Z",
+          "completed_at": "2026-09-07T13:51:04Z"
+        },
+        {
+          "name": "Execute actual JDK21 requirement through all phases",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-09-07T13:51:04Z",
+          "completed_at": "2026-09-07T13:51:42Z"
+        },
+        {
+          "name": "Preserve actual product and recovery state",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-09-07T13:51:42Z",
+          "completed_at": "2026-09-07T13:51:42Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-09-07T13:51:42Z",
+          "completed_at": "2026-09-07T13:51:45Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-09-07T13:51:45Z",
+          "completed_at": "2026-09-07T13:51:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-09-07T13:51:45Z",
+          "completed_at": "2026-09-07T13:51:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-09-07T13:51:45Z",
+          "completed_at": "2026-09-07T13:51:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-09-07T13:51:45Z",
+          "completed_at": "2026-09-07T13:51:46Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-09-07T13:51:46Z",
+          "completed_at": "2026-09-07T13:51:46Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ousui/test-sdlc/check-runs/101766370979",
+      "labels": [
+        "ubuntu-22.04"
+      ],
+      "runner_id": 1000001295,
+      "runner_name": "GitHub Actions 1000001295",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

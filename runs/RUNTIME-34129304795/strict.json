@@ -1,0 +1,162 @@
+{
+  "contract": "sdlc-ai-spec/repository-validation/v2",
+  "profile": "strict",
+  "source_sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+  "success": true,
+  "started_at": "2026-09-07T13:47:10.090449+00:00",
+  "steps": [
+    {
+      "name": "runtime-contracts",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/runtime-contracts-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/runtime-contracts-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:d3dc89a08c6df93affe4464617ecf5614771bf888392b4a12818d9c8cd0bda36",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 281
+    },
+    {
+      "name": "skill-interfaces",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/skill-interfaces-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/skill-interfaces-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:9825a016f267883d99316e465bcb6352311d4e26d10cb9558108ae9e9e6530f7",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 56
+    },
+    {
+      "name": "skill-style",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/skill-style-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/skill-style-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:ebc27c64260f54423575d967a25b9655d70db022c1b63efd89423fb2d7508c49",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 84
+    },
+    {
+      "name": "inventory",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/inventory-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/inventory-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:e6586fdea52884654f17b8280e58a9061d3a76024da116cbc026978fb8ab68fa",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 158
+    },
+    {
+      "name": "source-locks",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/source-locks-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/source-locks-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:142965f2cdc4ae6ecb2f723c925310b424e2d351122eabe8194d15e0c8d9c9e6",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 786
+    },
+    {
+      "name": "status-static",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/status-static-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/status-static-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:0c9599b20ea9f29539581cbf56cfd4243dd37a3271f955e63d53719e26b75fa2",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 68
+    },
+    {
+      "name": "lifecycle-static",
+      "exit_code": 0,
+      "success": true,
+      "source_unchanged": true,
+      "stdout_log": "/home/runner/work/_temp/strict/strict-logs/lifecycle-static-attempt-1.stdout.log",
+      "stderr_log": "/home/runner/work/_temp/strict/strict-logs/lifecycle-static-attempt-1.stderr.log",
+      "stdout_sha256": "sha256:e10027882021b289e8c0d83429195db1eef8ed718ac1575abd7269e4cdcdc032",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "duration_ms": 94
+    }
+  ],
+  "native_client_gate": "OUT_OF_SCOPE",
+  "strict_vfy_execution": "PASS",
+  "real_target_effects": 0,
+  "remote_writes": 0,
+  "installations": 0,
+  "source_before": {
+    "root": "/home/runner/work/test-sdlc/test-sdlc",
+    "sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+    "tree": "a3c306d0f39d37211b32c4518de61b24183d7d32",
+    "parents": [
+      "8f57433e20b899036330320a05793a5794fb2ceb"
+    ],
+    "branch": "",
+    "status": ""
+  },
+  "sandbox_capability": {
+    "available": true,
+    "backend": "/home/runner/work/_temp/tools/extracted/usr/bin/bwrap",
+    "error": null
+  },
+  "collection": {
+    "unique_tests": 1092,
+    "registry_cases": {
+      "IMP": 82,
+      "RLS": 87,
+      "STATUS": 14,
+      "VFY": 80
+    },
+    "execution": "EXECUTED_ONCE"
+  },
+  "suite": {
+    "success": true,
+    "tests_run": 1092,
+    "unique_tests": 1092,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "coverage": {
+      "IMP": {
+        "total": 82,
+        "passed": 82,
+        "status": "PASS"
+      },
+      "RLS": {
+        "total": 87,
+        "passed": 87,
+        "status": "PASS"
+      },
+      "STATUS": {
+        "total": 14,
+        "passed": 14,
+        "status": "PASS"
+      },
+      "VFY": {
+        "total": 80,
+        "passed": 80,
+        "status": "PASS"
+      }
+    },
+    "source_sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+    "duration_ms": 571563
+  },
+  "suite_receipt": "/home/runner/work/_temp/strict/strict-logs/suite.json",
+  "source_after": {
+    "root": "/home/runner/work/test-sdlc/test-sdlc",
+    "sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+    "tree": "a3c306d0f39d37211b32c4518de61b24183d7d32",
+    "parents": [
+      "8f57433e20b899036330320a05793a5794fb2ceb"
+    ],
+    "branch": "",
+    "status": ""
+  },
+  "finished_at": "2026-09-07T13:56:45.745252+00:00"
+}

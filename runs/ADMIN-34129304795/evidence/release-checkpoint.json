@@ -1,0 +1,7 @@
+{
+  "sequence": 5,
+  "sandbox_root": "/tmp/sdlc-release-6a1a74ec784a4ba79b167f9c104b221c",
+  "target": "local-validation",
+  "release_reference": "qualification-ceaf0e338842da26",
+  "reference": "RLS-20260907134757-01@1"
+}

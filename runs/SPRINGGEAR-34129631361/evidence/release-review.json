@@ -1,0 +1,14 @@
+{
+  "type": "final_confirmation",
+  "result": "approved",
+  "mode": "delegated",
+  "confirmer": "deterministic-review-process:3020",
+  "role": "Delegated Independent Reviewer",
+  "reviewed_executor": "sandbox-executor",
+  "authority_reference": ".sdlc/authority/RLS-20260907135134-01-r1-3020.md@sha256:9ddcc4734053376ce5254bec5681849bd11f15faa29c43eec2fc41898c6b7abf",
+  "accepted_exception_references": [],
+  "confirmed_at": "2026-09-07T13:51:38+00:00",
+  "control_input_digest": "sha256:f55668cdf609170df2b341960b290c10dc79dc45128a6a2c9a9e507d5d79a600",
+  "evaluation_contract_set": "docs/v1.1/600-rls-spec.md@sha256:62124c713958f833d3e093c0a05743fcbde3dc40ed1dfac5eb5a857846210faa, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+  "check_set_result_digest": "sha256:4926f3b115a2ba87a760f6957741893dbdea23ab7791bb9162bcdce399c2c578"
+}

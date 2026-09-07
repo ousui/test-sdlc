@@ -1,0 +1,5 @@
+{
+  "persist": true,
+  "allow_commands": true,
+  "finalize": false
+}

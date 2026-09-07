@@ -1,0 +1,22 @@
+{
+  "artifact": {
+    "artifact_status": "ready",
+    "id": "DSN-20260907134730-01",
+    "reference": "DSN-20260907134730-01@2",
+    "revision": 2,
+    "revision_state": "frozen",
+    "type": "DSN"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pass"
+  },
+  "next_action": null,
+  "ok": true,
+  "open_items": [],
+  "operation": "revise",
+  "status": "completed",
+  "warnings": []
+}
