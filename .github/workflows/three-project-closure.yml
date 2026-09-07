@@ -1,0 +1,253 @@
+name: three-project-closure
+on:
+  push:
+    branches: [verify/fansite-closure-v1]
+    paths: [.github/workflows/three-project-closure.yml]
+permissions:
+  contents: read
+concurrency:
+  group: three-project-closure
+  cancel-in-progress: false
+jobs:
+  freeze-source:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    outputs:
+      source: ${{ steps.freeze.outputs.source }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: fix/fansite-closure-v1
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Wait only for the exact tested source tree, then freeze its commit
+        id: freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 60); do
+            git fetch --no-tags origin refs/heads/fix/fansite-closure-v1
+            source=$(git rev-parse FETCH_HEAD)
+            if test "$(git rev-parse "$source^{tree}")" = 652a323db774b4a29b8a5fccf8a8bf3f5c4fd2af; then
+              git merge-base --is-ancestor 0102b8f42a87809f58f978e2c2611705b30e7869 "$source"
+              echo "source=$source" >> "$GITHUB_OUTPUT"
+              echo "Exact runtime source: $source"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'No exact verified candidate tree was published; no case will run or be reported PASS.' >&2
+          exit 1
+  strict-runtime:
+    needs: freeze-source
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ needs.freeze-source.outputs.source }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare native containment outside the runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/tools" "$RUNNER_TEMP/strict"
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Validate the immutable exact source with actual OS coverage
+        env:
+          SOURCE: ${{ needs.freeze-source.outputs.source }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE"
+          echo "$SOURCE" > "$RUNNER_TEMP/strict/source.sha"
+          python3 -B tools/validate.py --profile full --strict --source-sha "$SOURCE" --json-out "$RUNNER_TEMP/strict/strict.json" 2>&1 | tee "$RUNNER_TEMP/strict/strict.log"
+          test -z "$(git status --porcelain --untracked-files=all)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strict-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict/
+          if-no-files-found: error
+          retention-days: 30
+  real-project:
+    needs: freeze-source
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [admin, springgear, fansite]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      SDLC_SOURCE_SHA: ${{ needs.freeze-source.outputs.source }}
+      PROJECT: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ needs.freeze-source.outputs.source }}
+          fetch-depth: 0
+          path: _spec
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v5
+        if: matrix.project == 'springgear'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare only the selected project's dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/tools"
+          if test "$PROJECT" = admin; then
+            python3 -m venv "$RUNNER_TEMP/admin-env"
+            "$RUNNER_TEMP/admin-env/bin/pip" install -r cases/admin/requirements.lock
+            echo "$RUNNER_TEMP/admin-env/bin" >> "$GITHUB_PATH"
+          elif test "$PROJECT" = springgear; then
+            python3 scripts/prepare_springgear.py --baseline-input cases/springgear/baseline --output "$RUNNER_TEMP/sg-candidate"
+            cp -a "$RUNNER_TEMP/sg-candidate" "$RUNNER_TEMP/sg-warm"
+            mkdir -p "$RUNNER_TEMP/m2"
+            (cd "$RUNNER_TEMP/sg-warm" && mvn -B -ntp -Dmaven.repo.local="$RUNNER_TEMP/m2" verify) 2>&1 | tee "$RUNNER_TEMP/evidence/dependency-prepare.log"
+            echo "SDLC_PREPARED_MAVEN_REPOSITORY=$RUNNER_TEMP/m2" >> "$GITHUB_ENV"
+          else
+            go version
+            node --check cases/fansite/candidate/web/app.js
+            test "$(git hash-object cases/fansite/candidate/vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go)" = 28cd99c7f3fc50b03f3789b1013401db46d40bf9
+            echo 'GOPROXY=off' >> "$GITHUB_ENV"
+            echo 'GOTOOLCHAIN=local' >> "$GITHUB_ENV"
+          fi
+          if ! command -v bwrap >/dev/null; then
+            cd "$RUNNER_TEMP/tools"
+            apt-get download bubblewrap
+            for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
+            echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Retain exact provenance and build a docs-free runtime copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _spec rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/test-source.sha"
+          git -C _spec rev-parse HEAD > "$RUNNER_TEMP/evidence/runtime-source.sha"
+          git -C _spec bundle create "$RUNNER_TEMP/evidence/runtime-source.bundle" HEAD
+          git archive --format=tar HEAD | gzip -n > "$RUNNER_TEMP/evidence/test-source.tar.gz"
+          python - <<'PY'
+          from pathlib import Path
+          import os,shutil,hashlib,json
+          source=Path('_spec');runtime=Path(os.environ['RUNNER_TEMP'])/'runtime'
+          for name in ('skills','packages','scripts'):
+              shutil.copytree(source/name,runtime/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc','AGENTS.md'))
+          assert not (runtime/'docs').exists() and not (runtime/'tests').exists()
+          rows={p.relative_to(runtime).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.rglob('*') if p.is_file()}
+          (Path(os.environ['RUNNER_TEMP'])/'evidence/runtime-files.json').write_text(json.dumps(rows,sort_keys=True,indent=2))
+          PY
+          { python --version; java -version; mvn -version; go version; bwrap --version; node --version; } > "$RUNNER_TEMP/evidence/environment.txt" 2>&1
+      - name: Execute formal Skills through final Status
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test "$PROJECT" = admin; then
+            python -B scripts/replay_admin.py --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --until STATUS --exercise-design-revision 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+          else
+            python -B "scripts/replay_$PROJECT.py" --runtime "$RUNNER_TEMP/runtime" --work "$RUNNER_TEMP/product" --output "$RUNNER_TEMP/evidence/run" --case-root "$GITHUB_WORKSPACE/cases/$PROJECT" --until STATUS 2>&1 | tee "$RUNNER_TEMP/evidence/replay.log"
+          fi
+      - name: Preserve actual product and complete synthetic recovery state
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/evidence"
+          if test -d "$RUNNER_TEMP/product/source"; then
+            cp -a "$RUNNER_TEMP/product/source" "$RUNNER_TEMP/evidence/product-source"
+            tar -czf "$RUNNER_TEMP/evidence/recovery.tar.gz" -C "$RUNNER_TEMP" product
+          fi
+          cp "scripts/replay_$PROJECT.py" scripts/scenario_io.py scripts/review_artifact.py scripts/close_release.py "$RUNNER_TEMP/evidence/"
+      - name: Verify all original evidence before creating readable projections
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "scripts/publish_$PROJECT.py" --evidence "$RUNNER_TEMP/evidence" --destination "$RUNNER_TEMP/evidence/readable/runs" --run-id "${{ github.run_id }}" --runtime-sha "$SDLC_SOURCE_SHA"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: project-${{ matrix.project }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence/
+          if-no-files-found: error
+          retention-days: 30
+  publish:
+    needs: [freeze-source, strict-runtime, real-project]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      SOURCE: ${{ needs.freeze-source.outputs.source }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: project-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/results
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict
+      - name: Recheck common source and every archived readable file
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil
+          run=os.environ['GITHUB_RUN_ID'];temp=Path(os.environ['RUNNER_TEMP']);source=os.environ['SOURCE']
+          for case,prefix in [('admin','ADMIN'),('springgear','SPRINGGEAR'),('fansite','FANSITE')]:
+              base=temp/'results'/f'project-{case}-{run}'
+              assert (base/'runtime-source.sha').read_text().strip()==source
+              folder=base/'readable/runs'/f'{prefix}-{run}'
+              manifest=json.loads((folder/'SHA256SUMS.json').read_text())
+              for rel,digest in manifest.items():
+                  path=folder/rel;path.resolve(strict=True).relative_to(folder.resolve())
+                  assert not path.is_symlink() and hashlib.sha256(path.read_bytes()).hexdigest()==digest
+              dest=Path('runs')/folder.name;assert not dest.exists();shutil.copytree(folder,dest)
+          strict=temp/'strict';assert (strict/'source.sha').read_text().strip()==source
+          report=json.loads((strict/'strict.json').read_text());assert report['success'] and report['source_sha']==source
+          shutil.copytree(strict,Path('runs')/f'RUNTIME-{run}')
+          text=f'# Three real project closures\n\nRuntime `{source}`. All three current lifecycles and strict regression passed before publication.\n\n'
+          for name,prefix in [('Admin','ADMIN'),('SpringGear JDK21','SPRINGGEAR'),('Fan site','FANSITE')]:text+=f'- [{name} complete evidence](../{prefix}-{run}/README.md)\n'
+          text+=f'\n[Strict original report](../RUNTIME-{run}/strict.json). RLS is local Sandbox, not production deployment. Native Codex installation and independent AI semantic review are not certified.\n'
+          out=Path('runs')/f'CLOSURE-{run}';out.mkdir();(out/'README.md').write_text(text)
+          PY
+      - name: Commit only verified readable results with branch compare-and-swap
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = verify/fansite-closure-v1
+          test "$(git ls-remote origin refs/heads/verify/fansite-closure-v1 | cut -f1)" = "$GITHUB_SHA"
+          git add -- runs
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: publish three verified real lifecycles on one exact runtime'
+          git push origin HEAD:refs/heads/verify/fansite-closure-v1
