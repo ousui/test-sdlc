@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "runtime_repository": "ousui/sdlc-ai-spec",
+  "verified_branch": "verified/three-project-closure-20260907",
+  "runtime_source_sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+  "runtime_source_tree": "a3c306d0f39d37211b32c4518de61b24183d7d32",
+  "verified_ref_created_after_archive_readback": true,
+  "verified_ref_readback_sha": "eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4",
+  "evidence_repository": "ousui/test-sdlc",
+  "evidence_branch": "verify/fansite-closure-v1",
+  "published_evidence_commit": "4cb30d4b0f163887adea7c90e8c2de5f1d00a8b8",
+  "executed_test_source_sha": "849783ddbc9b2ffd5300e3b1582049a390a2e2a8",
+  "closure_summary": "runs/CLOSURE-eff4ac2-20260907/README.md",
+  "verification_receipt": "runs/CLOSURE-eff4ac2-20260907/verification.json",
+  "archive": {
+    "workflow": "three-project-closure",
+    "run_id": 34131105815,
+    "conclusion": "success",
+    "artifact_id": 10022101506,
+    "name": "three-project-closure-34131105815",
+    "zip_bytes": 34288141,
+    "zip_sha256": "2232f36c319c72d23800cab841453ad8bd7cd0acc52a0b112f86100706919145",
+    "readback_verified_member_files": 1073,
+    "artifact_expires_at": "2026-10-07T14:06:39Z",
+    "contents": "Four original execution ZIPs, runtime source bundles, identical test source archives, authored inputs, complete recovery state, readable artifacts, final application sources, original job metadata and per-file hashes."
+  },
+  "results": {
+    "strict": {"tests": 1092, "passed": 1092, "failures": 0, "errors": 0, "skipped": 0, "expected_failures": 0, "unexpected_successes": 0},
+    "admin": {"tests": 13, "status": "CLOSED", "run_id": 34129304795},
+    "springgear_jdk21": {"tests": 10, "status": "CLOSED", "run_id": 34129631361},
+    "fansite": {"tests": 24, "status": "CLOSED", "run_id": 34129304795}
+  },
+  "history": {
+    "unmaterialized_transport_run": 34125913644,
+    "mixed_execution_run": 34129304795,
+    "mixed_execution_run_conclusion": "failure",
+    "continuation_reason": "SpringGear preparation used invalid CLI arguments before any project effect. Only its missing execution was continued; the successful strict, Admin and fansite jobs were retained without replay.",
+    "archive_new_skill_executions": 0,
+    "archive_new_product_or_release_effects": 0
+  },
+  "old_baseline_preserved": {
+    "branch": "verified/admin-springgear-20260907",
+    "sha": "0102b8f42a87809f58f978e2c2611705b30e7869"
+  },
+  "main_or_fixed_full_verify_written_by_this_work": false,
+  "scope": "Formal Runtime CLI lifecycle, strict OS-contained execution and local Sandbox release state only. Not production deployment, native-client installation/discovery, independent AI semantic review, or human browser acceptance."
+}
