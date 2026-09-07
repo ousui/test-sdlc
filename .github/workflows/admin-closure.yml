@@ -5,6 +5,8 @@ on:
     paths: [.github/workflows/admin-closure.yml]
 permissions:
   contents: read
+env:
+  SDLC_SOURCE_SHA: 0102b8f42a87809f58f978e2c2611705b30e7869
 concurrency:
   group: admin-closure
   cancel-in-progress: false
@@ -12,8 +14,6 @@ jobs:
   real-lifecycle:
     runs-on: ubuntu-22.04
     timeout-minutes: 20
-    env:
-      SDLC_SOURCE_SHA: 5578cd109f57f69be72775b462223e3a1bc429a8
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,14 +23,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ousui/sdlc-ai-spec
-          ref: 5578cd109f57f69be72775b462223e3a1bc429a8
+          ref: ${{ env.SDLC_SOURCE_SHA }}
           fetch-depth: 0
           path: _spec
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Prepare dependencies and supported OS containment outside runtime
+      - name: Prepare dependencies and supported containment outside runtime
         shell: bash
         run: |
           set -euo pipefail
@@ -44,7 +44,7 @@ jobs:
             for package in bubblewrap_*.deb; do dpkg-deb -x "$package" extracted; done
             echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
           fi
-      - name: Freeze runtime resources and source provenance
+      - name: Freeze exact runtime resources and source provenance
         shell: bash
         run: |
           set -euo pipefail
@@ -64,7 +64,7 @@ jobs:
           (Path(os.environ['RUNNER_TEMP'])/'admin-evidence/runtime-files.json').write_text(json.dumps(rows,sort_keys=True,indent=2))
           PY
           { python --version; bwrap --version; } > "$RUNNER_TEMP/admin-evidence/environment.txt" 2>&1
-      - name: Execute authored requirement through CTX REQ DSN PLN IMP VFY RLS Status
+      - name: Execute authored requirement through all lifecycle phases
         shell: bash
         run: |
           set -euo pipefail
@@ -108,7 +108,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/publish_admin.py --evidence _evidence --destination runs --run-id "$GITHUB_RUN_ID" --runtime-sha 5578cd109f57f69be72775b462223e3a1bc429a8
+          python3 scripts/publish_admin.py --evidence _evidence --destination runs --run-id "$GITHUB_RUN_ID" --runtime-sha "$SDLC_SOURCE_SHA"
           test "$GITHUB_REF_NAME" = verify/admin-springgear-closure-v1
           test "$(git ls-remote origin refs/heads/verify/admin-springgear-closure-v1 | cut -f1)" = "$GITHUB_SHA"
           git add -- "runs/ADMIN-$GITHUB_RUN_ID"
