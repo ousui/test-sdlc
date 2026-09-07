@@ -18,27 +18,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ousui/sdlc-ai-spec
-          ref: fix/fansite-closure-v1
+          ref: eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4
           fetch-depth: 0
           persist-credentials: false
-      - name: Wait only for the exact tested source tree, then freeze its commit
+      - name: Verify the materialized repair commit and complete source tree
         id: freeze
         shell: bash
         run: |
           set -euo pipefail
-          for attempt in $(seq 1 60); do
-            git fetch --no-tags origin refs/heads/fix/fansite-closure-v1
-            source=$(git rev-parse FETCH_HEAD)
-            if test "$(git rev-parse "$source^{tree}")" = 652a323db774b4a29b8a5fccf8a8bf3f5c4fd2af; then
-              git merge-base --is-ancestor 0102b8f42a87809f58f978e2c2611705b30e7869 "$source"
-              echo "source=$source" >> "$GITHUB_OUTPUT"
-              echo "Exact runtime source: $source"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo 'No exact verified candidate tree was published; no case will run or be reported PASS.' >&2
-          exit 1
+          source=eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4
+          test "$(git rev-parse HEAD)" = "$source"
+          test "$(git rev-parse HEAD^{tree})" = a3c306d0f39d37211b32c4518de61b24183d7d32
+          git merge-base --is-ancestor 0102b8f42a87809f58f978e2c2611705b30e7869 "$source"
+          test -z "$(git status --porcelain --untracked-files=all)"
+          echo "source=$source" >> "$GITHUB_OUTPUT"
+          echo "Exact materialized runtime source: $source"
   strict-runtime:
     needs: freeze-source
     runs-on: ubuntu-22.04
@@ -72,7 +66,7 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$SOURCE"
           echo "$SOURCE" > "$RUNNER_TEMP/strict/source.sha"
-          python3 -B tools/validate.py --profile full --strict --source-sha "$SOURCE" --json-out "$RUNNER_TEMP/strict/strict.json" 2>&1 | tee "$RUNNER_TEMP/strict/strict.log"
+          python3 -B tools/validate.py --profile strict --source-sha "$SOURCE" --json-out "$RUNNER_TEMP/strict/strict.json" 2>&1 | tee "$RUNNER_TEMP/strict/strict.log"
           test -z "$(git status --porcelain --untracked-files=all)"
       - uses: actions/upload-artifact@v4
         if: always()
