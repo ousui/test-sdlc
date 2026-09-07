@@ -138,7 +138,14 @@ class ScenarioIO:
                 r=self.invoke('500-vfy','create',{'persist':True,'run_automated':False,'candidate':candidate},inputs=[plan,terminal])
                 assert r.get('ok'),r
                 pending=self.reference(r);self.state['pending']['VFY']=pending;self.save()
-            r=self.invoke('500-vfy','run',{'persist':True,'allow_commands':True,'finalize':False},reference=pending)
+            # Route only an observed failure, never invent a failing result. The
+            # coordinator must inspect its exact evidence before choosing a repair.
+            failure_returns={method['id']:{'return_phase':'PLN',
+                'observed_gap':'The declared automated method returned a non-passing observation; its exact evidence identifies the diagnostic cause.',
+                'required_outcome':'Resolve execution readiness or route the observed implementation defect, then reverify this complete scope.'}
+                for method in candidate['methods']}
+            r=self.invoke('500-vfy','run',{'persist':True,'allow_commands':True,'finalize':False,
+                'failure_returns':failure_returns},reference=pending)
             assert r.get('ok') and r['product_result']=='pass',r
             sys.path.insert(0,str(self.runtime/'skills/sdlc-500-vfy/scripts'))
             from vfy_handler import VfyHandler
