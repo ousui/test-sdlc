@@ -1,0 +1,46 @@
+from packages.sdlc_runtime.canonical import parse_markdown_tables
+import re
+s=stored(dsref);tables=list(parse_canonical_artifact(s.payload.primary_blob).tables)
+for m in s.payload.members:
+ if m.media_type=='text/markdown':tables.extend(parse_markdown_tables(m.raw_bytes.decode()))
+obligations=[]
+for t in tables:
+ for row in t.rows:
+  item=row.get('ID') or row.get('Change ID')
+  if isinstance(item,str) and re.fullmatch(r'(?:CHG|VFP|OBJ|OBL|EX|R|AC)-[A-Za-z0-9._-]+',item):
+   rr=f'{dsref}#{item}'
+   if rr not in obligations:obligations.append(rr)
+change1=f'{dsref}#CHG-001';change2=f'{dsref}#CHG-002';pointrefs=[x for x in obligations if '#VFP-' in x]
+work=[]
+for number,phase,outcome,sources,depends,completion,evidence,role in [
+ (1,'IMP','Implement account availability, protected admin editing, revocation and additive SQLite migration.',[change1],[], 'Current application code handles enabled status, session revocation and legacy data without broadening access.','Immutable source snapshot and syntax/current-content checks.','Application developer'),
+ (2,'IMP','Add reproducible account lifecycle tests and local usage documentation.',[change2],['WI-001'],'Executable tests and documentation exist on top of the exact first implementation result.','Immutable test source, syntax checks and actual functional test output.','Application test developer'),
+ (3,'VFY','Verify and validate the complete current requirement and design scope.',pointrefs,['WI-002'],'All required objectives have current real method evidence with passing verification and validation.','Actual current-subject method logs, assertion identities and VFY conclusions.','Verification executor'),
+ (4,'RLS','Deliver the verified result to a disposable local sandbox and confirm its exact version.',[change1],['WI-003'],'The current VFY-approved candidate is applied to the authorized local target and its version matches.','Release effect observation, target version readback and terminal lifecycle status.','Local release executor')]:
+ work.append({'id':f'WI-{number:03d}','target_phase':phase,'outcome':outcome,'execution_scope':['resource:RSC-001']+(['environment:ENV-001'] if phase=='RLS' else []),'source_references':sources,'constraint_references':[],'depends_on':depends,'completion_criteria':completion,'expected_evidence':evidence,'responsible_role':role})
+plan={'title':'Ordered account lifecycle delivery','summary':'Two sequential same-resource implementation work items followed by complete-scope verification and local sandbox delivery.','profile':'full','pln_disposition':'required','delivery_scope':[{'source_artifact_reference':dsref,'inclusion_basis':'Entire confirmed account-availability design; no selected-item truncation.'}],'obligations':obligations,'work_items':work,'aggregated_applicability':[],'lifecycle_applicability':[{'phase':ph,'disposition':'required','host':'N/A','basis':'Consume complete design scope and preserve the ordered resource result chain.'} for ph in ('IMP','VFY','RLS')],'open_items':[],'exceptions':[],'evidence':[],'supporting_members':[]}
+plnref=finish('300-pln',{'plan':plan},[dsref])
+if a.until=='PLN':raise SystemExit(0)
+
+# Each implementation is a real formal Claim; no source mutation by this driver.
+# Candidate files are outside the working product and become declared preconditioned operations.
+CONSIDERATIONS=('Calculation Rules','Decision Rules','State Transitions','Algorithm & Invariants','Data Contract & Transformation','Boundary & Failure Handling','Effects & Consistency')
+def implementation(number):
+ files=['main.py','templates/auth.html','templates/my_master.html'] if number==1 else ['test_enabled.py','ACCOUNT-STATUS.md']
+ if number==2 and not (CASE/'candidate/ACCOUNT-STATUS.md').exists():
+  (CASE/'candidate/ACCOUNT-STATUS.md').write_text('''# Account availability\n\nStart locally with an externally supplied ADMIN_DEMO_SECRET and SQLite configuration.\nAll enabled authenticated users retain the upstream teaching example manager privilege;\nthis is not a production RBAC system. Edit and filter Enabled in the user model view.\nDisabling rotates the login identity; re-enabling never revives an old cookie.\nSQLite migration is additive and idempotent, never drops or re-seeds existing rows.\nRun `python3 -m unittest test_enabled -v` using the prepared dependency lock.\nThirteen tests cover real requests, CSRF, old cookies, restart and legacy migration.\nNo deployment, external accounts, or production credentials are required.\n''')
+ ops=[]
+ for name in files:
+  current=WORK/'source'/name
+  # On a resumed invocation preserve the original exact operation prefix.
+  ops.append({'resource':'RSC-001','path':name,'step':'STEP-001','op':'write_text','expected_sha256':'sha256:'+hashlib.sha256(current.read_bytes()).hexdigest() if current.exists() else 'absent','content':(CASE/'candidate'/name).read_text()})
+ blocks=[
+ {'consideration':'Boundary & Failure Handling','id':'ERR-001','trigger':'An invalid login, forged/disabled session, missing CSRF or schema initialization error.','classification':'Reject invalid/unauthorized requests; treat migration errors as failures rather than default success.','handling':'Validate before mutation, retain existing account data and report actionable errors without sensitive values.','observable_result':'Rejected request does not change stored state; failed initialization does not drop rows.','recovery':'Correct the input or isolated configuration, rerun the exact failed request and regression.'},
+ {'consideration':'Effects & Consistency','id':'EFF-001','resource_or_effect':'Declared application resource and its isolated test database','order_and_condition':'Read the exact predecessor result and precondition every source write; tests use fresh database state.','consistency_or_atomicity':'Account availability and session identifier rotate within one transaction; source effects remain recorded by IMP.','idempotency':'Same completed operation is not repeated; migration and repeated disable do not re-seed or resurrect data.','failure_handling':'Keep failed evidence and source state; never claim VFY success from an IMP syntax check.'}]
+ if number==1:
+  blocks=[
+   {'consideration':'Decision Rules','id':'DEC-001','rules':[{'id':'DR-001','priority':'1','conditions':'account missing or disabled, invalid form, or CSRF rejected','outcome':'Reject authentication or mutation without changes'},{'id':'DR-002','priority':'2','conditions':'DEFAULT','outcome':'Allow existing authenticated-manager workflow after validation'}]},
+   {'consideration':'State Transitions','id':'STA-001','transitions':[{'id':'TR-001','current':'enabled','event':'manager disables','next':'disabled','effect':'Persist flag and new alternative login identity in one transaction','illegal_handling':'Reject unauthorized/invalid request'},{'id':'TR-002','current':'disabled','event':'manager enables','next':'enabled','effect':'Retain rotated identity; require fresh login','illegal_handling':'Old cookie remains invalid'}]},
+   {'consideration':'Algorithm & Invariants','id':'ALG-001','inputs':'Validated account and form fields; current stored enabled flag and alternative identity.','outputs':'Updated availability or authenticated enabled account, never credential bytes in responses.','invariants':'A disabled account cannot authenticate; re-enable cannot restore an old login identifier; existing database row IDs are preserved.','scale_or_limits':'One account lookup per protected request; bounded teaching application with no new capacity guarantee.','pseudocode':'Validate request; load account; reject disabled or invalid; on true-to-false rotate identity; commit flag plus identity; reload state on later requests.'},
+   {'consideration':'Data Contract & Transformation','id':'MAP-001','mappings':[{'source':'Existing user row without enabled column','target':'User row with enabled flag','transformation':'Add column with true default without drop/reseed','validation':'Inspect table columns and preserve row identity','null_or_default':'Existing rows become enabled; new rows default true'},{'source':'Availability form update','target':'enabled and alternative_id','transformation':'On disable rotate login identity once','validation':'CSRF and authenticated enabled-manager checks precede mutation','null_or_default':'Missing or invalid fields are rejected'}]},*blocks]
+ names=[n for n in CONSIDERATIONS if any(b['consideration']==n for b in blocks)]
