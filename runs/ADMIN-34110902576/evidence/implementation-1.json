@@ -1,0 +1,230 @@
+{
+  "considerations": [
+    {
+      "name": "Calculation Rules",
+      "disposition": "n/a",
+      "basis": "Use existing password-hashing library, no new calculation rule.",
+      "steps": [],
+      "exception": "N/A"
+    },
+    {
+      "name": "Decision Rules",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "State Transitions",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Algorithm & Invariants",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Data Contract & Transformation",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Boundary & Failure Handling",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    },
+    {
+      "name": "Effects & Consistency",
+      "disposition": "required",
+      "basis": "Required by account state, revocation and test consistency.",
+      "steps": [
+        "STEP-001"
+      ],
+      "exception": "N/A"
+    }
+  ],
+  "steps": [
+    {
+      "id": "STEP-001",
+      "order": 1,
+      "purpose": "Implement account availability, protected admin editing, revocation and additive SQLite migration.",
+      "target": [
+        "resource:RSC-001"
+      ],
+      "basis_references": [
+        "PLN-20260907102038-01@1#WI-001",
+        "DSN-20260907102037-01@2#CHG-001"
+      ],
+      "considerations": [
+        "Decision Rules",
+        "State Transitions",
+        "Algorithm & Invariants",
+        "Data Contract & Transformation",
+        "Boundary & Failure Handling",
+        "Effects & Consistency"
+      ],
+      "logic": [
+        "Read the exact current baseline and declared design.",
+        "Apply only the preconditioned implementation files.",
+        "Execute the declared local checks, retaining actual output and immutable final source."
+      ],
+      "expected_result": "Current application code handles enabled status, session revocation and legacy data without broadening access.",
+      "transaction_boundary": "One bounded source implementation work item; request-time data transactions follow the approved design.",
+      "failure_boundary": "Any failed precondition, source check or test leaves a visible incomplete work item.",
+      "blocks": [
+        {
+          "consideration": "Decision Rules",
+          "id": "DEC-001",
+          "rules": [
+            {
+              "id": "DR-001",
+              "priority": "1",
+              "conditions": "account missing or disabled, invalid form, or CSRF rejected",
+              "outcome": "Reject authentication or mutation without changes"
+            },
+            {
+              "id": "DR-002",
+              "priority": "2",
+              "conditions": "DEFAULT",
+              "outcome": "Allow existing authenticated-manager workflow after validation"
+            }
+          ]
+        },
+        {
+          "consideration": "State Transitions",
+          "id": "STA-001",
+          "transitions": [
+            {
+              "id": "TR-001",
+              "current": "enabled",
+              "event": "manager disables",
+              "next": "disabled",
+              "effect": "Persist flag and new alternative login identity in one transaction",
+              "illegal_handling": "Reject unauthorized/invalid request"
+            },
+            {
+              "id": "TR-002",
+              "current": "disabled",
+              "event": "manager enables",
+              "next": "enabled",
+              "effect": "Retain rotated identity; require fresh login",
+              "illegal_handling": "Old cookie remains invalid"
+            }
+          ]
+        },
+        {
+          "consideration": "Algorithm & Invariants",
+          "id": "ALG-001",
+          "inputs": "Validated account and form fields; current stored enabled flag and alternative identity.",
+          "outputs": "Updated availability or authenticated enabled account, never credential bytes in responses.",
+          "invariants": "A disabled account cannot authenticate; re-enable cannot restore an old login identifier; existing database row IDs are preserved.",
+          "scale_or_limits": "One account lookup per protected request; bounded teaching application with no new capacity guarantee.",
+          "pseudocode": "Validate request; load account; reject disabled or invalid; on true-to-false rotate identity; commit flag plus identity; reload state on later requests."
+        },
+        {
+          "consideration": "Data Contract & Transformation",
+          "id": "MAP-001",
+          "mappings": [
+            {
+              "source": "Existing user row without enabled column",
+              "target": "User row with enabled flag",
+              "transformation": "Add column with true default without drop/reseed",
+              "validation": "Inspect table columns and preserve row identity",
+              "null_or_default": "Existing rows become enabled; new rows default true"
+            },
+            {
+              "source": "Availability form update",
+              "target": "enabled and alternative_id",
+              "transformation": "On disable rotate login identity once",
+              "validation": "CSRF and authenticated enabled-manager checks precede mutation",
+              "null_or_default": "Missing or invalid fields are rejected"
+            }
+          ]
+        },
+        {
+          "consideration": "Boundary & Failure Handling",
+          "id": "ERR-001",
+          "trigger": "An invalid login, forged/disabled session, missing CSRF or schema initialization error.",
+          "classification": "Reject invalid/unauthorized requests; treat migration errors as failures rather than default success.",
+          "handling": "Validate before mutation, retain existing account data and report actionable errors without sensitive values.",
+          "observable_result": "Rejected request does not change stored state; failed initialization does not drop rows.",
+          "recovery": "Correct the input or isolated configuration, rerun the exact failed request and regression."
+        },
+        {
+          "consideration": "Effects & Consistency",
+          "id": "EFF-001",
+          "resource_or_effect": "Declared application resource and its isolated test database",
+          "order_and_condition": "Read the exact predecessor result and precondition every source write; tests use fresh database state.",
+          "consistency_or_atomicity": "Account availability and session identifier rotate within one transaction; source effects remain recorded by IMP.",
+          "idempotency": "Same completed operation is not repeated; migration and repeated disable do not re-seed or resurrect data.",
+          "failure_handling": "Keep failed evidence and source state; never claim VFY success from an IMP syntax check."
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "RSC-001",
+      "root": "source"
+    }
+  ],
+  "operations": [
+    {
+      "resource": "RSC-001",
+      "path": "main.py",
+      "step": "STEP-001",
+      "op": "write_text",
+      "expected_sha256": "sha256:e1a2b0d8810b3e76377a226e77e11c254df633d9abad60729311ef0511264fe4",
+      "content": "\"\"\"Flask-Admin auth_flask_login example with durable enabled-user revocation.\n\nUpstream: pallets-eco/flask-admin@7fee0246b05476fb6bc38e44bcfb7cc87b978853.\nThis remains a local teaching example: all enabled authenticated users are managers.\n\"\"\"\nimport os\nfrom datetime import timedelta\nfrom uuid import uuid4\nfrom urllib.parse import urlsplit\n\nimport flask_login\nfrom flask import Flask, abort, current_app, flash, redirect, render_template, request, url_for\nfrom flask_admin import Admin, AdminIndexView, expose\nfrom flask_admin.contrib.sqla import ModelView\nfrom flask_admin.form import SecureForm\nfrom flask_admin.theme import Bootstrap4Theme\nfrom flask_sqlalchemy import SQLAlchemy\nfrom flask_wtf import CSRFProtect, FlaskForm\nfrom sqlalchemy import Boolean, Integer, String, event, inspect, text\nfrom sqlalchemy.orm import Mapped, mapped_column\nfrom werkzeug.security import check_password_hash, generate_password_hash\nfrom wtforms import fields, validators, PasswordField\n\ndb = SQLAlchemy()\nlogin_manager = flask_login.LoginManager()\ncsrf = CSRFProtect()\n\n\nclass User(db.Model, flask_login.UserMixin):\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    username: Mapped[str] = mapped_column(String(80), unique=True, index=True)\n    _password: Mapped[str] = mapped_column(String(256), nullable=True)\n    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text('1'))\n    alternative_id: Mapped[str] = mapped_column(String(32), default=lambda: uuid4().hex, index=True)\n\n    @property\n    def is_active(self):\n        return bool(self.enabled)\n\n    @property\n    def password(self):\n        return self._password\n\n    @password.setter\n    def password(self, value):\n        if not value:\n            return\n        if self._password is None or not self.check_password(value):\n            self._password = generate_password_hash(value, method='pbkdf2:sha256:600000')\n            self.alternative_id = uuid4().hex\n\n    def check_password(self, value):\n        return bool(self._password and value is not None and check_password_hash(self._password, value))\n\n    def get_id(self):\n        return self.alternative_id\n\n    def __repr__(self):\n        return self.username\n\n    @staticmethod\n    def get(value, field):\n        if field not in {'username', 'alternative_id', 'id'}:\n            raise ValueError('Unsupported user lookup')\n        return db.session.execute(db.select(User).where(getattr(User, field) == value)).scalar_one_or_none()\n\n\n@event.listens_for(User, 'before_update')\ndef revoke_disabled_sessions(mapper, connection, target):\n    \"\"\"The status and revocation marker persist in the same SQL transaction.\"\"\"\n    history = inspect(target).attrs.enabled.history\n    if history.has_changes() and target.enabled is False:\n        target.alternative_id = uuid4().hex\n\n\n@login_manager.user_loader\ndef load_user(alternative_id):\n    user = User.get(alternative_id, 'alternative_id')\n    return user if user is not None and user.enabled else None\n\n\nclass LoginForm(FlaskForm):\n    username = fields.StringField(validators=[validators.InputRequired(), validators.Length(max=80)])\n    password = fields.PasswordField(validators=[validators.InputRequired(), validators.Length(max=256)])\n    user = None\n\n    def validate_password(self, field):\n        self.user = User.get(self.username.data, 'username')\n        if not self.user or not self.user.enabled or not self.user.check_password(field.data):\n            raise validators.ValidationError('Invalid credentials or inactive account')\n\n\nclass RegistrationForm(FlaskForm):\n    username = fields.StringField(validators=[validators.InputRequired(), validators.Length(min=1, max=80)])\n    password = fields.PasswordField(validators=[validators.InputRequired(), validators.Length(min=10, max=256)])\n\n    def validate_username(self, field):\n        if User.get(field.data.strip(), 'username'):\n            raise validators.ValidationError('Username already taken')\n        if not field.data.strip():\n            raise validators.ValidationError('Username is required')\n        field.data = field.data.strip()\n\n\nclass AdminFlaskForm(FlaskForm):\n    \"\"\"Keep Flask-Admin's object identity while using Flask-WTF CSRF tokens.\"\"\"\n    def __init__(self, formdata=None, obj=None, prefix=\"\", **kwargs):\n        self._obj = obj\n        super().__init__(formdata=formdata, obj=obj, prefix=prefix, **kwargs)\n\n\nclass MyModelView(ModelView):\n    form_base_class = AdminFlaskForm\n    column_list = ('username', 'enabled')\n    column_filters = ('enabled',)\n    column_exclude_list = ('_password', 'alternative_id')\n    column_editable_list = ('username',)\n    form_columns = ('username', 'enabled', 'password')\n    form_extra_fields = {'password': PasswordField('Password')}\n    form_args = {'username': {'validators': [validators.InputRequired(), validators.Length(max=80)]}}\n\n    def is_accessible(self):\n        return flask_login.current_user.is_authenticated and flask_login.current_user.is_active\n\n    def inaccessible_callback(self, name, **kwargs):\n        return redirect(url_for('admin.login_view'))\n\n\nclass MyAdminIndexView(AdminIndexView):\n    @expose('/')\n    def index(self):\n        if not flask_login.current_user.is_authenticated:\n            return redirect(url_for('.login_view'))\n        return super().index()\n\n    @expose('/login/', methods=('GET', 'POST'))\n    def login_view(self):\n        if flask_login.current_user.is_authenticated:\n            return redirect(url_for('.index'))\n        form = LoginForm()\n        if form.validate_on_submit():\n            flask_login.login_user(form.user)\n            target = request.args.get('next', '')\n            parsed = urlsplit(target)\n            if target.startswith('/') and not target.startswith('//') and not parsed.netloc and not parsed.scheme and '\\\\' not in target:\n                return redirect(target)\n            return redirect(url_for('.index'))\n        return self.render('auth.html', form=form, title='Log in', alternate='admin.register_view')\n\n    @expose('/register/', methods=('GET', 'POST'))\n    def register_view(self):\n        if not current_app.config['ALLOW_REGISTRATION']:\n            abort(404)\n        form = RegistrationForm()\n        if form.validate_on_submit():\n            user = User(username=form.username.data, password=form.password.data, enabled=True)\n            try:\n                db.session.add(user)\n                db.session.commit()\n            except Exception:\n                db.session.rollback()\n                form.username.errors.append('Unable to create this account')\n            else:\n                flask_login.login_user(user)\n                return redirect(url_for('.index'))\n        return self.render('auth.html', form=form, title='Register', alternate='admin.login_view')\n\n    @expose('/logout/', methods=('POST',))\n    def logout_view(self):\n        flask_login.logout_user()\n        return redirect(url_for('.login_view'))\n\n\ndef migrate_database():\n    \"\"\"Idempotent additive SQLite migration. Never drops or reseeds existing data.\"\"\"\n    if db.engine.dialect.name != 'sqlite':\n        raise RuntimeError('This example supports only a local SQLite database')\n    with db.engine.begin() as connection:\n        inspector = inspect(connection)\n        if 'user' in inspector.get_table_names():\n            names = {column['name'] for column in inspector.get_columns('user')}\n            if 'enabled' not in names:\n                connection.exec_driver_sql('ALTER TABLE user ADD COLUMN enabled BOOLEAN NOT NULL DEFAULT 1')\n    db.create_all()\n\n\ndef create_app(config=None):\n    app = Flask(__name__)\n    app.config.update(\n        SECRET_KEY=os.environ.get('ADMIN_DEMO_SECRET'),\n        SQLALCHEMY_DATABASE_URI=os.environ.get('ADMIN_DEMO_DATABASE', 'sqlite:///admin.sqlite'),\n        SQLALCHEMY_TRACK_MODIFICATIONS=False,\n        SQLALCHEMY_ECHO=False,\n        SESSION_COOKIE_HTTPONLY=True,\n        SESSION_COOKIE_SAMESITE='Lax',\n        SESSION_COOKIE_SECURE=False,\n        PERMANENT_SESSION_LIFETIME=timedelta(hours=8),\n        WTF_CSRF_TIME_LIMIT=3600,\n        MAX_CONTENT_LENGTH=64 * 1024,\n        ALLOW_REGISTRATION=True,\n    )\n    if config:\n        app.config.update(config)\n    if not app.config.get('SECRET_KEY') or len(app.config['SECRET_KEY']) < 32:\n        raise RuntimeError('Provide an instance-specific secret of at least 32 characters')\n    db.init_app(app)\n    login_manager.init_app(app)\n    csrf.init_app(app)\n    admin = Admin(app, name='Enabled-user demonstration', index_view=MyAdminIndexView(),\n                  theme=Bootstrap4Theme(base_template='my_master.html', fluid=True))\n    admin.add_view(MyModelView(User, db.session))\n    app.add_url_rule('/', 'index', lambda: render_template('index.html'))\n    with app.app_context():\n        migrate_database()\n    return app\n\n\nif __name__ == '__main__':\n    create_app().run(host='127.0.0.1', port=5000, debug=False)\n"
+    },
+    {
+      "resource": "RSC-001",
+      "path": "templates/auth.html",
+      "step": "STEP-001",
+      "op": "write_text",
+      "expected_sha256": "absent",
+      "content": "{% extends 'admin/master.html' %}\n{% block body %}<h1>{{ title }}</h1><form method=\"post\">{{ form.hidden_tag() }}{% for f in form if f.type != 'CSRFTokenField' %}<p>{{ f.label }} {{ f }}{% for e in f.errors %}<span>{{ e }}</span>{% endfor %}</p>{% endfor %}<button type=\"submit\">Submit</button></form><a href=\"{{ url_for(alternate) }}\">Switch login / registration</a>{% endblock %}\n"
+    },
+    {
+      "resource": "RSC-001",
+      "path": "templates/my_master.html",
+      "step": "STEP-001",
+      "op": "write_text",
+      "expected_sha256": "sha256:d2e761a1755252917b400875a55174f1ab6714d91606864f79908377bbd01844",
+      "content": "{% extends 'admin/base.html' %}\n{% block access_control %}{% if current_user.is_authenticated %}<span>{{ current_user.username }}</span><form method=\"post\" action=\"{{ url_for('admin.logout_view') }}\"><input name=\"csrf_token\" type=\"hidden\" value=\"{{ csrf_token() }}\"><button type=\"submit\">Log out</button></form>{% endif %}{% endblock %}\n"
+    }
+  ],
+  "checks": [
+    {
+      "id": "CHK-001",
+      "name": "Parse application Python source",
+      "resource": "RSC-001",
+      "kind": "python_syntax",
+      "path": "main.py"
+    }
+  ],
+  "design_decision_references": [
+    "DSN-20260907102037-01@2#DEC-001"
+  ],
+  "exceptions": [],
+  "open_items": []
+}

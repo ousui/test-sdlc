@@ -1,0 +1,14 @@
+{
+  "type": "final_confirmation",
+  "result": "approved",
+  "mode": "delegated",
+  "confirmer": "deterministic-review-process:2374",
+  "role": "Delegated Independent Reviewer",
+  "reviewed_executor": "web-realflow-admin-executor",
+  "authority_reference": ".sdlc/authority/VFY-20260907102054-01-r1-2374.md@sha256:184f2a9c864bceccea94f286bcdf2865d8043ec5bc496a679b263be5e197a083",
+  "accepted_exception_references": [],
+  "confirmed_at": "2026-09-07T10:21:03+00:00",
+  "control_input_digest": "sha256:23cb805bd1eb402a75ff7d6c23eee06439ec10382354f3a8a5bf5691567ccffb",
+  "evaluation_contract_set": "docs/v1.1/500-vfy-spec.md@sha256:ea0aa412195b1d9f68b74dc39506e5aae635aa599f9099be3b2780f7508e6aad, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+  "check_set_result_digest": "sha256:55a4ca9296323e06cf21b5e2823f64a01feee8e70b1aaee28ea431501ec49c78"
+}

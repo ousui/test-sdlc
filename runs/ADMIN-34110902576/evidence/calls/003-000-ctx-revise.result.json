@@ -1,0 +1,22 @@
+{
+  "artifact": {
+    "artifact_status": "ready",
+    "id": "CTX-20260907102036-01",
+    "reference": "CTX-20260907102036-01@1",
+    "revision": 1,
+    "revision_state": "frozen",
+    "type": "CTX"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pass"
+  },
+  "next_action": null,
+  "ok": true,
+  "open_items": [],
+  "operation": "revise",
+  "status": "completed",
+  "warnings": []
+}
