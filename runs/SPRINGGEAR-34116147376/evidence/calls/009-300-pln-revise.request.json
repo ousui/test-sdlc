@@ -1,0 +1,148 @@
+{
+  "inputs": {
+    "plan": {
+      "title": "SpringGear ordered JDK21 migration",
+      "summary": "Build alignment, executable behavior tests, full verification and local Sandbox release.",
+      "profile": "full",
+      "pln_disposition": "required",
+      "delivery_scope": [
+        {
+          "source_artifact_reference": "DSN-20260907112126-01@1",
+          "inclusion_basis": "Complete selected JDK21 design; no partial obligation selection."
+        }
+      ],
+      "obligations": [
+        "DSN-20260907112126-01@1#CHG-001",
+        "DSN-20260907112126-01@1#CHG-002",
+        "DSN-20260907112126-01@1#VFP-210-001",
+        "DSN-20260907112126-01@1#VFP-220-001",
+        "DSN-20260907112126-01@1#VFP-340-001",
+        "DSN-20260907112126-01@1#VFP-350-001",
+        "DSN-20260907112126-01@1#VFP-410-001"
+      ],
+      "work_items": [
+        {
+          "id": "WI-001",
+          "target_phase": "IMP",
+          "outcome": "Align the reactor build and processor dependencies for JDK21.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907112126-01@1#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [],
+          "completion_criteria": "POMs explicitly target JDK21 and retain public Java source.",
+          "expected_evidence": "Exact preconditioned POM changes and content checks.",
+          "responsible_role": "Java maintainer"
+        },
+        {
+          "id": "WI-002",
+          "target_phase": "IMP",
+          "outcome": "Add and execute JDK21 behavior regression and migration instructions.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907112126-01@1#CHG-002"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-001"
+          ],
+          "completion_criteria": "Ten real compatibility tests and migration notes exist and Maven verify succeeds.",
+          "expected_evidence": "Current immutable result, actual Maven test output and packaging log.",
+          "responsible_role": "Java maintainer"
+        },
+        {
+          "id": "WI-003",
+          "target_phase": "VFY",
+          "outcome": "Verify the full current migration requirement and design.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907112126-01@1#VFP-210-001",
+            "DSN-20260907112126-01@1#VFP-220-001",
+            "DSN-20260907112126-01@1#VFP-340-001",
+            "DSN-20260907112126-01@1#VFP-350-001",
+            "DSN-20260907112126-01@1#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-002"
+          ],
+          "completion_criteria": "All current objectives have real passing JDK21 behavior evidence.",
+          "expected_evidence": "Actual current-subject Maven/JUnit output and source hashes.",
+          "responsible_role": "Verification or local release executor"
+        },
+        {
+          "id": "WI-004",
+          "target_phase": "RLS",
+          "outcome": "Qualify the approved version in a disposable local Sandbox.",
+          "execution_scope": [
+            "resource:RSC-001",
+            "environment:ENV-001"
+          ],
+          "source_references": [
+            "DSN-20260907112126-01@1#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-003"
+          ],
+          "completion_criteria": "The exact qualified version is applied and observed on the local target.",
+          "expected_evidence": "Bound release effect and target version readback.",
+          "responsible_role": "Verification or local release executor"
+        }
+      ],
+      "aggregated_applicability": [],
+      "lifecycle_applicability": [
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume the complete design with a sequential current-result chain."
+        }
+      ],
+      "open_items": [],
+      "exceptions": [],
+      "evidence": [],
+      "supporting_members": []
+    },
+    "final_confirmation": {
+      "type": "final_confirmation",
+      "result": "approved",
+      "mode": "delegated",
+      "confirmer": "deterministic-review-process:2930",
+      "role": "Delegated Independent Reviewer",
+      "reviewed_executor": "web-realflow-springgear-executor",
+      "authority_reference": ".sdlc/authority/PLN-20260907112127-01-r1-2930.md@sha256:36befc002854a060f8e0582ec53f5ec77f0f6f140067b7a39cacf2087e990c72",
+      "accepted_exception_references": [],
+      "confirmed_at": "2026-09-07T11:21:27+00:00",
+      "control_input_digest": "sha256:562fb8e73ccc681e0467b3c5f8fb6bf70c527500449e736e31b2ed74af3a4990",
+      "evaluation_contract_set": "docs/v1.1/300-pln-spec.md@sha256:5f194383f772c04ba0d981410340f5632f586b49acd94ed1dcca1f9cf60baec7, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+      "check_set_result_digest": "sha256:ad04e8ca3c0aca614e9806013889f5f880b730d5df4674bff13d9b8b7ef822e4",
+      "subject_digest": "sha256:49051332f3cc808626a5aed142185c912b3607d5fc9ee23dc80a315ce683f30f"
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

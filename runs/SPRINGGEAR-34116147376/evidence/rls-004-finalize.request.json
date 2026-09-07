@@ -1,0 +1,18 @@
+{
+  "final_confirmation": {
+    "type": "final_confirmation",
+    "result": "approved",
+    "mode": "delegated",
+    "confirmer": "deterministic-review-process:3184",
+    "role": "Delegated Independent Reviewer",
+    "reviewed_executor": "sandbox-executor",
+    "authority_reference": ".sdlc/authority/RLS-20260907112153-01-r1-3184.md@sha256:e97465b5afc113b2d123e2e05db36431bbd12ac2021ab6fdfe9145b230197b36",
+    "accepted_exception_references": [],
+    "confirmed_at": "2026-09-07T11:21:55+00:00",
+    "control_input_digest": "sha256:1173a0903f66c705f5e21311b0b60e90466690597b4e9d582783bb2e9645608b",
+    "evaluation_contract_set": "docs/v1.1/600-rls-spec.md@sha256:62124c713958f833d3e093c0a05743fcbde3dc40ed1dfac5eb5a857846210faa, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+    "check_set_result_digest": "sha256:4926f3b115a2ba87a760f6957741893dbdea23ab7791bb9162bcdce399c2c578"
+  },
+  "sandbox_root": "/tmp/sdlc-release-553ddf9d324c4828b3b0504ebdedcfa5",
+  "target": "local-validation"
+}

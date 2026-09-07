@@ -1,0 +1,158 @@
+{
+  "inputs": {
+    "implementation": {
+      "considerations": [
+        {
+          "name": "Calculation Rules",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Decision Rules",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "State Transitions",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Algorithm & Invariants",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Data Contract & Transformation",
+          "disposition": "n/a",
+          "basis": "No new product calculation, decision, state, algorithm or data schema; existing Java behavior remains unchanged.",
+          "steps": [],
+          "exception": "N/A"
+        },
+        {
+          "name": "Boundary & Failure Handling",
+          "disposition": "required",
+          "basis": "Preserve bounded source and build effects with visible failures.",
+          "steps": [
+            "STEP-001"
+          ],
+          "exception": "N/A"
+        },
+        {
+          "name": "Effects & Consistency",
+          "disposition": "required",
+          "basis": "Preserve bounded source and build effects with visible failures.",
+          "steps": [
+            "STEP-001"
+          ],
+          "exception": "N/A"
+        }
+      ],
+      "steps": [
+        {
+          "id": "STEP-001",
+          "order": 1,
+          "purpose": "Add and execute JDK21 behavior regression and migration instructions.",
+          "target": [
+            "resource:RSC-001"
+          ],
+          "basis_references": [
+            "PLN-20260907112127-01@1#WI-002",
+            "DSN-20260907112126-01@1#CHG-002"
+          ],
+          "considerations": [
+            "Boundary & Failure Handling",
+            "Effects & Consistency"
+          ],
+          "logic": [
+            "Read exact selected design and current resource baseline.",
+            "Apply only declared compatibility or regression files with content preconditions.",
+            "Execute bounded checks and retain the complete current immutable source result."
+          ],
+          "expected_result": "Ten real compatibility tests and migration notes exist and Maven verify succeeds.",
+          "transaction_boundary": "One dependency-ordered source migration increment; isolated local build outputs only.",
+          "failure_boundary": "Any incompatible source, toolchain or test result prevents completion.",
+          "blocks": [
+            {
+              "consideration": "Boundary & Failure Handling",
+              "id": "ERR-001",
+              "trigger": "Source precondition, compilation, test discovery or compatibility assertion fails.",
+              "classification": "Incomplete migration rather than successful delivery.",
+              "handling": "Retain exact failure and source result; correct the bounded migration or environment and retry.",
+              "observable_result": "No false VFY-ready state or hidden failed tests.",
+              "recovery": "Resume the same valid attempt or use the formal rework path without deleting evidence."
+            },
+            {
+              "consideration": "Effects & Consistency",
+              "id": "EFF-001",
+              "resource_or_effect": "Declared Maven reactor files and isolated test/build outputs",
+              "order_and_condition": "Align POMs before adding tests; all writes bind current expected content.",
+              "consistency_or_atomicity": "Each source effect has a persistent checkpoint and immutable resource result.",
+              "idempotency": "Completed writes are not replayed on confirmation or retry.",
+              "failure_handling": "Leave failed checks visible; no Maven deployment, Git update or external system mutation."
+            }
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "id": "RSC-001",
+          "root": "source"
+        }
+      ],
+      "operations": [
+        {
+          "resource": "RSC-001",
+          "path": "springgear-core/src/test/java/org/springgear/Jdk21RegressionTest.java",
+          "step": "STEP-001",
+          "op": "write_text",
+          "expected_sha256": "absent",
+          "content": "package org.springgear;\n\nimport org.junit.jupiter.api.Test;\nimport org.junit.jupiter.api.AfterEach;\nimport org.junit.jupiter.api.TestInfo;\nimport java.io.DataInputStream;\nimport org.springframework.context.annotation.AnnotationConfigApplicationContext;\nimport org.springframework.context.annotation.Bean;\nimport org.springframework.context.annotation.Configuration;\nimport org.springgear.core.context.SpringGearContext;\nimport org.springgear.core.context.SpringGearContextValue;\nimport org.springgear.core.engine.executor.DefaultSpringGearEngineExecutor;\nimport org.springgear.core.engine.executor.handler.SpringGearHandlerInterface;\nimport org.springgear.core.engine.request.SpringGearEngineParts;\nimport org.springgear.exception.SpringGearException;\nimport org.springgear.exception.SpringGearError;\nimport java.util.List;\nimport static org.junit.jupiter.api.Assertions.*;\n\nclass Jdk21RegressionTest {\n    @AfterEach void reportExecuted(TestInfo info) {\n        System.out.println(\"SDLC_EXECUTED \" + info.getTestMethod().orElseThrow().getName());\n    }\n    @Test void compiledClassesUseJava21Bytecode() throws Exception {\n        try (var stream = SpringGearContext.class.getResourceAsStream(\"SpringGearContext.class\")) {\n            assertNotNull(stream);\n            var input = new DataInputStream(stream);\n            assertEquals(0xCAFEBABE, input.readInt());\n            assertEquals(0, input.readUnsignedShort());\n            assertEquals(65, input.readUnsignedShort());\n        }\n    }\n    private SpringGearEngineParts parts() {\n        return new SpringGearEngineParts(\"hello\", new Object[]{\"hello\", 7},\n            \"jdk21-test\", System.currentTimeMillis(), new SpringGearContextValue(), \"test-engine\");\n    }\n    private SpringGearContext<String, String> context() {\n        return new SpringGearContext<>(\"hello\", new Object[]{\"hello\", 7},\n            \"jdk21-test\", 1L, new SpringGearContextValue());\n    }\n    @Test void executesOnJdk21() {\n        assertEquals(21, Runtime.version().feature());\n    }\n    @Test void lombokGeneratedConstructorAndGettersRemainUsable() {\n        SpringGearEngineParts p = parts();\n        assertEquals(\"hello\", p.<String>getRequest());\n        assertEquals(\"test-engine\", p.getBeanName());\n        assertEquals(2, p.getArgs().length);\n    }\n    @Test void contextTransportsArgumentsAndSharedValues() {\n        SpringGearContext<String, String> c = context();\n        assertEquals(7, c.<Integer>getArgument(1));\n        c.setValue(\"shared\", \"value\");\n        assertEquals(\"value\", c.<String>getValue(\"shared\"));\n        assertEquals(\"fallback\", c.getValue(\"missing\", \"fallback\"));\n    }\n    @Test void contextRejectsInvalidArgumentIndices() {\n        SpringGearContext<String, String> c = context();\n        assertThrows(IllegalArgumentException.class, () -> c.getArgument(-1));\n        assertThrows(IllegalArgumentException.class, () -> c.getArgument(2));\n    }\n    @Test void emptyPipelineRetainsItsExistingNullResult() throws SpringGearError {\n        DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();\n        executor.setHandlers(List.of());\n        assertNull(executor.execute(parts()));\n    }\n    @Test void pipelinePreservesOrderAndContextBetweenHandlers() throws SpringGearError {\n        DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();\n        SpringGearHandlerInterface<String, String> first = c -> c.setValue(\"first\", c.getRequest());\n        SpringGearHandlerInterface<String, String> second = c -> c.setResponse(c.<String>getValue(\"first\") + \"-done\");\n        executor.setHandlers(List.of(first, second));\n        assertEquals(\"hello-done\", executor.execute(parts()));\n    }\n    @Test void unsupportedHandlerDoesNotRun() throws SpringGearError {\n        DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();\n        SpringGearHandlerInterface<String, String> ignored = new SpringGearHandlerInterface<>() {\n            public boolean supports(SpringGearContext<String, String> c) { return false; }\n            public void handle(SpringGearContext<String, String> c) { fail(\"unsupported handler executed\"); }\n        };\n        SpringGearHandlerInterface<String, String> last = c -> c.setResponse(\"last\");\n        executor.setHandlers(List.of(ignored, last));\n        assertEquals(\"last\", executor.execute(parts()));\n    }\n    @Test void ordinaryHandlerFailureIsConvertedToDomainFailure() {\n        DefaultSpringGearEngineExecutor<String> executor = new DefaultSpringGearEngineExecutor<>();\n        SpringGearHandlerInterface<String, String> failed = c -> { throw new IllegalArgumentException(\"invalid\"); };\n        executor.setHandlers(List.of(failed));\n        assertThrows(SpringGearException.class, () -> executor.execute(parts()));\n    }\n    @Configuration static class Config {\n        @Bean String migrationMarker() { return \"jdk21-ready\"; }\n    }\n    @Test void springConfigurationEnhancementWorksWithoutAddOpens() {\n        try (AnnotationConfigApplicationContext c = new AnnotationConfigApplicationContext(Config.class)) {\n            assertEquals(\"jdk21-ready\", c.getBean(\"migrationMarker\"));\n        }\n    }\n}\n"
+        },
+        {
+          "resource": "RSC-001",
+          "path": "JDK21-MIGRATION.md",
+          "step": "STEP-001",
+          "op": "write_text",
+          "expected_sha256": "absent",
+          "content": "# JDK21 migration candidate\n\nScope: the existing reactor (build, parent, core, BOM), not disabled historical modules.\nTarget runtime and compiler release: JDK21. Spring 5.3.39 retains javax-era APIs;\nLombok 1.18.30 is the JDK21-compatible annotation processor. JUnit 5.7 API is retained,\nwith its engine and Surefire 3.2.5 to ensure tests actually execute.\n\nRun `mvn -B -ntp verify` on JDK21. Inspect Surefire XML: ten executed tests,\nzero failures/errors/skips. Verify class major version 65. No repository deployment,\nrelease plugin execution, main-branch update, or claimed Java8 compatibility.\n\nThese tests run again against the exact current IMP result in formal VFY. Per-test execution identities are emitted by JUnit AfterEach, not precomputed pass markers.\n"
+        }
+      ],
+      "checks": [
+        {
+          "id": "CHK-001",
+          "name": "Declared Java21 compiler release",
+          "resource": "RSC-001",
+          "kind": "contains",
+          "path": "pom.xml",
+          "expected": "<maven.compiler.release>21</maven.compiler.release>"
+        },
+        {
+          "id": "CHK-002",
+          "name": "Offline JDK21 reactor verify with actual regression",
+          "resource": "RSC-001",
+          "kind": "project_command",
+          "cwd": ".",
+          "command": [
+            "mvn",
+            "verify"
+          ],
+          "timeout_seconds": 180
+        }
+      ],
+      "design_decision_references": [
+        "DSN-20260907112126-01@1#DEC-001"
+      ],
+      "exceptions": [],
+      "open_items": []
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "contract": "sdlc-ai-spec/runtime-invocation/v1",
+  "operation": "revise",
+  "project_root": "/home/runner/work/_temp/springgear-product",
+  "artifact_reference": "CTX-20260907112125-01@1",
+  "inputs": {
+    "context": {
+      "summary": "SpringGear existing four-module Java8-targeted reactor; controlled JDK21 compatibility migration.",
+      "project_identity": {
+        "project_name": {
+          "value": "SpringGear",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "purpose": {
+          "value": "Spring-based workflow framework",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "boundary": {
+          "value": "Isolated SpringGear four-module Maven reactor migration to JDK21; no disabled-module claim, upstream write or production deployment.",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "primary_resource_reference": {
+          "value": "RSC-001",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "authoritative_references": {
+          "value": "ousui/springgear@e855096ff19dcdb303dc4250ba19c30acd743ac7",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "id": "RSC-001",
+          "type": "library",
+          "name": "SpringGear reactor",
+          "role": "primary",
+          "locator": "source",
+          "baseline_reference": "cfdccfafd382f6287064092a13ec59d8a6abd2a0",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "technologies": [
+        {
+          "id": "TEC-001",
+          "category": "runtime",
+          "name": "Java / Maven / Spring / Lombok",
+          "version_or_constraint": "Baseline Java8 target and Spring5.3.22; approved migration target JDK21",
+          "purpose": "Compile and exercise existing workflow framework",
+          "basis": "referenced",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "engineering_entries": [
+        {
+          "id": "ENG-001",
+          "purpose": "test",
+          "command_or_entry_point": "mvn -o test",
+          "working_scope": "source",
+          "preconditions": "Prepared JDK21 and external Maven cache; no dependency installation during Skill execution",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "id": "CMP-001",
+          "name": "Workflow core",
+          "type": "library",
+          "resource_reference": "RSC-001",
+          "responsibility": "Workflow context, ordered handlers and Spring framework integration",
+          "entry_point": "springgear-core",
+          "depends_on": "None",
+          "authority_reference": "EVD-001",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "rules": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "environments": [
+        {
+          "id": "ENV-001",
+          "environment": "test",
+          "purpose": "JDK21 isolated-copy testing and disposable local Sandbox target",
+          "accessibility": "available",
+          "data_and_network_boundary": "Public source only; no network or upstream writes in formal execution",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "constraints": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "exceptions": []
+    },
+    "evidence": [
+      {
+        "id": "EVD-001",
+        "type": "source-inspection",
+        "supports_references": [
+          "RSC-001"
+        ],
+        "source_or_producer": "web-realflow-springgear-executor",
+        "reference": "SUP-001",
+        "integrity_or_digest": "sha256:a1cff60852b1f3e288fffb5ab9357b00784cd1507028ed2b48709a63821ed540",
+        "produced_at": "2026-09-07T11:21:25+00:00",
+        "sensitivity_or_access": "Public open-source snapshot, no customer data"
+      }
+    ],
+    "supporting_members": [
+      {
+        "member_id": "SUP-001",
+        "canonical_name": "source-provenance.md",
+        "media_type": "text/markdown",
+        "purpose": "Exact source and user-selected JDK21 scope",
+        "content": "# SpringGear isolated migration baseline\n\nSource: ousui/springgear@e855096ff19dcdb303dc4250ba19c30acd743ac7. Original license and all tracked files retained.\nOriginal active reactor: build, parent, core and BOM; compiler target Java 8.\nAuthorized target: JDK 21; retain Java/SpringGear public source behavior and existing\nmodule boundaries. Disabled historical web/extension modules are outside this case.\nOnly SOURCE.md is an extra non-product provenance document prepared before CTX.\nNo production deployment, upstream writes, new service, UI work or new Java feature.\n"
+      }
+    ],
+    "refresh": {
+      "base_revision": null,
+      "observed_at": "2026-09-07T11:21:25+00:00",
+      "observation_baseline": "cfdccfafd382f6287064092a13ec59d8a6abd2a0",
+      "refresh_reason": "Confirm complete observed project context",
+      "effective_change_references": "None",
+      "evidence_references": "EVD-001"
+    }
+  },
+  "confirmations": [
+    {
+      "type": "write",
+      "approved": true
+    },
+    {
+      "type": "project_boundary",
+      "value": "Isolated SpringGear four-module Maven reactor migration to JDK21; no disabled-module claim, upstream write or production deployment.",
+      "authority_reference": "EVD-001"
+    }
+  ],
+  "options": {
+    "dry_run": false,
+    "prepare_confirmation": true
+  }
+}

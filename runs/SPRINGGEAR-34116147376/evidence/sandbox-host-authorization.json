@@ -1,0 +1,36 @@
+{
+  "basis_sha256": "752c5d9f1223cc2511b4c1c882cc8172a6513ea34951406b6e197c3b2e4226dd",
+  "scope": "only this exact local Sandbox target and pending RLI set",
+  "grant": {
+    "contract": "sdlc-ai-spec/effect-authorization/v1",
+    "authorization_id": "EA-748ba835ae3c4a11",
+    "rls_artifact_id": "RLS-20260907112153-01",
+    "rls_artifact_reference": "RLS-20260907112153-01@1",
+    "revision": 1,
+    "release_reference": "qualification-6c7db86535a879a7",
+    "scope_reference": "PLN-20260907112127-01@1",
+    "result_references": [
+      "IMP-20260907112131-01@1/RESULT-RES-001"
+    ],
+    "vfy_reference": "VFY-20260907112143-01@1",
+    "vfy_source_digest": "sha256:623bcc94bad703152db9be89977e8cca884e5c128f69af1c606fef1a250b3d34",
+    "vfy_candidate_digest": "sha256:a9a1d3eb80054a002ed875fa257d2b0f9461563bcd63e256bb31abb0a3fdeb16",
+    "release_target": "local-validation",
+    "target_baseline_digest": "d6101c37a2fd6264fefbb037e57497d22e800470ce0e26299ef3f7882319d932",
+    "release_contract_digest": "1aea0bf2461561e341fb0d7eff147ef1157c76966f4e8765cdc7823a7132a0b3",
+    "rli_ids": [
+      "RLI-001"
+    ],
+    "action_summaries": [
+      "apply exact verified Result Set"
+    ],
+    "selected_rli_contract_digest": "02f4dc4d25ef12ebdcbf2372ac7a824a8a96294b9f5cd4efcce808cf48023620",
+    "release_item_set_digest": "02f4dc4d25ef12ebdcbf2372ac7a824a8a96294b9f5cd4efcce808cf48023620",
+    "confirmation_set_digest": "5bf584e4713b1d47d2b21908bf64113747d5fb3751cad0ed424e5002a021f185",
+    "pre_execution_checklist_digest": "0a0bfa0c5d26fb987daae8787105a971949ec9a03b36b2b12432aab054498ee4",
+    "authorizer_identity": "web-realflow-isolated-host",
+    "authorized_at": "2026-09-07T11:21:53Z",
+    "valid_until": "2026-09-07T11:36:53Z",
+    "effect_digest": "1f82f127bfed24609a5c6416519c6b7afad8e4f49156360fe09bff0b1c6fc6cd"
+  }
+}

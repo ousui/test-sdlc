@@ -1,0 +1,438 @@
+{
+  "artifact": {
+    "allocated": true,
+    "artifact_status": "draft",
+    "base_revision": null,
+    "id": "VFY-20260907112143-01",
+    "reference": "VFY-20260907112143-01@1",
+    "revision": 1,
+    "revision_state": "open"
+  },
+  "artifact_gate": "pending",
+  "contract": "sdlc-ai-spec/vfy-runtime-result/v1",
+  "effective_decision_policy": "model",
+  "effective_write_policy": "auto",
+  "effects": [
+    "artifact_store_write"
+  ],
+  "next_action": "FINAL_CONFIRMATION_REQUIRED",
+  "ok": true,
+  "operation": "run",
+  "product_result": "pass",
+  "result": {
+    "executed_methods": [
+      "VFM-001"
+    ],
+    "projection": {
+      "artifact_gate": "pending",
+      "artifact_reference": "VFY-20260907112143-01@1",
+      "control_resolutions": [],
+      "early_stop": false,
+      "gate_checks": [
+        {
+          "id": "VFY-G-001",
+          "note": "Scope and current terminal Subject Set are exact.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-002",
+          "note": "Authoritative Target Set is complete.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-003",
+          "note": "Method Purpose, obligations and frozen contract are complete.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-004",
+          "note": "Method Results bind actual Subjects and immutable Evidence.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-005",
+          "note": "Target, CON-VER and CON-VAL aggregation is deterministic.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-006",
+          "note": "Returns and Control recovery preserve owning authority.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-007",
+          "note": "Evidence and Exception closure are valid.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-008",
+          "note": "Product result and downstream applicability remain distinct.",
+          "result": "pass"
+        }
+      ],
+      "next_action": "FINAL_CONFIRMATION_REQUIRED",
+      "ok": true,
+      "pending_methods": [],
+      "product_result": "pass",
+      "rls_ready": false,
+      "unresolved_controls": [],
+      "unresolved_returns": [],
+      "verification_digest": "sha256:6e90f84500ce6a756cd4366387cc6a43675174816ad32fe743bd8abb19cd8122"
+    },
+    "state": {
+      "artifact": {
+        "allocated": true,
+        "artifact_status": "draft",
+        "base_revision": null,
+        "id": "VFY-20260907112143-01",
+        "reference": "VFY-20260907112143-01@1",
+        "revision": 1,
+        "revision_state": "open"
+      },
+      "artifact_gate": "pending",
+      "authority_compiled": true,
+      "context_reference": "CTX-20260907112125-01@1",
+      "contract": "sdlc-ai-spec/vfy-state/v1",
+      "control_authorities": [],
+      "control_inputs": [],
+      "control_resolutions": [],
+      "early_stop": false,
+      "early_stop_basis": null,
+      "evidence": [
+        {
+          "environment": {
+            "data_contract": "Public exact current source; JDK21 and prepared offline Maven cache; no external services.",
+            "project_root": "."
+          },
+          "evidence_requirement": "Actual Maven output, JUnit execution identities, exit code, OS containment and unchanged source hashes; no reuse of preparation output.",
+          "executor_identity": "web-realflow-springgear-executor",
+          "id": "EVD-001",
+          "method_id": "VFM-001",
+          "observed": {
+            "argv": [
+              "mvn",
+              "-o",
+              "-B",
+              "-ntp",
+              "test"
+            ],
+            "containment": "os-sandbox",
+            "cwd": "source",
+            "exit_code": 0,
+            "isolated_after": "sha256:7bb17c303a4313c272bcf185befc020f5dcc617d2ee0bb8c7ca20bc707602cbb",
+            "isolated_before": "sha256:9f39d718dfcee95ecf4d04544716f4eb5b143094fbbdf5b50dbb6ed7528ba235",
+            "kind": "command",
+            "network": "disabled",
+            "output_budget_bytes": 1048576,
+            "policy": "deterministic-test-v1",
+            "source_after": "sha256:a1a9ab1ab9e511cc86ffc1a258691f4804ae91477a8af13d66ac8d69358c3796",
+            "source_before": "sha256:a1a9ab1ab9e511cc86ffc1a258691f4804ae91477a8af13d66ac8d69358c3796",
+            "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=\"/tmp/vfy-command-t5zeagp2/workspace/.tmp\"\nPicked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=\"/tmp/vfy-command-t5zeagp2/workspace/.tmp\"\n",
+            "stdout": "[INFO] Scanning for projects...\n[INFO] Inspecting build with total of 4 modules...\n[INFO] Installing Nexus Staging features:\n[INFO]   ... total of 4 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin\n[INFO] ------------------------------------------------------------------------\n[INFO] Reactor Build Order:\n[INFO] \n[INFO] springgear-build                                                   [pom]\n[INFO] springgear-parent                                                  [pom]\n[INFO] springgear-core                                                    [jar]\n[INFO] springgear-bom                                                     [pom]\n[INFO] \n[INFO] ---------------< org.ousui.springgear:springgear-build >----------------\n[INFO] Building springgear-build 2.1.0-SNAPSHOT                           [1/4]\n[INFO]   from pom.xml\n[INFO] --------------------------------[ pom ]---------------------------------\n[INFO] \n[INFO] ---------------< org.ousui.springgear:springgear-parent >---------------\n[INFO] Building springgear-parent 2.1.0-SNAPSHOT                          [2/4]\n[INFO]   from springgear-parent/pom.xml\n[INFO] --------------------------------[ pom ]---------------------------------\n[INFO] \n[INFO] ----------------< org.ousui.springgear:springgear-core >----------------\n[INFO] Building springgear-core 2.1.0-SNAPSHOT                            [3/4]\n[INFO]   from springgear-core/pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO] \n[INFO] --- resources:3.2.0:resources (default-resources) @ springgear-core ---\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\n[INFO] Using 'UTF-8' encoding to copy filtered properties files.\n[INFO] skip non existing resourceDirectory /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/resources\n[INFO] \n[INFO] --- compiler:3.11.0:compile (default-compile) @ springgear-core ---\n[INFO] Changes detected - recompiling the module! :source\n[INFO] Compiling 38 source files with javac [debug release 21] to target/classes\n[INFO] Annotation processing is enabled because one or more processors were found\n  on the class path. A future release of javac may disable annotation processing\n  unless at least one processor is specified by name (-processor), or a search\n  path is specified (--processor-path, --processor-module-path), or annotation\n  processing is enabled explicitly (-proc:only, -proc:full).\n  Use -Xlint:-options to suppress this message.\n  Use -proc:none to disable annotation processing.\n[INFO] /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/java/org/springgear/support/utils/SpringGearUtils.java: Some input files use unchecked or unsafe operations.\n[INFO] /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/java/org/springgear/support/utils/SpringGearUtils.java: Recompile with -Xlint:unchecked for details.\n[INFO] \n[INFO] --- resources:3.2.0:testResources (default-testResources) @ springgear-core ---\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\n[INFO] Using 'UTF-8' encoding to copy filtered properties files.\n[INFO] skip non existing resourceDirectory /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/test/resources\n[INFO] \n[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ springgear-core ---\n[INFO] Changes detected - recompiling the module! :dependency\n[INFO] Compiling 1 source file with javac [debug release 21] to target/test-classes\n[INFO] Annotation processing is enabled because one or more processors were found\n  on the class path. A future release of javac may disable annotation processing\n  unless at least one processor is specified by name (-processor), or a search\n  path is specified (--processor-path, --processor-module-path), or annotation\n  processing is enabled explicitly (-proc:only, -proc:full).\n  Use -Xlint:-options to suppress this message.\n  Use -proc:none to disable annotation processing.\n[INFO] \n[INFO] --- surefire:3.2.5:test (default-test) @ springgear-core ---\n[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO] \n[INFO] -------------------------------------------------------\n[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO] Running org.springgear.Jdk21RegressionTest\n11:21:50.004 [main] ERROR org.springgear.core.engine.executor.DefaultSpringGearEngineExecutor - TS[jdk21-test-1788780109994] IllegalArgumentException：invalid | SpringGearContext(request=hello, response=null, args=[hello, 7], source=jdk21-test, timestamp=1788780109994, values={}) | STACK TRACE: \njava.lang.IllegalArgumentException: invalid\n\tat org.springgear.Jdk21RegressionTest.lambda$ordinaryHandlerFailureIsConvertedToDomainFailure$5(Jdk21RegressionTest.java:86) ~[test-classes/:?]\n\tat org.springgear.core.engine.executor.AbstractSpringGearEngineExecutor.execute(AbstractSpringGearEngineExecutor.java:76) ~[classes/:?]\n\tat org.springgear.Jdk21RegressionTest.lambda$ordinaryHandlerFailureIsConvertedToDomainFailure$6(Jdk21RegressionTest.java:88) ~[test-classes/:?]\n\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:55) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:37) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3007) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\n\tat org.springgear.Jdk21RegressionTest.ordinaryHandlerFailureIsConvertedToDomainFailure(Jdk21RegressionTest.java:88) ~[test-classes/:?]\n\tat jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]\n\tat java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:688) ~[junit-platform-commons-1.7.0.jar:1.7.0]\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:210) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:206) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:131) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:65) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat java.util.ArrayList.forEach(ArrayList.java:1596) ~[?:?]\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat java.util.ArrayList.forEach(ArrayList.java:1596) ~[?:?]\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51) ~[junit-platform-engine-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\n\tat org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.2.5.jar:3.2.5]\n\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.2.5.jar:3.2.5]\nSDLC_EXECUTED ordinaryHandlerFailureIsConvertedToDomainFailure\nSDLC_EXECUTED contextTransportsArgumentsAndSharedValues\nSDLC_EXECUTED compiledClassesUseJava21Bytecode\nSDLC_EXECUTED emptyPipelineRetainsItsExistingNullResult\nSDLC_EXECUTED contextRejectsInvalidArgumentIndices\nSDLC_EXECUTED unsupportedHandlerDoesNotRun\nSDLC_EXECUTED springConfigurationEnhancementWorksWithoutAddOpens\nSDLC_EXECUTED lombokGeneratedConstructorAndGettersRemainUsable\nSDLC_EXECUTED pipelinePreservesOrderAndContextBetweenHandlers\nSDLC_EXECUTED executesOnJdk21\n[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.632 s -- in org.springgear.Jdk21RegressionTest\n[INFO] \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0\n[INFO] \n[INFO] \n[INFO] ----------------< org.ousui.springgear:springgear-bom >-----------------\n[INFO] Building springgear-bom 2.1.0-SNAPSHOT                             [4/4]\n[INFO]   from springgear-bom/pom.xml\n[INFO] --------------------------------[ pom ]---------------------------------\n[INFO] ------------------------------------------------------------------------\n[INFO] Reactor Summary for springgear-build 2.1.0-SNAPSHOT:\n[INFO] \n[INFO] springgear-build ................................... SUCCESS [  0.019 s]\n[INFO] springgear-parent .................................. SUCCESS [  0.001 s]\n[INFO] springgear-core .................................... SUCCESS [  4.022 s]\n[INFO] springgear-bom ..................................... SUCCESS [  0.000 s]\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  4.660 s\n[INFO] Finished at: 2026-09-07T11:21:50Z\n[INFO] ------------------------------------------------------------------------\n",
+            "timed_out": false,
+            "workspace": "isolated-copy"
+          },
+          "observed_at": "2026-09-07T11:21:50Z",
+          "reference": "EVD-001@sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912",
+          "result": "pass",
+          "sha256": "sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912",
+          "source_evidence": null,
+          "subject_references": [
+            "IMP-20260907112131-01@1/RESULT-RES-001"
+          ],
+          "target_references": [
+            "DSN-20260907112126-01@1#VFO-001"
+          ]
+        }
+      ],
+      "exceptions": [],
+      "final_confirmation": null,
+      "fixed_conclusions": [
+        {
+          "basis_references": [
+            "VFM-001",
+            "EVD-001@sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912"
+          ],
+          "conclusion": "pass",
+          "dimension": "verification",
+          "exception_references": [],
+          "id": "CON-VER",
+          "target_references": [
+            "DSN-20260907112126-01@1#VFO-001"
+          ]
+        },
+        {
+          "basis_references": [
+            "VFM-001",
+            "EVD-001@sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912"
+          ],
+          "conclusion": "pass",
+          "dimension": "validation",
+          "exception_references": [],
+          "id": "CON-VAL",
+          "target_references": [
+            "DSN-20260907112126-01@1#VFO-001"
+          ]
+        }
+      ],
+      "gate_checks": [
+        {
+          "id": "VFY-G-001",
+          "note": "Scope and current terminal Subject Set are exact.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-002",
+          "note": "Authoritative Target Set is complete.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-003",
+          "note": "Method Purpose, obligations and frozen contract are complete.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-004",
+          "note": "Method Results bind actual Subjects and immutable Evidence.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-005",
+          "note": "Target, CON-VER and CON-VAL aggregation is deterministic.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-006",
+          "note": "Returns and Control recovery preserve owning authority.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-007",
+          "note": "Evidence and Exception closure are valid.",
+          "result": "pass"
+        },
+        {
+          "id": "VFY-G-008",
+          "note": "Product result and downstream applicability remain distinct.",
+          "result": "pass"
+        }
+      ],
+      "input_references": [
+        "CTX-20260907112125-01@1",
+        "DSN-20260907112126-01@1",
+        "IMP-20260907112131-01@1",
+        "PLN-20260907112127-01@1"
+      ],
+      "method_results": [
+        {
+          "actual_result": "{\"argv\": [\"mvn\", \"-o\", \"-B\", \"-ntp\", \"test\"], \"containment\": \"os-sandbox\", \"cwd\": \"source\", \"exit_code\": 0, \"isolated_after\": \"sha256:7bb17c303a4313c272bcf185befc020f5dcc617d2ee0bb8c7ca20bc707602cbb\", \"isolated_before\": \"sha256:9f39d718dfcee95ecf4d04544716f4eb5b143094fbbdf5b50dbb6ed7528ba235\", \"kind\": \"command\", \"network\": \"disabled\", \"output_budget_bytes\": 1048576, \"policy\": \"deterministic-test-v1\", \"source_after\": \"sha256:a1a9ab1ab9e511cc86ffc1a258691f4804ae91477a8af13d66ac8d69358c3796\", \"source_before\": \"sha256:a1a9ab1ab9e511cc86ffc1a258691f4804ae91477a8af13d66ac8d69358c3796\", \"stderr\": \"Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=\\\"/tmp/vfy-command-t5zeagp2/workspace/.tmp\\\"\\nPicked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=\\\"/tmp/vfy-command-t5zeagp2/workspace/.tmp\\\"\\n\", \"stdout\": \"[INFO] Scanning for projects...\\n[INFO] Inspecting build with total of 4 modules...\\n[INFO] Installing Nexus Staging features:\\n[INFO]   ... total of 4 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin\\n[INFO] ------------------------------------------------------------------------\\n[INFO] Reactor Build Order:\\n[INFO] \\n[INFO] springgear-build                                                   [pom]\\n[INFO] springgear-parent                                                  [pom]\\n[INFO] springgear-core                                                    [jar]\\n[INFO] springgear-bom                                                     [pom]\\n[INFO] \\n[INFO] ---------------< org.ousui.springgear:springgear-build >----------------\\n[INFO] Building springgear-build 2.1.0-SNAPSHOT                           [1/4]\\n[INFO]   from pom.xml\\n[INFO] --------------------------------[ pom ]---------------------------------\\n[INFO] \\n[INFO] ---------------< org.ousui.springgear:springgear-parent >---------------\\n[INFO] Building springgear-parent 2.1.0-SNAPSHOT                          [2/4]\\n[INFO]   from springgear-parent/pom.xml\\n[INFO] --------------------------------[ pom ]---------------------------------\\n[INFO] \\n[INFO] ----------------< org.ousui.springgear:springgear-core >----------------\\n[INFO] Building springgear-core 2.1.0-SNAPSHOT                            [3/4]\\n[INFO]   from springgear-core/pom.xml\\n[INFO] --------------------------------[ jar ]---------------------------------\\n[INFO] \\n[INFO] --- resources:3.2.0:resources (default-resources) @ springgear-core ---\\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\\n[INFO] Using 'UTF-8' encoding to copy filtered properties files.\\n[INFO] skip non existing resourceDirectory /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/resources\\n[INFO] \\n[INFO] --- compiler:3.11.0:compile (default-compile) @ springgear-core ---\\n[INFO] Changes detected - recompiling the module! :source\\n[INFO] Compiling 38 source files with javac [debug release 21] to target/classes\\n[INFO] Annotation processing is enabled because one or more processors were found\\n  on the class path. A future release of javac may disable annotation processing\\n  unless at least one processor is specified by name (-processor), or a search\\n  path is specified (--processor-path, --processor-module-path), or annotation\\n  processing is enabled explicitly (-proc:only, -proc:full).\\n  Use -Xlint:-options to suppress this message.\\n  Use -proc:none to disable annotation processing.\\n[INFO] /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/java/org/springgear/support/utils/SpringGearUtils.java: Some input files use unchecked or unsafe operations.\\n[INFO] /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/main/java/org/springgear/support/utils/SpringGearUtils.java: Recompile with -Xlint:unchecked for details.\\n[INFO] \\n[INFO] --- resources:3.2.0:testResources (default-testResources) @ springgear-core ---\\n[INFO] Using 'UTF-8' encoding to copy filtered resources.\\n[INFO] Using 'UTF-8' encoding to copy filtered properties files.\\n[INFO] skip non existing resourceDirectory /tmp/vfy-command-t5zeagp2/workspace/source/springgear-core/src/test/resources\\n[INFO] \\n[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ springgear-core ---\\n[INFO] Changes detected - recompiling the module! :dependency\\n[INFO] Compiling 1 source file with javac [debug release 21] to target/test-classes\\n[INFO] Annotation processing is enabled because one or more processors were found\\n  on the class path. A future release of javac may disable annotation processing\\n  unless at least one processor is specified by name (-processor), or a search\\n  path is specified (--processor-path, --processor-module-path), or annotation\\n  processing is enabled explicitly (-proc:only, -proc:full).\\n  Use -Xlint:-options to suppress this message.\\n  Use -proc:none to disable annotation processing.\\n[INFO] \\n[INFO] --- surefire:3.2.5:test (default-test) @ springgear-core ---\\n[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\\n[INFO] \\n[INFO] -------------------------------------------------------\\n[INFO]  T E S T S\\n[INFO] -------------------------------------------------------\\n[INFO] Running org.springgear.Jdk21RegressionTest\\n11:21:50.004 [main] ERROR org.springgear.core.engine.executor.DefaultSpringGearEngineExecutor - TS[jdk21-test-1788780109994] IllegalArgumentException：invalid | SpringGearContext(request=hello, response=null, args=[hello, 7], source=jdk21-test, timestamp=1788780109994, values={}) | STACK TRACE: \\njava.lang.IllegalArgumentException: invalid\\n\\tat org.springgear.Jdk21RegressionTest.lambda$ordinaryHandlerFailureIsConvertedToDomainFailure$5(Jdk21RegressionTest.java:86) ~[test-classes/:?]\\n\\tat org.springgear.core.engine.executor.AbstractSpringGearEngineExecutor.execute(AbstractSpringGearEngineExecutor.java:76) ~[classes/:?]\\n\\tat org.springgear.Jdk21RegressionTest.lambda$ordinaryHandlerFailureIsConvertedToDomainFailure$6(Jdk21RegressionTest.java:88) ~[test-classes/:?]\\n\\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:55) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:37) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3007) ~[junit-jupiter-api-5.7.0.jar:5.7.0]\\n\\tat org.springgear.Jdk21RegressionTest.ordinaryHandlerFailureIsConvertedToDomainFailure(Jdk21RegressionTest.java:88) ~[test-classes/:?]\\n\\tat jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]\\n\\tat java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]\\n\\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:688) ~[junit-platform-commons-1.7.0.jar:1.7.0]\\n\\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:210) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:206) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:131) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:65) ~[junit-jupiter-engine-5.7.0.jar:5.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat java.util.ArrayList.forEach(ArrayList.java:1596) ~[?:?]\\n\\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat java.util.ArrayList.forEach(ArrayList.java:1596) ~[?:?]\\n\\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51) ~[junit-platform-engine-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75) ~[junit-platform-launcher-1.7.0.jar:1.7.0]\\n\\tat org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122) ~[surefire-junit-platform-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.2.5.jar:3.2.5]\\n\\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.2.5.jar:3.2.5]\\nSDLC_EXECUTED ordinaryHandlerFailureIsConvertedToDomainFailure\\nSDLC_EXECUTED contextTransportsArgumentsAndSharedValues\\nSDLC_EXECUTED compiledClassesUseJava21Bytecode\\nSDLC_EXECUTED emptyPipelineRetainsItsExistingNullResult\\nSDLC_EXECUTED contextRejectsInvalidArgumentIndices\\nSDLC_EXECUTED unsupportedHandlerDoesNotRun\\nSDLC_EXECUTED springConfigurationEnhancementWorksWithoutAddOpens\\nSDLC_EXECUTED lombokGeneratedConstructorAndGettersRemainUsable\\nSDLC_EXECUTED pipelinePreservesOrderAndContextBetweenHandlers\\nSDLC_EXECUTED executesOnJdk21\\n[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.632 s -- in org.springgear.Jdk21RegressionTest\\n[INFO] \\n[INFO] Results:\\n[INFO] \\n[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0\\n[INFO] \\n[INFO] \\n[INFO] ----------------< org.ousui.springgear:springgear-bom >-----------------\\n[INFO] Building springgear-bom 2.1.0-SNAPSHOT                             [4/4]\\n[INFO]   from springgear-bom/pom.xml\\n[INFO] --------------------------------[ pom ]---------------------------------\\n[INFO] ------------------------------------------------------------------------\\n[INFO] Reactor Summary for springgear-build 2.1.0-SNAPSHOT:\\n[INFO] \\n[INFO] springgear-build ................................... SUCCESS [  0.019 s]\\n[INFO] springgear-parent .................................. SUCCESS [  0.001 s]\\n[INFO] springgear-core .................................... SUCCESS [  4.022 s]\\n[INFO] springgear-bom ..................................... SUCCESS [  0.000 s]\\n[INFO] ------------------------------------------------------------------------\\n[INFO] BUILD SUCCESS\\n[INFO] ------------------------------------------------------------------------\\n[INFO] Total time:  4.660 s\\n[INFO] Finished at: 2026-09-07T11:21:50Z\\n[INFO] ------------------------------------------------------------------------\\n\", \"timed_out\": false, \"workspace\": \"isolated-copy\"}",
+          "actual_subject_references": [
+            "IMP-20260907112131-01@1/RESULT-RES-001"
+          ],
+          "evidence_references": [
+            "EVD-001@sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912"
+          ],
+          "method_id": "VFM-001",
+          "result": "pass",
+          "return_references": []
+        }
+      ],
+      "methods": [
+        {
+          "disposition": "required",
+          "environment": {
+            "data_contract": "Public exact current source; JDK21 and prepared offline Maven cache; no external services.",
+            "project_root": "."
+          },
+          "evidence_requirement": "Actual Maven output, JUnit execution identities, exit code, OS containment and unchanged source hashes; no reuse of preparation output.",
+          "exception_reference": null,
+          "execution_mode": "automated",
+          "executor_identity": "web-realflow-springgear-executor",
+          "id": "VFM-001",
+          "method_type": "test",
+          "n_a_basis": null,
+          "obligation_references": [
+            "DSN-20260907112126-01@1#VEC-001",
+            "DSN-20260907112126-01@1#VFM-001",
+            "DSN-20260907112126-01@1#VFP-210-001",
+            "DSN-20260907112126-01@1#VFP-220-001",
+            "DSN-20260907112126-01@1#VFP-340-001",
+            "DSN-20260907112126-01@1#VFP-350-001",
+            "DSN-20260907112126-01@1#VFP-410-001",
+            "DSN-20260907112126-01@1#VPC-001",
+            "PLN-20260907112127-01@1#WI-001",
+            "PLN-20260907112127-01@1#WI-002",
+            "PLN-20260907112127-01@1#WI-003"
+          ],
+          "pass_criteria": "Ten actually executed JUnit methods, zero failures/errors/skips, runtime21 and bytecode65 assertions, preserved context and pipeline behavior.",
+          "procedure": {
+            "argv": [
+              "mvn",
+              "-o",
+              "-B",
+              "-ntp",
+              "test"
+            ],
+            "cwd": "source",
+            "kind": "command",
+            "max_output_bytes": 1048576,
+            "network": "disabled",
+            "policy": "deterministic-test-v1",
+            "timeout_seconds": 180,
+            "workspace": "isolated-copy"
+          },
+          "purpose": "both",
+          "subject_references": [
+            "IMP-20260907112131-01@1/RESULT-RES-001"
+          ],
+          "target_references": [
+            "DSN-20260907112126-01@1#VFO-001"
+          ],
+          "title": "Current-result JDK21 reactor tests"
+        }
+      ],
+      "next_action": "FINAL_CONFIRMATION_REQUIRED",
+      "open_items": [],
+      "owner_artifact_inputs": [
+        "CTX-20260907112125-01@1",
+        "DSN-20260907112126-01@1",
+        "IMP-20260907112131-01@1",
+        "PLN-20260907112127-01@1"
+      ],
+      "pre_execution_contract_digest": "sha256:cd068eece2a1113c4e822f0fa4c1f1562537321acce33355bcbf1dd36548bfa2",
+      "product_result": "pass",
+      "profile": "full",
+      "release_target_obligations": [],
+      "returns": [],
+      "rls_applicability": "required",
+      "rls_ready": false,
+      "scope": {
+        "delivery_scope": [
+          "resource:RSC-001"
+        ],
+        "disposition": "required",
+        "disposition_basis": null,
+        "imp_work_items": [
+          {
+            "binding_reference": "PLN-20260907112127-01@1#WI-001",
+            "depends_on": [],
+            "reference": "PLN-20260907112127-01@1#WI-001",
+            "resource_ids": [
+              "RSC-001"
+            ],
+            "target_phase": "IMP"
+          },
+          {
+            "binding_reference": "PLN-20260907112127-01@1#WI-002",
+            "depends_on": [
+              "IMP-20260907112128-01@1"
+            ],
+            "reference": "PLN-20260907112127-01@1#WI-002",
+            "resource_ids": [
+              "RSC-001"
+            ],
+            "target_phase": "IMP"
+          }
+        ],
+        "input_references": [
+          "CTX-20260907112125-01@1"
+        ],
+        "phase": "PLN",
+        "raw": {
+          "delivery_scope": [
+            "resource:RSC-001"
+          ],
+          "disposition": "required",
+          "imp_work_items": [
+            {
+              "binding_reference": "PLN-20260907112127-01@1#WI-001",
+              "depends_on": [],
+              "reference": "PLN-20260907112127-01@1#WI-001",
+              "resource_ids": [
+                "RSC-001"
+              ],
+              "target_phase": "IMP"
+            },
+            {
+              "binding_reference": "PLN-20260907112127-01@1#WI-002",
+              "depends_on": [
+                "IMP-20260907112128-01@1"
+              ],
+              "reference": "PLN-20260907112127-01@1#WI-002",
+              "resource_ids": [
+                "RSC-001"
+              ],
+              "target_phase": "IMP"
+            }
+          ],
+          "input_references": [
+            "CTX-20260907112125-01@1"
+          ],
+          "reference": "PLN-20260907112127-01@1"
+        },
+        "reference": "PLN-20260907112127-01@1",
+        "scope_digest": null
+      },
+      "subject_set_digest": "sha256:94dae9e31d6a49da6ee449a8dfd7e3b899ac46ba85a092f1ddf0ac536b50a35c",
+      "subjects": [
+        {
+          "attempt": "1",
+          "baseline_reference": "IMP-20260907112128-01@1/RESULT-RES-001",
+          "binding_lineage": "PLN-20260907112127-01#WI-002",
+          "claim_state": "completed",
+          "cumulative_changed_scope": [
+            "resource:RSC-001"
+          ],
+          "current_valid": true,
+          "dependency_chain_valid": true,
+          "dependency_result_references": [
+            "IMP-20260907112128-01@1"
+          ],
+          "imp_revision_reference": "IMP-20260907112131-01@1",
+          "imp_revision_state": "frozen",
+          "reference": "IMP-20260907112131-01@1/RESULT-RES-001",
+          "resource_id": "RSC-001",
+          "result_digest": "sha256:5b93fd103e2ae9cf37673b4440b06dba08a5b3f5c5c98a74f0c31c90d61cfe05"
+        }
+      ],
+      "supporting_members": [],
+      "target_conclusions": [
+        {
+          "basis_references": [
+            "VFM-001",
+            "EVD-001@sha256:f7011523d8d817ab309462c806839c61c9e6a8185c7644a5eb61054c0da7c912"
+          ],
+          "conclusion": "pass",
+          "dimension_projections": {
+            "validation": "pass",
+            "verification": "pass"
+          },
+          "exception_reference": null,
+          "purpose": "both",
+          "target_reference": "DSN-20260907112126-01@1#VFO-001"
+        }
+      ],
+      "targets": [
+        {
+          "obligation_references": [
+            "DSN-20260907112126-01@1#VFP-210-001",
+            "DSN-20260907112126-01@1#VFP-220-001",
+            "DSN-20260907112126-01@1#VFP-340-001",
+            "DSN-20260907112126-01@1#VFP-350-001",
+            "DSN-20260907112126-01@1#VFP-410-001"
+          ],
+          "purpose": "both",
+          "reference": "DSN-20260907112126-01@1#VFO-001",
+          "source_kind": "vfo",
+          "summary": "The active SpringGear reactor works on JDK21 with unchanged public Java source, Java21 bytecode and passing workflow compatibility tests."
+        }
+      ],
+      "title": "Verification and Validation"
+    },
+    "status": "updated",
+    "store_generation": 3,
+    "waiting_methods": []
+  },
+  "rls_ready": false,
+  "status": "updated"
+}

@@ -1,0 +1,45 @@
+{
+  "artifact": {
+    "artifact_status": "waiting_input",
+    "id": "DSN-20260907112126-01",
+    "reference": null,
+    "revision": 1,
+    "revision_state": "open",
+    "type": "DSN"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pending"
+  },
+  "next_action": {
+    "code": "COMPLETE_DSN_INPUT",
+    "command": "/sdlc-200-dsn revise --reference DSN-20260907112126-01@1",
+    "message": "补充设计内容、决策或 Final Confirmation",
+    "requires_user": true
+  },
+  "ok": false,
+  "open_items": [
+    {
+      "blocked_references": "CORE-G-009",
+      "expected_source": "Design Authority",
+      "id": "OPI-001",
+      "needed": "确认当前 DSN Artifact",
+      "resolution": "N/A",
+      "state": "open"
+    }
+  ],
+  "operation": "create",
+  "status": "action_required",
+  "warnings": [
+    {
+      "code": "FINAL_CONFIRMATION_BINDINGS",
+      "details": {
+        "artifact_reference": "DSN-20260907112126-01@1",
+        "subject_digest": "sha256:d38ff4a52d79b3ff9e42ce89a4e901017ccab4a235ffa08862ec9239ae256fc5"
+      },
+      "message": "Review the persisted candidate before confirming this exact binding"
+    }
+  ]
+}

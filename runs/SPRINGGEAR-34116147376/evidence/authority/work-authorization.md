@@ -1,0 +1,1 @@
+User authorized this isolated JDK21 regression, generic fixes, real tests and local Sandbox release on 2026-09-07. Objective independent-process artifact review is delegated; production effects, risk acceptance, future PASS and upstream writes are not authorized. Minimal compatible design decisions are delegated to the model.

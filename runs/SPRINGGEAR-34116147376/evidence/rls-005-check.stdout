@@ -1,0 +1,1 @@
+{"check": {"artifact_gate": "pass", "artifact_reference": "RLS-20260907112153-01@1", "follow_up": "none", "generation": 7, "ok": true, "pending": false, "release_conclusion": "success"}, "ok": true, "real_target_effects": 0, "sandbox_target_effects": 0, "status": "completed"}

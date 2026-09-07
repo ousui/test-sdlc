@@ -1,0 +1,180 @@
+{
+  "contract": "sdlc-ai-spec/runtime-invocation/v1",
+  "operation": "revise",
+  "project_root": "/home/runner/work/_temp/springgear-product",
+  "artifact_reference": "REQ-20260907112126-01@1",
+  "inputs": {
+    "context_reference": "CTX-20260907112125-01@1",
+    "requirement": {
+      "title": "SpringGear JDK21 compatibility migration",
+      "summary": "Upgrade the existing active reactor to JDK21 with preserved core behavior and executable regression evidence.",
+      "sources": [
+        {
+          "type": "conversation",
+          "content": "User changed the SpringGear migration target to JDK21 and authorized bounded environment-compatible regression; do not pursue JDK26.",
+          "evidence_reference": "CTX-20260907112125-01@1/SUP-001"
+        }
+      ],
+      "goals": [
+        {
+          "problem": "The framework reactor still targets Java8 and uses older build/processor dependencies.",
+          "outcome": "Maintain and test the framework using JDK21 without redesigning its public API.",
+          "success_condition": "Current-result JDK21 compilation, bytecode and behavior tests pass, with exact source and complete SDLC evidence."
+        }
+      ],
+      "in_scope": [
+        "Existing four-module Maven reactor",
+        "Compatible dependency/build alignment",
+        "Behavior tests, migration instructions and local Sandbox lifecycle"
+      ],
+      "out_of_scope": [
+        "JDK26",
+        "Disabled historical modules",
+        "Production deployment or Maven Central release",
+        "Public API redesign",
+        "UI/UX review"
+      ],
+      "affected_parties": [],
+      "requirements": [
+        {
+          "type": "behavior",
+          "source_references": [
+            "SRC-001",
+            "GOAL-001"
+          ],
+          "statement": "Compile the existing active four-module reactor on JDK21 and emit Java21 class files."
+        },
+        {
+          "type": "behavior",
+          "source_references": [
+            "SRC-001",
+            "GOAL-001"
+          ],
+          "statement": "Preserve existing workflow context, handler ordering, unsupported-handler behavior and exception conversion without changing public SpringGear source."
+        },
+        {
+          "type": "constraint",
+          "source_references": [
+            "SRC-001",
+            "GOAL-001"
+          ],
+          "statement": "Align the minimal compiler, processor, Spring and logging dependencies while retaining the Spring5 API generation; do not migrate to a new architecture."
+        },
+        {
+          "type": "quality",
+          "source_references": [
+            "SRC-001",
+            "GOAL-001"
+          ],
+          "statement": "Execute all declared regression tests with a real JUnit engine; zero failures, errors or skipped tests; a repeatable Maven verify succeeds."
+        },
+        {
+          "type": "constraint",
+          "source_references": [
+            "SRC-001",
+            "GOAL-001"
+          ],
+          "statement": "Document actual scope and local build commands; preserve upstream source/license and do not publish or modify upstream branches."
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "requirement_references": [
+            "R-001"
+          ],
+          "condition": "JDK21 compiles the reactor",
+          "expected_result": "Runtime feature 21 and compiled class major 65 are asserted."
+        },
+        {
+          "requirement_references": [
+            "R-002"
+          ],
+          "condition": "Execute existing core behaviors",
+          "expected_result": "Context arguments, shared values, handler order/skip/failure and Spring configuration behavior pass."
+        },
+        {
+          "requirement_references": [
+            "R-003"
+          ],
+          "condition": "Compile Lombok-generated members and load Spring context",
+          "expected_result": "Constructors/accessors and Spring configuration enhancement work without add-opens or public-source rewriting."
+        },
+        {
+          "requirement_references": [
+            "R-004"
+          ],
+          "condition": "Execute the current test class on the current final result",
+          "expected_result": "Ten distinct tests execute, zero failures/errors/skips; Maven verify packages the active reactor."
+        },
+        {
+          "requirement_references": [
+            "R-005"
+          ],
+          "condition": "Inspect changed paths and migration instructions",
+          "expected_result": "Only POM compatibility, regression tests and migration instructions change; no deployment goals or upstream effects."
+        }
+      ],
+      "dependencies": [],
+      "profile": "full",
+      "lifecycle_applicability": [
+        {
+          "phase": "DSN",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Compatibility design, ordered build/test implementation, current-result verification and local Sandbox delivery."
+        },
+        {
+          "phase": "PLN",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Compatibility design, ordered build/test implementation, current-result verification and local Sandbox delivery."
+        },
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Compatibility design, ordered build/test implementation, current-result verification and local Sandbox delivery."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Compatibility design, ordered build/test implementation, current-result verification and local Sandbox delivery."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Compatibility design, ordered build/test implementation, current-result verification and local Sandbox delivery."
+        }
+      ],
+      "open_items": [],
+      "evidence": [],
+      "supporting_members": [],
+      "exceptions": []
+    },
+    "final_confirmation": {
+      "type": "final_confirmation",
+      "result": "approved",
+      "mode": "delegated",
+      "confirmer": "deterministic-review-process:2924",
+      "role": "Delegated Independent Reviewer",
+      "reviewed_executor": "web-realflow-springgear-executor",
+      "authority_reference": ".sdlc/authority/REQ-20260907112126-01-r1-2924.md@sha256:b8222ed66c7ac278fd69edf22e4a6ffc14338fe5415226493379ad2175966a76",
+      "accepted_exception_references": [],
+      "confirmed_at": "2026-09-07T11:21:26+00:00",
+      "control_input_digest": "sha256:8c54cf390c5fe916a35746617892dc04ea2e941af331afb2c8ca0042cea2accb",
+      "evaluation_contract_set": "docs/v1.1/100-req-spec.md@sha256:13907cab3f1a9a5575d0d292901dc532f2a1c15f5b345f4fa8b7e20b137ed3f0, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+      "check_set_result_digest": "sha256:be72a77a11285fc409116f296aea8d370e5308077b425050127e9dc87bee4b7c"
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ],
+  "options": {
+    "dry_run": false
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "upstream_sha": "e855096ff19dcdb303dc4250ba19c30acd743ac7",
+  "modified": [
+    "pom.xml",
+    "springgear-parent/pom.xml"
+  ],
+  "added": [
+    "JDK21-MIGRATION.md",
+    "springgear-core/src/test/java/org/springgear/Jdk21RegressionTest.java"
+  ],
+  "all_upstream_java_unchanged": true
+}
