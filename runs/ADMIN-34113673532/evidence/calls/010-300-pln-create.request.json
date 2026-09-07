@@ -1,0 +1,145 @@
+{
+  "inputs": {
+    "plan": {
+      "title": "Ordered account lifecycle delivery",
+      "summary": "Two sequential same-resource implementation work items followed by complete-scope verification and local sandbox delivery.",
+      "profile": "full",
+      "pln_disposition": "required",
+      "delivery_scope": [
+        {
+          "source_artifact_reference": "DSN-20260907105238-01@2",
+          "inclusion_basis": "Entire confirmed account-availability design; no selected-item truncation."
+        }
+      ],
+      "obligations": [
+        "DSN-20260907105238-01@2#CHG-001",
+        "DSN-20260907105238-01@2#CHG-002",
+        "DSN-20260907105238-01@2#VFP-110-001",
+        "DSN-20260907105238-01@2#VFP-120-001",
+        "DSN-20260907105238-01@2#VFP-130-001",
+        "DSN-20260907105238-01@2#VFP-220-001",
+        "DSN-20260907105238-01@2#VFP-230-001",
+        "DSN-20260907105238-01@2#VFP-240-001",
+        "DSN-20260907105238-01@2#VFP-310-001",
+        "DSN-20260907105238-01@2#VFP-330-001",
+        "DSN-20260907105238-01@2#VFP-340-001",
+        "DSN-20260907105238-01@2#VFP-350-001",
+        "DSN-20260907105238-01@2#VFP-410-001"
+      ],
+      "work_items": [
+        {
+          "id": "WI-001",
+          "target_phase": "IMP",
+          "outcome": "Implement account availability, protected admin editing, revocation and additive SQLite migration.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907105238-01@2#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [],
+          "completion_criteria": "Current application code handles enabled status, session revocation and legacy data without broadening access.",
+          "expected_evidence": "Immutable source snapshot and syntax/current-content checks.",
+          "responsible_role": "Application developer"
+        },
+        {
+          "id": "WI-002",
+          "target_phase": "IMP",
+          "outcome": "Add reproducible account lifecycle tests and local usage documentation.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907105238-01@2#CHG-002"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-001"
+          ],
+          "completion_criteria": "Executable tests and documentation exist on top of the exact first implementation result.",
+          "expected_evidence": "Immutable test source, syntax checks and actual functional test output.",
+          "responsible_role": "Application test developer"
+        },
+        {
+          "id": "WI-003",
+          "target_phase": "VFY",
+          "outcome": "Verify and validate the complete current requirement and design scope.",
+          "execution_scope": [
+            "resource:RSC-001"
+          ],
+          "source_references": [
+            "DSN-20260907105238-01@2#VFP-110-001",
+            "DSN-20260907105238-01@2#VFP-120-001",
+            "DSN-20260907105238-01@2#VFP-130-001",
+            "DSN-20260907105238-01@2#VFP-220-001",
+            "DSN-20260907105238-01@2#VFP-230-001",
+            "DSN-20260907105238-01@2#VFP-240-001",
+            "DSN-20260907105238-01@2#VFP-310-001",
+            "DSN-20260907105238-01@2#VFP-330-001",
+            "DSN-20260907105238-01@2#VFP-340-001",
+            "DSN-20260907105238-01@2#VFP-350-001",
+            "DSN-20260907105238-01@2#VFP-410-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-002"
+          ],
+          "completion_criteria": "All required objectives have current real method evidence with passing verification and validation.",
+          "expected_evidence": "Actual current-subject method logs, assertion identities and VFY conclusions.",
+          "responsible_role": "Verification executor"
+        },
+        {
+          "id": "WI-004",
+          "target_phase": "RLS",
+          "outcome": "Deliver the verified result to a disposable local sandbox and confirm its exact version.",
+          "execution_scope": [
+            "resource:RSC-001",
+            "environment:ENV-001"
+          ],
+          "source_references": [
+            "DSN-20260907105238-01@2#CHG-001"
+          ],
+          "constraint_references": [],
+          "depends_on": [
+            "WI-003"
+          ],
+          "completion_criteria": "The current VFY-approved candidate is applied to the authorized local target and its version matches.",
+          "expected_evidence": "Release effect observation, target version readback and terminal lifecycle status.",
+          "responsible_role": "Local release executor"
+        }
+      ],
+      "aggregated_applicability": [],
+      "lifecycle_applicability": [
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume complete design scope and preserve the ordered resource result chain."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume complete design scope and preserve the ordered resource result chain."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Consume complete design scope and preserve the ordered resource result chain."
+        }
+      ],
+      "open_items": [],
+      "exceptions": [],
+      "evidence": [],
+      "supporting_members": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "contract": "sdlc-ai-spec/runtime-invocation/v1",
+  "operation": "revise",
+  "project_root": "/home/runner/work/_temp/admin-product",
+  "artifact_reference": "CTX-20260907105237-01@1",
+  "inputs": {
+    "context": {
+      "summary": "Pinned Flask-Admin login example; SQLite; enabled-account lifecycle increment in an isolated clone.",
+      "project_identity": {
+        "project_name": {
+          "value": "Minimal Admin regression",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "purpose": {
+          "value": "Manage example accounts and validate a real bounded account lifecycle change",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "boundary": {
+          "value": "Isolated Flask-Admin teaching application source and ephemeral local SQLite only; no upstream or production writes.",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "primary_resource_reference": {
+          "value": "RSC-001",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        },
+        "authoritative_references": {
+          "value": "pallets-eco/flask-admin@7fee0246b05476fb6bc38e44bcfb7cc87b978853",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "id": "RSC-001",
+          "type": "application",
+          "name": "Admin application",
+          "role": "primary",
+          "locator": "source",
+          "baseline_reference": "8f7e8697a10b344a012c1ee686c49b0c2d4f8882",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "technologies": [
+        {
+          "id": "TEC-001",
+          "category": "runtime",
+          "name": "Python / Flask-Admin / SQLite",
+          "version_or_constraint": "Python 3.12 CI; Flask 3.1.2; Flask-Admin 2.0.2; local compatibility diagnostics 3.13",
+          "purpose": "Small authenticated SQLAlchemy administration application",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "engineering_entries": [
+        {
+          "id": "ENG-001",
+          "purpose": "run",
+          "command_or_entry_point": "python3 main.py",
+          "working_scope": "source",
+          "preconditions": "Dependencies prepared outside runtime; isolated temporary SQLite and instance secret supplied by environment",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "id": "CMP-001",
+          "name": "Account admin",
+          "type": "web-app",
+          "resource_reference": "RSC-001",
+          "responsibility": "Authentication, account list and editable status",
+          "entry_point": "main.py",
+          "depends_on": "None",
+          "authority_reference": "EVD-001",
+          "basis": "observed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "rules": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "environments": [
+        {
+          "id": "ENV-001",
+          "environment": "test",
+          "purpose": "Synthetic development verification and local release target",
+          "accessibility": "available",
+          "data_and_network_boundary": "No production data; isolated-copy verification; no network during runtime",
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      ],
+      "constraints": {
+        "none": {
+          "basis": "confirmed",
+          "basis_references": [
+            "EVD-001"
+          ]
+        }
+      },
+      "exceptions": []
+    },
+    "evidence": [
+      {
+        "id": "EVD-001",
+        "type": "source-inspection",
+        "supports_references": [
+          "RSC-001"
+        ],
+        "source_or_producer": "web-realflow-admin-executor",
+        "reference": "SUP-001",
+        "integrity_or_digest": "sha256:586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+        "produced_at": "2026-09-07T10:52:37+00:00",
+        "sensitivity_or_access": "Public example and synthetic test data only"
+      }
+    ],
+    "supporting_members": [
+      {
+        "member_id": "SUP-001",
+        "canonical_name": "source-provenance.md",
+        "media_type": "text/markdown",
+        "purpose": "Pinned source and safety-preparation provenance",
+        "content": "# Source provenance\n\n`pallets-eco/flask-admin@7fee0246b05476fb6bc38e44bcfb7cc87b978853`,\n`examples/auth_flask_login`. BSD-3-Clause source LICENSE is retained.\n\nBefore the CTX baseline only: replace the public example secret with an instance\nenvironment value; replace destructive demo seeding with empty-table initialization.\nNo existing account data exists in this isolated input. The enabled/disabled feature\nand additive migration are not present in the baseline. No upstream repository is modified.\n"
+      }
+    ],
+    "refresh": {
+      "base_revision": null,
+      "observed_at": "2026-09-07T10:52:37+00:00",
+      "observation_baseline": "8f7e8697a10b344a012c1ee686c49b0c2d4f8882",
+      "refresh_reason": "Confirm complete observed context",
+      "effective_change_references": "None",
+      "evidence_references": "EVD-001"
+    }
+  },
+  "confirmations": [
+    {
+      "type": "write",
+      "approved": true
+    },
+    {
+      "type": "project_boundary",
+      "value": "Isolated Flask-Admin teaching application source and ephemeral local SQLite only; no upstream or production writes.",
+      "authority_reference": "EVD-001"
+    },
+    {
+      "type": "final_confirmation",
+      "result": "approved",
+      "mode": "delegated",
+      "confirmer": "deterministic-review-process:2404",
+      "role": "Delegated Independent Reviewer",
+      "reviewed_executor": "web-realflow-admin-executor",
+      "authority_reference": ".sdlc/authority/CTX-20260907105237-01-r1-2404.md@sha256:eb3ac00414a57e9e418c52cb00a411e8140395d1b88b08fdd000a1c12406642f",
+      "accepted_exception_references": [],
+      "confirmed_at": "2026-09-07T10:52:38+00:00",
+      "control_input_digest": "sha256:ac27f5f620419ec7e3e64001880958a9867bc17470269830b69517054ea2af07",
+      "evaluation_contract_set": "docs/v1.1/000-ctx-spec.md@sha256:1d98e7cce686664cbf9897cbac852c425644ba3ea81a0d9c1db5e27b0e530470, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b",
+      "check_set_result_digest": "sha256:5da5d1d950fe2f2a7508975d1d81bf8600021cea6e19f0a6bb2d60c5791c2ff9"
+    }
+  ],
+  "options": {
+    "dry_run": false,
+    "prepare_confirmation": true
+  }
+}

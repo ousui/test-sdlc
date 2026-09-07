@@ -1,0 +1,753 @@
+{
+  "inputs": {
+    "design": {
+      "title": "Account availability and revocation design",
+      "summary": "Extend the existing app/model/admin forms; use transactional session-identifier rotation and additive SQLite migration.",
+      "boundary": "Isolated Flask-Admin teaching application source and ephemeral local SQLite only; no upstream or production writes.",
+      "change_type": "incremental",
+      "baseline_references": [
+        "CTX-20260907105237-01@1"
+      ],
+      "target_state_summary": "Enabled state is visible/editable, revoked sessions stay revoked, and persisted accounts survive restart/migration.",
+      "impact_summary": "App/model/forms and isolated tests only; existing teaching authorization model retained.",
+      "changes": [
+        {
+          "id": "CHG-001",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "modify",
+          "baseline_references": [
+            "CTX-20260907105237-01@1"
+          ],
+          "baseline_state": "No persisted availability switch or suspended-account access guard.",
+          "target_state": "Working status edit/filter, immediate session revocation and additive migration.",
+          "affected_domains": [
+            "DOM-110",
+            "DOM-120",
+            "DOM-130",
+            "DOM-220",
+            "DOM-230",
+            "DOM-240",
+            "DOM-310",
+            "DOM-330",
+            "DOM-340",
+            "DOM-410"
+          ]
+        },
+        {
+          "id": "CHG-002",
+          "object_or_boundary": "resource:RSC-001",
+          "change": "add",
+          "baseline_references": [
+            "CTX-20260907105237-01@1"
+          ],
+          "baseline_state": "No regression for account suspension.",
+          "target_state": "Deterministic tests and minimal local delivery documentation.",
+          "affected_domains": [
+            "DOM-350",
+            "DOM-510"
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "id": "DEC-001",
+          "requirement_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "question": "How should disabling invalidate outstanding sessions without deleting accounts?",
+          "options": [
+            "Reject only fresh login",
+            "Rotate alternative login identity and reject disabled loads"
+          ],
+          "decision": "Rotate identity on disable and reject disabled accounts on every protected load.",
+          "rationale": "Meets immediate revocation and prevents old-session resurrection while retaining existing accounts.",
+          "affected_domains": [
+            "DOM-110",
+            "DOM-220",
+            "DOM-240",
+            "DOM-310"
+          ]
+        }
+      ],
+      "traceability": [
+        {
+          "source_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#AC-001"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#AC-002"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#AC-003"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#AC-004"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        },
+        {
+          "source_references": [
+            "REQ-20260907105238-01@1#R-005",
+            "REQ-20260907105238-01@1#AC-005"
+          ],
+          "design_references": [
+            "CHG-001",
+            "CHG-002",
+            "DOM-510"
+          ],
+          "decision_references": [
+            "DEC-001"
+          ],
+          "vfy_references": [
+            "VFO-001"
+          ]
+        }
+      ],
+      "domains": {
+        "DOM-110": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Account state and current session transitions\n\nEnabled is the default. Disabling rotates the alternative login identifier in the same update transaction. Re-enable does not revert that identifier. Logout removes the current session.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-110-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Account state and current session transitions",
+              "observable_result": "Active login succeeds, disabled login is rejected and a retained old cookie stays rejected after re-enable.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-120": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Manager editing and sign-in interactions\n\nReuse Flask-Admin account list/edit/filter and the default form error interaction. Keep logout as an explicit POST form with CSRF. Authentication failures remain on the sign-in page without revealing credentials.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-120-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Manager editing and sign-in interactions",
+              "observable_result": "A manager can edit status, filter results, and receive non-success responses for invalid input without a hidden mutation.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-130": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Status field and auth forms\n\nExpose enabled as a named Boolean column and Boolean edit control. Keep existing page template inheritance, labels and validation errors. No unrelated theme or aesthetic changes.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-130-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Status field and auth forms",
+              "observable_result": "The enabled column/filter and auth/logout forms exist and submit the documented fields.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-140": {
+          "disposition": "n/a",
+          "reason": "No new accessibility or locale mechanism; reuse existing labeled form widgets. No claim of subjective usability, translation or accessibility certification.",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ]
+        },
+        "DOM-210": {
+          "disposition": "n/a",
+          "reason": "Existing single-process Flask application and dependency architecture retained; no service boundaries or new shared abstraction.",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ]
+        },
+        "DOM-220": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### User model, login loader and model administration\n\nKeep an app factory with SQLAlchemy and Flask-Login extension initialization. User.get_id returns the alternative identifier; the loader returns only enabled rows. Model-view access follows the existing enabled-authenticated-manager teaching boundary.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-220-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "User model, login loader and model administration",
+              "observable_result": "Model updates, login loading, and protected views agree on account availability.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-230": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Authentication and mutation endpoints\n\nReuse /admin/login/, /admin/register/, /admin/logout/ and account CRUD routes. Mutations are POST and CSRF protected; next accepts only local URLs. Read access alone never changes account state.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-230-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Authentication and mutation endpoints",
+              "observable_result": "Anonymous/forged requests are denied, missing CSRF cannot mutate, and external next never navigates off-site.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-240": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Persisted enabled status and alternative identifier\n\nAdd Boolean enabled with non-null true default and rotate alternative_id only on a true-to-false transition. New credentials use salted password hashing. The per-app instance secret is supplied externally, never committed.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-240-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Persisted enabled status and alternative identifier",
+              "observable_result": "Database flags match forms; password storage is not plaintext; disable transitions rotate identifiers once.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-310": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Authentication, session revocation and CSRF\n\nReject disabled accounts both during login validation and subsequent user loading. Protect auth and edit forms with Flask-WTF CSRF. Reject forged sessions and unsafe redirects. This synthetic-data example keeps its prior simple manager model; it is not a new production RBAC implementation.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-310-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Authentication, session revocation and CSRF",
+              "observable_result": "Disabled and forged sessions fail, CSRF-invalid state changes fail, while legitimate manager workflows remain available.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-320": {
+          "disposition": "n/a",
+          "reason": "No throughput/latency requirement or new workload; one indexed account load per protected request, no capacity certification.",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ]
+        },
+        "DOM-330": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Restart and failed-request consistency\n\nCommit account updates transactionally; failed validation/CSRF must leave state unchanged. Dispose test connections; initialize per-app extensions, not persistent module-global state.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-330-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Restart and failed-request consistency",
+              "observable_result": "Restart preserves state; rejected requests do not alter accounts; two clients cannot revive a revoked old cookie.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-340": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Existing SQLite account migration\n\nInspect existing user columns before adding enabled with DEFAULT 1. Preserve id, username and other account data. Repeating migration is a no-op. Never drop or re-seed the legacy table.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-340-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Existing SQLite account migration",
+              "observable_result": "Two migration runs retain the original row identity and data; migrated accounts have an explicit enabled state.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-350": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Maintainable reproducible regression\n\nPlace feature regression in a test module with isolated temporary databases and explicit client sessions. Preserve the upstream BSD license and source provenance. Keep dependencies fixed and application configuration injectable.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-350-001",
+              "references": [
+                "REQ-20260907105238-01@1#AC-001",
+                "REQ-20260907105238-01@1#AC-002",
+                "REQ-20260907105238-01@1#AC-003",
+                "REQ-20260907105238-01@1#AC-004",
+                "REQ-20260907105238-01@1#AC-005"
+              ],
+              "verification_object": "Maintainable reproducible regression",
+              "observable_result": "The same test command exercises positive, rejection, restart and migration cases with isolated cleanup.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-410": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Application developer",
+          "basis_references": [
+            "REQ-20260907105238-01@1#R-001",
+            "REQ-20260907105238-01@1#R-002",
+            "REQ-20260907105238-01@1#R-003",
+            "REQ-20260907105238-01@1#R-004",
+            "REQ-20260907105238-01@1#R-005"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### Local runtime and sandbox delivery\n\nKeep the example local-only with explicit instance configuration and SQLite location. The SDLC RLS target is a disposable local sandbox, not publishing a service or production credentials.",
+          "constraints_impacts": [
+            {
+              "type": "constraint",
+              "content": "Preserve the existing teaching-project boundary and satisfy the requirement without production effects.",
+              "affected_phase": "IMP, VFY, RLS",
+              "reference": "REQ-20260907105238-01@1"
+            }
+          ],
+          "vfy_points": [
+            {
+              "id": "VFP-410-001",
+              "references": [
+                "REQ-20260907105238-01@1"
+              ],
+              "verification_object": "Local runtime and sandbox delivery",
+              "observable_result": "The application configuration and start command are local-only, use isolated SQLite and require externally supplied instance configuration; delivery version observation occurs later in RLS.",
+              "expected_evidence": "Actual request assertions, database readback and execution output bound to the tested result."
+            }
+          ],
+          "evidence_references": [
+            {
+              "reference": "CTX-20260907105237-01@1/SUP-001",
+              "supports": [
+                "CHG-001"
+              ],
+              "purpose": "Existing project provenance and isolated preparation"
+            }
+          ]
+        },
+        "DOM-420": {
+          "disposition": "n/a",
+          "reason": "No new operational telemetry or production incident workflow; retain existing server diagnostics without logging credentials.",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ]
+        },
+        "DOM-510": {
+          "disposition": "required",
+          "completion": "complete",
+          "responsible_role": "Verification designer",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "design_result_markdown": "## 设计结果 Design Result\n\n### VFY 目标 VFY Objectives\n\n| ID | Kind | Requirement, AC, Goal or Intended-use References | Design or Decision References | Domain VFY Point References | 可观察结果 Observable Result | 风险或重要性 Risk or Importance | Method References | Pass Criteria References | Evidence Contract References |\n|---|---|---|---|---|---|---|---|---|---|\n| VFO-001 | both | REQ-20260907105238-01@1#AC-001, REQ-20260907105238-01@1#AC-002, REQ-20260907105238-01@1#AC-003, REQ-20260907105238-01@1#AC-004, REQ-20260907105238-01@1#AC-005, REQ-20260907105238-01@1#GOAL-001 | CHG-001, CHG-002, DEC-001 | VFP-110-001, VFP-120-001, VFP-130-001, VFP-220-001, VFP-230-001, VFP-240-001, VFP-310-001, VFP-330-001, VFP-340-001, VFP-350-001, VFP-410-001 | An enabled manager suspends and restores another account without data loss or revival of revoked sessions; actual request and persistence tests pass. | Access revocation and preserved legacy data are essential to intended use. | VFM-001 | VPC-001 | VEC-001 |\n\n### 方法选择 VFY Methods\n\n| ID | 类型 Type | Disposition | 方法明细 Method Detail | 适用范围 Scope | 方法 Method | 选择依据 Selection Basis | 承载位置 Host | Exception Reference |\n|---|---|---|---|---|---|---|---|---|\n| VFM-001 | test | required | level=integration, mode=automated | VFO-001 | Execute application requests with isolated SQLite state and compare responses and stored data. | Observable state transitions and rejected writes can be asserted without subjective UI judgments. | VFY | N/A |\n\n### 可验证性设计 Verifiability Design\n\nInject app configuration and isolated SQLite; retain alternative identifier and load enabled accounts on every protected request. Host domains DOM-220, DOM-240 and DOM-350. No test-only success hook.\n\n### 环境与数据 Environment and Data\n\nUse prepared fixed Python dependencies, actual Flask WSGI request handling, temporary SQLite and synthetic credentials. Reset each test, close connections, disable network during formal methods. No external accounts or production data.\n\n### 覆盖策略 Coverage Strategy\n\nCover normal login, disable/re-enable and another active manager; invalid credentials, CSRF and forged cookies; duplicate/blank registration; restart and repeated legacy migration. Exclude production performance and subjective aesthetics, which are not acceptance objectives.\n\n### 通过条件 Pass Criteria\n\n| ID | VFY Objective | 输入或条件 Input or Condition | 预期结果 Expected Result | 容差 Tolerance | 失败条件 Failure Condition |\n|---|---|---|---|---|---|\n| VPC-001 | VFO-001 | Current terminal implementation result plus synthetic request/state scenarios | All selected assertions run and pass; zero skips/errors; unauthorized writes leave stored state unchanged. | None | Any assertion failure, missing scenario, skipped test, evidence mismatch or incorrect tested source. |\n\n### Evidence Contract\n\n| ID | VFY Objective | Evidence Type | 生成方或来源 Producer or Source | 必要内容 Required Content | 敏感性与处理 Sensitivity and Handling | 保留要求 Retention Requirement | 保存或引用位置 Storage or Reference |\n|---|---|---|---|---|---|---|---|\n| VEC-001 | VFO-001 | Execution log and immutable source evidence | Actual automated test process | Exact source/result digests, method/environment, executed test identities, exit code, stdout/stderr and current outcomes | Synthetic data only; exclude live credentials and session values | Retain with this regression delivery | Formal VFY supporting members and readable case evidence |",
+          "constraints_impacts": [],
+          "vfy_points": [],
+          "evidence_references": []
+        }
+      },
+      "composite_subdomains": [
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "可访问性 Accessibility",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "reason": "No new accessibility or locale mechanism; reuse existing labeled form widgets. No claim of subjective usability, translation or accessibility certification.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-140",
+          "subdomain": "国际化 Internationalization",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "reason": "No new accessibility or locale mechanism; reuse existing labeled form widgets. No claim of subjective usability, translation or accessibility certification.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "安全 Security",
+          "disposition": "required",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "reason": "N/A",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "隐私 Privacy",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "reason": "Only synthetic test accounts; no new personal-data collection or privacy workflow.",
+          "exception_references": []
+        },
+        {
+          "domain_code": "DOM-310",
+          "subdomain": "合规 Compliance",
+          "disposition": "n/a",
+          "basis_references": [
+            "REQ-20260907105238-01@1"
+          ],
+          "reason": "No new regulated processing or jurisdictional change; preserve source license.",
+          "exception_references": []
+        }
+      ],
+      "cross_domain_conflicts": [],
+      "scope_expansion": false,
+      "simplicity_rationale": "Reuse the existing monolith, SQLAlchemy, Flask-Login and standard admin widgets; no extra service/provider or production release.",
+      "lifecycle_applicability": [
+        {
+          "phase": "PLN",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered implementation, whole-scope verification and authorized local sandbox delivery."
+        },
+        {
+          "phase": "IMP",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered implementation, whole-scope verification and authorized local sandbox delivery."
+        },
+        {
+          "phase": "VFY",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered implementation, whole-scope verification and authorized local sandbox delivery."
+        },
+        {
+          "phase": "RLS",
+          "disposition": "required",
+          "host": "N/A",
+          "basis": "Ordered implementation, whole-scope verification and authorized local sandbox delivery."
+        }
+      ],
+      "evidence": [],
+      "supporting_members": [],
+      "open_items": [],
+      "exceptions": []
+    }
+  },
+  "confirmations": [
+    {
+      "type": "artifact_store_write",
+      "approved": true
+    }
+  ]
+}

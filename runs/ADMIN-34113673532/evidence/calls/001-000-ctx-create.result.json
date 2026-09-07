@@ -1,0 +1,46 @@
+{
+  "artifact": {
+    "artifact_status": "draft",
+    "id": "CTX-20260907105237-01",
+    "reference": null,
+    "revision": 1,
+    "revision_state": "open",
+    "type": "CTX"
+  },
+  "contract": "sdlc-ai-spec/runtime-result/v1",
+  "errors": [],
+  "gate": {
+    "failed_checks": [],
+    "result": "pending"
+  },
+  "next_action": {
+    "code": "PROVIDE_REQUIRED_CTX_INPUT",
+    "command": null,
+    "message": "补充 Open Items 或准确 Final Confirmation 后显式 revise 当前 Revision",
+    "requires_user": true
+  },
+  "ok": false,
+  "open_items": [
+    {
+      "blocked_references": "CORE-G-009",
+      "expected_source": "Project Authority or reproducible Evidence",
+      "id": "OPI-001",
+      "needed": "Final Confirmation is required",
+      "resolution": "N/A",
+      "state": "open"
+    }
+  ],
+  "operation": "create",
+  "status": "action_required",
+  "warnings": [
+    {
+      "code": "FINAL_CONFIRMATION_BINDINGS",
+      "details": {
+        "check_set_result_digest": "sha256:5da5d1d950fe2f2a7508975d1d81bf8600021cea6e19f0a6bb2d60c5791c2ff9",
+        "control_input_digest": "sha256:3503d00129a1ad0901c1cacf37a9cafce018a56897f3bad961aeccb20110ed31",
+        "evaluation_contract_set": "docs/v1.1/000-ctx-spec.md@sha256:1d98e7cce686664cbf9897cbac852c425644ba3ea81a0d9c1db5e27b0e530470, docs/v1.1/artifact-store-spec.md@sha256:b340ca2a38dfe0f7409acaa8f9ac559e8872bed44725037889528e3d167d4764, docs/v1.1/core-spec.md@sha256:1eefa7a138f2d221140137a5fac0f5429b7f847273fe9d70e891ace6c3b7a89b"
+      },
+      "message": "Use these exact bindings in the authoritative confirmation record"
+    }
+  ]
+}
