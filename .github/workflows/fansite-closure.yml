@@ -2,7 +2,7 @@ name: fansite-closure
 on:
   push:
     branches: [verify/fansite-closure-v1]
-    paths: [.github/workflows/fansite-closure.yml]
+    paths: [.github/workflows/fansite-closure.yml, scripts/replay_fansite.py, 'cases/fansite/**']
 permissions:
   contents: read
 concurrency:
