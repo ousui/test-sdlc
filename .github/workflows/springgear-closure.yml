@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 25
     env:
-      SDLC_SOURCE_SHA: 5578cd109f57f69be72775b462223e3a1bc429a8
+      SDLC_SOURCE_SHA: c047951e9f1e29dcf61b67cc81252d959b74309d
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ousui/sdlc-ai-spec
-          ref: 5578cd109f57f69be72775b462223e3a1bc429a8
+          ref: c047951e9f1e29dcf61b67cc81252d959b74309d
           fetch-depth: 0
           path: _spec
           persist-credentials: false
