@@ -1,7 +1,7 @@
 name: springgear-closure
 on:
   push:
-    branches: [verify/admin-springgear-closure-v1]
+    branches: [verify/fansite-closure-v1]
     paths: [.github/workflows/springgear-closure.yml, scripts/replay_springgear.py, scripts/scenario_io.py]
 permissions:
   contents: read
@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 25
     env:
-      SDLC_SOURCE_SHA: 0102b8f42a87809f58f978e2c2611705b30e7869
+      SDLC_SOURCE_SHA: eff4ac209fe4cc1d0fefcd7e4478cb5b9f786af4
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: 849783ddbc9b2ffd5300e3b1582049a390a2e2a8
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/checkout@v4
