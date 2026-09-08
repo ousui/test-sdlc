@@ -36,7 +36,8 @@ jobs:
           python scripts/prepare_springgear.py --upstream _upstream --out "$RUNNER_TEMP/springgear-inputs"
           (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp verify) > "$RUNNER_TEMP/v2-env/maven-prepare.log" 2>&1
           tar -czf "$RUNNER_TEMP/v2-env/maven-repository.tar.gz" -C "$HOME/.m2" repository
-          tar -czf "$RUNNER_TEMP/v2-env/maven-tool.tar.gz" -C "$(dirname "$MAVEN_HOME")" "$(basename "$MAVEN_HOME")"
+          maven_root="$(dirname "$(dirname "$(readlink -f "$(command -v mvn)")")")"
+          tar -czf "$RUNNER_TEMP/v2-env/maven-tool.tar.gz" -C "$maven_root" bin boot conf lib
           { python --version; java -version; mvn -version; git rev-parse HEAD; git -C _upstream rev-parse HEAD; } > "$RUNNER_TEMP/v2-env/environment.txt" 2>&1
           echo 'DEPENDENCY_PREPARATION_ONLY: this is not v2 Runtime or Skill closure evidence.' > "$RUNNER_TEMP/v2-env/README.txt"
       - uses: actions/upload-artifact@v4
