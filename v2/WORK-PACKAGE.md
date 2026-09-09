@@ -23,8 +23,8 @@ These old results establish input provenance, not v2 PASS.
 
 ## Evidence classification
 
-The current Web agent authors requirements, designs, plans and code, then invokes public Skill/runtime interfaces. A deterministic replay of the same authored calls provides regression evidence. This is distinct from independently launching Codex/Cursor/Claude model sessions. Native host loading/discovery must not be claimed from CLI replay alone.
+The current local Codex Agent authors requirements, designs, plans and code, then invokes public Skill/runtime interfaces. A deterministic replay of the same authored calls provides regression evidence. This is distinct from independently launching Codex/Cursor/Claude model sessions. Native host loading/discovery must not be claimed from CLI replay alone.
 
 Each result identifies the exact runtime SHA, lab SHA, product baseline, candidate digest, environment, request/response trace, actual test exits and local delivery readback. Negative tests are expected rejections, not successful-path blockers. Any unexpected failure remains visible until repaired and rerun.
 
-Current status: implementation in `ousui/sdlc-ai-spec` PR #22; v2 baseline and complex rounds not yet executed.
+Current status: Q0 actual installed-Skill forward chains completed; see [Q0 evidence](Q0/INDEX.md). Q1/Q2 and final same-version acceptance remain open.
