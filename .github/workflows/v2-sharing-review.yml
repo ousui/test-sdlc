@@ -1,0 +1,57 @@
+name: v2-sharing-review
+on:
+  push:
+    branches: [verify/v2-review-github-sharing]
+    paths: [.github/workflows/v2-sharing-review.yml]
+permissions:
+  contents: read
+  issues: write
+env:
+  SDLC_SOURCE_SHA: f8b4765e46fd440d8e95d0c065b5ccc7b115b0af
+jobs:
+  real-issue-sharing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/sdlc-ai-spec
+          ref: ${{ env.SDLC_SOURCE_SHA }}
+          path: _runtime
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build exact installed copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _runtime rev-parse HEAD)" = "$SDLC_SOURCE_SHA"
+          mkdir -p "$RUNNER_TEMP/sharing-evidence"
+          git -C _runtime rev-parse HEAD > "$RUNNER_TEMP/sharing-evidence/runtime-source.sha"
+          git rev-parse HEAD > "$RUNNER_TEMP/sharing-evidence/lab-source.sha"
+          python -B _runtime/tools/build_plugin.py --output "$RUNNER_TEMP/installed"
+          gh --version > "$RUNNER_TEMP/sharing-evidence/gh-version.txt"
+      - name: Publish synthetic REQ, read back, repeat and reconcile
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -B _runtime/tools/github_smoke.py \
+            --issue-url https://github.com/ousui/test-sdlc/issues/21 \
+            --plugin-root "$RUNNER_TEMP/installed" \
+            --work "$RUNNER_TEMP/synthetic-project" \
+            --evidence-dir "$RUNNER_TEMP/sharing-evidence"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-sharing-${{ env.SDLC_SOURCE_SHA }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/sharing-evidence/
+            ${{ runner.temp }}/synthetic-project/.sdlc/exports/
+            ${{ runner.temp }}/installed.zip
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
