@@ -1,0 +1,23 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>Batch account status</h1>
+<p>Local example: every enabled signed-in account has management access. The current account is protected from batch actions.</p>
+<form method="get" action="{{ url_for('admin.users_bulk') }}">
+  <label>Account status <select name="enabled">{% for value in ['all', 'true', 'false'] %}<option value="{{ value }}"{% if value == listing.enabled %} selected{% endif %}>{{ value }}</option>{% endfor %}</select></label>
+  <label>Username <input name="q" value="{{ listing.q }}"></label>
+  <label>Per page <input name="per_page" type="number" min="1" max="100" value="{{ listing.per_page }}"></label>
+  <button type="submit">Filter</button>
+</form>
+<p id="result-count">Total: {{ listing.total }} | Page: {{ listing.page }} | Pages: {{ listing.pages }}</p>
+<form method="post" action="{{ url_for('admin.users_status', enabled=listing.enabled, q=listing.q, page=listing.page, per_page=listing.per_page) }}">
+  <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+  <table class="table"><caption>Matching accounts in stable ID order</caption><thead><tr><th>Select</th><th>ID</th><th>Username</th><th>Enabled</th></tr></thead>
+  <tbody>{% for user in listing['items'] %}<tr><td>{% if user.id != current_user.id %}<input type="checkbox" name="ids" value="{{ user.id }}" aria-label="Select {{ user.username }}">{% else %}Current account{% endif %}</td><td>{{ user.id }}</td><td>{{ user.username }}</td><td>{{ user.enabled }}</td></tr>{% else %}<tr><td colspan="4">No matching accounts</td></tr>{% endfor %}</tbody></table>
+  <button name="enabled" value="true" type="submit">Enable selected</button>
+  <button name="enabled" value="false" type="submit">Disable selected</button>
+</form>
+<nav aria-label="Account pages">
+{% if listing.page > 1 %}<a rel="prev" href="{{ url_for('admin.users_bulk', enabled=listing.enabled, q=listing.q, page=listing.page-1, per_page=listing.per_page) }}">Previous</a>{% endif %}
+{% if listing.page < listing.pages %}<a rel="next" href="{{ url_for('admin.users_bulk', enabled=listing.enabled, q=listing.q, page=listing.page+1, per_page=listing.per_page) }}">Next</a>{% endif %}
+</nav>
+{% endblock %}

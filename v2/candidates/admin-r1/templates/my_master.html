@@ -1,0 +1,2 @@
+{% extends 'admin/base.html' %}
+{% block access_control %}{% if current_user.is_authenticated %}<span>{{ current_user.username }}</span><form method="post" action="{{ url_for('admin.logout_view') }}"><input name="csrf_token" type="hidden" value="{{ csrf_token() }}"><button type="submit">Log out</button></form>{% endif %}{% endblock %}
