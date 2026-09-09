@@ -1,0 +1,12 @@
+{% extends 'admin/base.html' %}
+{% block access_control %}
+{% if current_user.is_authenticated %}
+<form method="post" action="{{ url_for('admin.logout_view') }}">
+  <span>{{ current_user.username }}</span>
+  <a href="{{ url_for('bulk_users') }}">Bulk user status</a>
+  <a href="{{ url_for('audit_page') }}">Status audit</a>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button class="btn btn-secondary" type="submit">Log out</button>
+</form>
+{% endif %}
+{% endblock %}

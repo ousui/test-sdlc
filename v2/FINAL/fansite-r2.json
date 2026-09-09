@@ -1,0 +1,354 @@
+{
+  "scene": "fansite-r2",
+  "evidence_kind": "actual_current_agent_original_implementation_plus_public_verification_delivery_recovery",
+  "status": "verified_with_original_RLS_failure_preserved",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "parent_scene": "fansite-r1",
+  "parent_delivery_sha256": "38fc830faa8044dcdad1314f6ffff0529b9f9c56ab58c7cf6fea384ee1904dfb",
+  "source_files": {
+    "README.md": "c4d3e89ba20c533ea0cedac2cebbae423cef723d8fe0ee284941bd1a0c0aa245",
+    "SOURCE.md": "b9d230c484bcdbd4ddbc911be0d48d5d1aa9c09a8415919d34c617cbebd2f454",
+    "catalog.go": "a5c0339dcd2167d799cf0d72fea430264a77e3e734bd0b7000261cc8efa1b093",
+    "check_ui.py": "c264b758e11a9031350e7b2ef36fad74820d2db2d764d39042a5308783c23f85",
+    "go.mod": "a0b0b27b7aef3dc0ba61c70b4b7a9e1fbbc0d5b613ed3cbb28be1280647f85c7",
+    "helper_case_test.go": "e5a61d0ee1917a63b460603797c71bda249d7099c6e16be8f72a52acad0a9a26",
+    "independent_r2_review_test.go": "37c17179468c62605b28711714024d094f16921eaf9dae531595f4c0850d478d",
+    "independent_review_test.go": "43efd86511ec48165839f27815073f76ae95f5af3cd8da6f5c6efa8df6356b42",
+    "main.go": "8c1cf912fac514e469c3be8715bcbde89c504bf44860b96e74433d085989f8bd",
+    "r1_test.go": "bea1bc8e1e07ff33a1761d7f49df759e30613ce201b29540be9fc98c970412f4",
+    "r2_test.go": "4691483fae17bf3c3035ced9da91107ce455e5264461485524b522f35b1c76e5",
+    "sample_media.py": "98b6768b372842e91033332b46e1906e0ebdb47092126ec7a2c1efe91193ab1d",
+    "server.go": "00eba9817156c1a2f24a78928cba6217a83fd92d5b24007f75fddbd3325b0d7a",
+    "site_test.go": "0e10f9e1eadb852cf22bc1bfa9c5c46798178ac069e97d046c57e3c6ab684d1d",
+    "store.go": "2f29dbde79e9f317e6fa87cc265e12db51d77d3528f8acb9253cd5c91445d766",
+    "ui_catalog_test.js": "05a78e703f08fb4ef6d2aca600b99eee74ef150febb38a7c82964d29ed6ec09d",
+    "ui_photo_test.js": "7e193239247d6a4756b62e14cbbbc042bd9d2f0bd3efac4d3338351b10bd0a8b",
+    "ui_reset_test.js": "272405ee28730e6cbd2ee56e5f1e02da7f8af96fe94edecf490b23d243cdd93f",
+    "ui_version_test.js": "33be1d77c52817929edc1911abceb1dd3c0dbed5f03fcf91ef5d5c9dc1d172a4",
+    "vendor/golang.org/x/crypto/LICENSE": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+    "vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go": "f46c5590b983ffae1d37e9a1a9cbfb47b2bcf4339cd7e7782d01f9e501e2cf17",
+    "vendor/modules.txt": "f77021936cc2cf77b0ceadbfd06d04501ac9e0e991d19292391176db21cec25e",
+    "verify_format.py": "85b73dbd54210019e158f0e6da5593c1730614545916a4794798993f310f932d",
+    "verify_recovery.py": "45b7e7aa1b9e9d714050d3621c0c67263a1fcfe6e0e18241906427d47ecbfcba",
+    "web/app.js": "81effed59cb303ac7ca6ad352a9504c9e3e41c0d78cafe66be6499b3cfa71cfc",
+    "web/index.html": "90d8091bc5a0af1b690fc1abf556ae6b341d2304a362f55b8ad4dce61a67b594",
+    "web/style.css": "fafff9e90e056681ed933886c73c72539250623e86869dc1f6a43a53da97b739"
+  },
+  "source_projection": "Exact27 code/main source bytes from completed recovery native ZIP, independently bound to actual original IMP task.write payloads. No new task.write in verification recovery.",
+  "source_tree_sha256": "679824a228c0ab4de382582765400e3f05e510724591beee36afe08c52d433c4",
+  "excluded_from_git": {
+    ".build/fansite": "7552d96773179a4cc8c318fc335920df7ed752b738cffca44448eb45a4801630"
+  },
+  "git_discovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc",
+    "head": "ee4652e8516b40cb8737077861f2fdf1edab04db",
+    "independent_product_repository": false
+  },
+  "bindings": {
+    "change_id": "c95f8a5d-a1a1-4558-85f9-d55bb1dfe91b",
+    "run_id": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "delivery_id": "6387ee76-433b-4e15-9581-c772ce54dd3b"
+  },
+  "phase_run_bindings": {
+    "DSN": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "IMP": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "PLN": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "REQ": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "RLS": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3",
+    "VFY": "1f04c8c9-b833-4f82-a94c-6e7b43139ca3"
+  },
+  "original_run": {
+    "actor_id": "current-agent",
+    "change_id": "8646d2b8-d04c-4288-aaeb-6220f08f28a1",
+    "contract_version": "2",
+    "current_phase": "RLS",
+    "error_code": "ASSET_LIMIT",
+    "error_message": "Asset exceeds the configured byte budget",
+    "finished_at": null,
+    "format_attempts": 0,
+    "input_revision_id": "af74a1ac-4a19-4194-8a74-54f52104d48f",
+    "last_progress_digest": "a75868ed6d1aa3e2c6ecc823f97d7ce99ed33a26d3dc4b2a9b3eb11e61c6b110",
+    "lease_id": "7d3e91c4-37a7-41fb-ae3c-e8434507b996",
+    "max_format_attempts": 3,
+    "max_repair_rounds": 5,
+    "no_progress_limit": 2,
+    "no_progress_rounds": 0,
+    "origin_kind": "local",
+    "project_id": "49e84a65-e1d6-41f8-90cc-2e82d924d09a",
+    "repair_round": 2,
+    "review_mode": "auto",
+    "run_id": "cf97b194-e072-4087-9297-05040b644a50",
+    "runtime_version": "2.0.0-dev",
+    "skill_version": "2.0.0-dev",
+    "started_at": "2026-09-09T08:54:50.844507Z",
+    "status": "failed",
+    "workspace_id": "da5f0b8d-bfd7-4eb6-ba53-b4ced9218bd0"
+  },
+  "original_workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r2/.sdlc/exports/workspace/b0f1281cfdf3e65a829dae5c28f8433dc00379845f300399c2092947d7650ee6.zip",
+    "sha256": "9293cc83eb95476cb8d8fe7d46808aee7347eca04e1229ecbfb761c551a90ba7",
+    "bytes": 104573133,
+    "zip_members": 562,
+    "manifest_files": 561,
+    "manifest_metadata": {
+      "change_id": "8646d2b8-d04c-4288-aaeb-6220f08f28a1",
+      "format": "sdlc-workspace-2",
+      "project_id": "49e84a65-e1d6-41f8-90cc-2e82d924d09a",
+      "resources": {
+        "go_cache": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-build",
+        "go_path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-path",
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r2",
+      "source_store_id": "1be18122-c112-44bc-8046-c46ec7a31153",
+      "source_workspace_id": "da5f0b8d-bfd7-4eb6-ba53-b4ced9218bd0"
+    },
+    "manifest_digest": "b0f1281cfdf3e65a829dae5c28f8433dc00379845f300399c2092947d7650ee6",
+    "all_member_bytes_verified": true,
+    "asset_files": 76,
+    "table_counts": {
+      "asset_links": 19,
+      "assets": 76,
+      "authorizations": 5,
+      "changes": 1,
+      "check_criteria": 128,
+      "check_results": 32,
+      "checks": 48,
+      "code_snapshots": 44,
+      "context_entries": 8,
+      "contexts": 1,
+      "criteria": 60,
+      "criterion_requirements": 60,
+      "deliveries": 0,
+      "design_requirements": 28,
+      "designs": 16,
+      "findings": 2,
+      "operations": 97,
+      "preconditions": 36,
+      "projects": 1,
+      "requirement_sources": 35,
+      "requirements": 35,
+      "revisions": 5,
+      "runs": 2,
+      "sources": 5,
+      "steps": 61,
+      "task_criteria": 105,
+      "task_dependencies": 15,
+      "task_designs": 33,
+      "tasks": 18,
+      "workspaces": 1
+    },
+    "row_count": 977
+  },
+  "tests": {
+    "original_go": 24,
+    "r1_go": 10,
+    "r2_go": 9,
+    "empty_schema2_migration_go": 1,
+    "helper_case_regression_go": 1,
+    "total_go": 45,
+    "catalog_js": 47,
+    "version_js": 49,
+    "reset_assertions": 4,
+    "independent_go_probes": 4,
+    "independent_html_bindings": 29
+  },
+  "corrections": {
+    "original_main_cli_input_rejections": [
+      {
+        "request": "0003",
+        "code": "MISSING_FIELD",
+        "cause": "Agent omitted workspace.bind reason",
+        "corrected": "0004"
+      },
+      {
+        "request": "0023",
+        "code": "UNKNOWN_FIELD",
+        "cause": "Agent supplied dependency depends_on rather than predecessor/reason",
+        "corrected": "0024"
+      },
+      {
+        "request": "0085",
+        "code": "INVALID_ENUM",
+        "cause": "Agent supplied finding kind contradictory",
+        "corrected": "0086 kind partial"
+      }
+    ],
+    "original_main_check_configuration_failure": {
+      "request": "0050",
+      "cause": "Reset Check argv passed web/app.js where root was expected; retained ENOTDIR red.",
+      "repair": "0054 VFY needs_work, public PLN argv correction;0064 form.action compatibility then all Checks pass."
+    },
+    "independent_product_validation_defect": {
+      "issue": "R2-REVIEW-HELPER-CASE",
+      "red_review": "0086",
+      "repair_write": "0099",
+      "old_go_count": 44,
+      "new_go_count": 45,
+      "fresh_all_checks": "0106-0115",
+      "same_review_close": "0119-0120",
+      "reason": "Explicit VERSION old/null must not be overwritten by injected canonical Version; EqualFold key detection preserves all supplied cases."
+    },
+    "vfy_repair_rounds": 2,
+    "original_rls_failure": {
+      "request": "0126",
+      "code": "ASSET_LIMIT",
+      "cause": "Two individually allowed ancestor ZIPs total91,510,407B exceed assembled native64MiB storage limit; no public asset unlink.",
+      "original_archive": "0127",
+      "original_public_cancel": "0128",
+      "bounded_new_change_parent_approval_count": 1
+    },
+    "recovery_workspace_ownership": {
+      "request": "release-recovery/0025",
+      "code": "WORKSPACE_BUSY",
+      "resolution": "Original already archived failed Run public cancel0128; new acquire0026 succeeds."
+    },
+    "local_authoring_errors": {
+      "syntax_error_call": "call_YeUfuh2avJwRz4N3k4EbsVwg",
+      "correction": "Close Python triple quote around check_ui patch string. No product write before correction.",
+      "retrieval_error": "First tool-source retriever matched itself and recursively executed only read/record operations; interrupted owned exec session99077 with Ctrl-C exit130. No Runtime call or product write from recursive script. Correct selection uses exact source prefix, saved current-Agent authored IMP code."
+    },
+    "recovery_recorder_local_error": {
+      "time": "2026-09-09T09:31:25.492979+00:00",
+      "after_call": "0018",
+      "error": "KeyError: client_keys",
+      "cause": "Current Agent used client_keys instead of public response ids while recording already successful DSN.",
+      "correction": "Read original 0017 response ids; no CLI replay or product edit."
+    },
+    "post_closeout_inspection_error": "One JSON evidence-listing read assumed killed CLI stdout was JSON; empty response is the intended original SIGKILL evidence. No file or Runtime mutation occurred.",
+    "manual_store_or_protocol_patch_count": 0,
+    "frozen_runtime_patch_count": 0,
+    "test_or_dependency_relaxation_count": 0
+  },
+  "human_protocol_repairs": 0,
+  "runtime_patches": 0,
+  "public_receipts": 184,
+  "public_receipt_breakdown": {
+    "original": 128,
+    "recovery": 56,
+    "interruption_copy_specialty_separate": 60
+  },
+  "archived_operations_verified": {
+    "original": 97,
+    "recovery": 38,
+    "note": "Includes respective bootstrap; source current Runs alone96/37. One historical context op in recovery archive is linked by original evidence."
+  },
+  "delivery": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r2/.sdlc/exports/final-fansite-r2/10c0918e9ca44d70ddd2b7ebe8fdc5373de2e4ae04731a34d4ec039894823e04.zip",
+    "sha256": "10c0918e9ca44d70ddd2b7ebe8fdc5373de2e4ae04731a34d4ec039894823e04",
+    "bytes": 6531478,
+    "zip_members": 47,
+    "manifest_files": 46,
+    "manifest_metadata": {
+      "change_id": "c95f8a5d-a1a1-4558-85f9-d55bb1dfe91b",
+      "format": "sdlc-local-delivery-2",
+      "head_commit": "ee4652e8516b40cb8737077861f2fdf1edab04db",
+      "project_id": "49e84a65-e1d6-41f8-90cc-2e82d924d09a",
+      "revision_id": "262377db-7c33-44e1-84a6-f26152cefbdf",
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "snapshot_id": "c475ed15-639d-443c-a365-7f237f53f663",
+      "subject_digest": "2e77a0a3867bd551da1f85d19c529950260b2db6b59bc2a68953a14a123559fa"
+    },
+    "manifest_digest": "ecef5ad1d9e0b74a41ad4b9066ad65e3432399940add167a245f5c19a8963f80",
+    "all_member_bytes_verified": true,
+    "asset_files": 15
+  },
+  "workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r2/.sdlc/exports/workspace/3ab541054360cec5bd8a4fac30fe8e21b91c4033f653d9967617033c7132088c.zip",
+    "sha256": "33c1c8ca6de003881a6edc58e2ff972a0bf8105adb9b7f42a33d5a21c20c5baf",
+    "bytes": 13261454,
+    "zip_members": 234,
+    "manifest_files": 233,
+    "manifest_metadata": {
+      "change_id": "c95f8a5d-a1a1-4558-85f9-d55bb1dfe91b",
+      "format": "sdlc-workspace-2",
+      "project_id": "49e84a65-e1d6-41f8-90cc-2e82d924d09a",
+      "resources": {
+        "go_cache": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-build",
+        "go_path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-path",
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r2",
+      "source_store_id": "1be18122-c112-44bc-8046-c46ec7a31153",
+      "source_workspace_id": "da5f0b8d-bfd7-4eb6-ba53-b4ced9218bd0"
+    },
+    "manifest_digest": "3ab541054360cec5bd8a4fac30fe8e21b91c4033f653d9967617033c7132088c",
+    "all_member_bytes_verified": true,
+    "asset_files": 45,
+    "table_counts": {
+      "asset_links": 12,
+      "assets": 45,
+      "authorizations": 5,
+      "changes": 1,
+      "check_criteria": 62,
+      "check_results": 12,
+      "checks": 24,
+      "code_snapshots": 16,
+      "context_entries": 14,
+      "contexts": 2,
+      "criteria": 36,
+      "criterion_requirements": 36,
+      "deliveries": 1,
+      "design_requirements": 14,
+      "designs": 8,
+      "findings": 0,
+      "operations": 39,
+      "preconditions": 12,
+      "projects": 1,
+      "requirement_sources": 21,
+      "requirements": 21,
+      "revisions": 3,
+      "runs": 3,
+      "sources": 3,
+      "steps": 25,
+      "task_criteria": 36,
+      "task_dependencies": 3,
+      "task_designs": 13,
+      "tasks": 4,
+      "workspaces": 1
+    },
+    "row_count": 473
+  },
+  "full_report": {
+    "path": ".local-runs/sdlc-v2/final-fansite/r2/REPORT.json",
+    "sha256": "e01d3b3b697cef02eadf19d6a0001e0310ce2a033cbb1dba3952a78dd2bdb54d",
+    "bytes": 107352
+  },
+  "root_readback": {
+    "path": ".local-runs/sdlc-v2/final-integration/fansite-r2.readback.json",
+    "sha256": "709a43440d903352193725b9adc3f164e3e8d43d7d5eb96cc289341f09cbe3c3",
+    "bytes": 54226
+  },
+  "root_joint_readback": {
+    "path": ".local-runs/sdlc-v2/final-integration/fansite-r2-joint-readback.json",
+    "sha256": "0d2e3629a667500f977f6ab5531d0a1ea268784e6ca865bf8a1828b5d7399789",
+    "bytes": 45770
+  },
+  "old_assertion_proof": {
+    "path": ".local-runs/sdlc-v2/final-integration/fansite-r2-original-assertions.json",
+    "sha256": "be88224ca7c9f97d09a3fd8c16efa579e91cb30d8bc0e98094e0241280839d7a",
+    "bytes": 702
+  },
+  "independent_review": {
+    "path": ".local-runs/sdlc-v2/final-fansite/r2/review/RESULTS.json",
+    "sha256": "f1199fe61449c8c951a83eb734ef487bd926a55a840306d99471ee17fa2be30a",
+    "bytes": 3455
+  },
+  "interruption": {
+    "path": ".local-runs/sdlc-v2/final-fansite/r2/interruption/RESULT.json",
+    "sha256": "b2ab4ef13de1a9b59aca9c2e307bfbcc537077a71676e80912b354201ae664d3",
+    "bytes": 98822
+  },
+  "boundary": "Original Run failed ASSET_LIMIT; original archive and12business criteria preserved. New Change explicitly revalidates and delivers the same already implemented27source files. This is not original Run success or a second from-zero implementation.",
+  "limitations": [
+    "64MiB native asset storage and no public asset unlink remain; original R2 failed Run is not delivered successfully.",
+    "Front-end DOM model checks and independent HTML boot tests do not establish native browser/client certification.",
+    "No remote deployment, network dependency installation, shared Runtime/Skill/Schema/PROGRESS edits or Lab Git commits.",
+    "Source extraction excludes generated .build/fansite and all Runtime coordination files; original binary is retained in native ZIP."
+  ]
+}

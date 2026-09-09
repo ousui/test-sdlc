@@ -1,0 +1,25 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>Bulk user status</h1>
+<form method="get">
+  <label>Username <input name="q" value="{{ data.q }}"></label>
+  <label>Status <select name="enabled">
+    {% for value in ['all', 'true', 'false'] %}<option value="{{ value }}" {% if data.enabled == value %}selected{% endif %}>{{ value }}</option>{% endfor %}
+  </select></label>
+  <label>Per page <input name="per_page" type="number" min="1" max="100" value="{{ data.per_page }}"></label>
+  <button type="submit">Filter</button>
+</form>
+<p>Total: {{ data.total }} · Page: {{ data.page }} / {{ data.pages }}</p>
+<form method="post" action="{{ action }}">
+  <input name="operation_key" type="hidden" value="{{ operation_key }}">
+  <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+  <table class="table"><thead><tr><th>Select</th><th>ID</th><th>Username</th><th>Enabled</th></tr></thead><tbody>
+  {% for user in data['items'] %}
+    <tr><td><input type="checkbox" name="ids" value="{{ user.id }}" aria-label="Select {{ user.username }}" {% if user.id == current_user.id %}disabled{% endif %}></td><td>{{ user.id }}</td><td>{{ user.username }}</td><td>{{ user.enabled }}</td></tr>
+  {% else %}<tr><td colspan="4">No matching users</td></tr>{% endfor %}
+  </tbody></table>
+  <button name="enabled" value="true" type="submit">Enable selected</button>
+  <button name="enabled" value="false" type="submit">Disable selected</button>
+</form>
+<nav aria-label="Pagination">{% if previous %}<a rel="prev" href="{{ previous }}">Previous</a>{% endif %} {% if following %}<a rel="next" href="{{ following }}">Next</a>{% endif %}</nav>
+{% endblock %}

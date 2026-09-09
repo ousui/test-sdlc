@@ -27,4 +27,4 @@ The current local Codex Agent authors requirements, designs, plans and code, the
 
 Each result identifies the exact runtime SHA, lab SHA, product baseline, candidate digest, environment, request/response trace, actual test exits and local delivery readback. Negative tests are expected rejections, not successful-path blockers. Any unexpected failure remains visible until repaired and rerun.
 
-Current status: Q0 actual installed-Skill forward chains completed; see [Q0 evidence](Q0/INDEX.md). Q1/Q2 and final same-version acceptance remain open.
+Current status: Q0, Q1, Q2 and FINAL are complete in the approved local scope. [FINAL evidence](FINAL/INDEX.md) binds all nine product scenarios and 159 core tests to H_final 495177acf777251d378652e2a50e47a1b5c4c41a. The 46-item map verifies 43 applicable items and explicitly defers three; original failures, bounded public recoveries and client limits remain visible. Only local commits were made; remote synchronization is not part of completion.
