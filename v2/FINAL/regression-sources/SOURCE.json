@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "deterministic_replay_source_snapshot",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "files": {
+    "core/acceptance_core.py": "721b4047ab69f6c79507d386af9f841e510c6df3f7d3d0f201c80d9cd9961f83",
+    "entry/entry_source.py": "f002914f57a29f47c0f23b74463476ed4a18e98f5ac4e4cb56ebde2af47cb27a",
+    "worktrees/common.py": "4a22f8137370c53f17279fc831132e506a5dd75d62851fbc0f3c2d0f5ffcd87c",
+    "worktrees/worktrees.py": "d25c05d6b84bb4f26dd380356102cab03456dac8042ff391287fba42b4b4a386",
+    "scoped/delivery_scope_retest.py": "a4afd4ad88269ec0ea47cbf90119173b381bcc24f2bb1a88fae8d0fd4cd6312b"
+  },
+  "actual_execution_root": ".local-runs/sdlc-v2/reviews/final-acceptance-46/replays",
+  "result": ".local-runs/sdlc-v2/reviews/final-acceptance-46/replays/RESULT.json",
+  "result_sha256": "613b441557766f0dc11985b5d1e75bf9a681136dbc0f371d669cf50587bc52cf",
+  "groups": 7,
+  "acceptance_ids": [
+    "V2-002",
+    "V2-010",
+    "V2-003",
+    "V2-004",
+    "V2-008",
+    "V2-018",
+    "V2-019",
+    "V2-044"
+  ],
+  "public_cli_calls": 346,
+  "actual_execution_count_after_source_copy": 0
+}

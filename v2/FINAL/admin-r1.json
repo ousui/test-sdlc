@@ -1,0 +1,149 @@
+{
+  "scene": "admin-r1",
+  "evidence_kind": "actual_current_agent_explicit_installed_skill_and_public_cli",
+  "status": "verified",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "parent_scene": "admin-r0",
+  "parent_delivery_sha256": "0b49ff4b144cf8e47fb6f74edadcc7b85d9f1504b31ea480b884591b0d506e1b",
+  "source_files": {
+    ".gitignore": "0932beacb1c643afe8096de980071db303f2f21c0756d0357f623ec794e5063f",
+    "ACCOUNT-STATUS.md": "e90d39a8ae91ac692006d578d0ed10bada99aa4fa4de01bb2bcfcdfb60106f34",
+    "BULK-STATUS.md": "50f2003facfa4394d51f8feba99a3a447ad39622e100dec7e26cca183680e29f",
+    "LICENSE": "7052007174ecc90a2b91e7bf25132d463caae33adef281c54db9601ac0a61607",
+    "README.md": "427b8fc5b2f6f605230ad119dc13989ddc800c417bb1371cc75cebdc2c0358f5",
+    "SOURCE.md": "586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+    "main.py": "b2e3f3c8c7fae0208e4b79141dc03b2cb1459b237fdb227b20a0273c5f72069f",
+    "requirements.lock": "ec89b08207a42d816d06d006912a3fe4c9a28ed8ff6b92d233945732e2a0d377",
+    "templates/admin/index.html": "1d5d42e33ab0a062dac32476d25e26674990702323c1383f31b6e3c544a76e77",
+    "templates/auth.html": "942c0125ac30b2347e6659948206caa3aa8291fe3d3723502794e3224c4d7e50",
+    "templates/bulk_users.html": "edb02b7f437f7e0340621127c8d9eb8abe4a3117076fc91d2fa055cf97c76690",
+    "templates/index.html": "c2e8c03554f399dfbbecbfde3f195860864532b29d523a2d5029ec4b93167b1f",
+    "templates/my_master.html": "95cbb03441a04ea42b7fb6b778f1ff43599fa329522421159a77aa19c76d6751",
+    "test_bulk_status.py": "83fe257574e3d1a4b6890ba9f0c4d5dddc972ed80dee8b09b0583d4569172586",
+    "test_enabled.py": "a8cbb1f808742e82c1dccf30839cd6e3141b8b63eb68eb684f07832ce3081afb",
+    "test_final_r0.py": "3e574c0c03df85d10b06151ffdcf55e96d9f6b7ac84319d004119033cb2f0a62",
+    "test_final_r1.py": "5f03078f8f4e2ecdee169d395ebef3bb78161950b678cc8e093c7308018537af"
+  },
+  "source_projection": "Exact code/main source bytes from this FINAL R1 native delivery; generated binaries remain in original ZIP",
+  "excluded_from_git": {},
+  "source_tree_sha256": "b6ffcfa0cb383f4656f35c5dca1d77595ca3671c52589a3d4a47d0cf960ec5fc",
+  "git_discovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r1",
+    "head": "70c48deb316fcca590e2288d4321eeb22a7b3770",
+    "independent_product_repository": true
+  },
+  "bindings": {
+    "change_id": "95268048-e3a0-428c-a85f-a74c4c110680",
+    "run_id": "a8c7cdd2-6509-4b65-9d78-3d3823a98b6c",
+    "delivery_id": "89eeb94a-2459-4882-8a1b-9c59566d91a9"
+  },
+  "tests": {
+    "initial": {
+      "count": 32,
+      "pass": 16,
+      "errors": 16,
+      "reason": "One missing Flask-Admin template context in bulk route; all16 new setup errors"
+    },
+    "final": {
+      "count": 32,
+      "pass": 32,
+      "errors": 0,
+      "skip": 0
+    },
+    "composition": "13 original+3 FINAL R0+15 unchanged prior Q1+1 FINAL R1 Unicode expansion/reconnect",
+    "final_result_id": "bcd95483-0f86-4a90-9c9d-ee78f833efac",
+    "independent_executions": 35,
+    "independent_note": "32 suite +3 deeper overlapping methods, not35 distinct acceptance requirements"
+  },
+  "repair_rounds": 1,
+  "agent_input_corrections": [
+    {
+      "request": "017-phase.complete",
+      "code": "PHASE_INCOMPLETE/COVERAGE_MISSING",
+      "reason": "Workflow criterion linked only convergence, not acceptance;019 adds actual dedicated acceptance Agent inspection check. No criterion/condition removed."
+    }
+  ],
+  "public_receipts": 60,
+  "archived_operations_verified": 40,
+  "delivery": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r1/.sdlc/exports/final-admin-r1/2e41b9c122ac2ecec008a469e5f3c076f31e38f37ced213600f114b161df0379.zip",
+    "sha256": "2e41b9c122ac2ecec008a469e5f3c076f31e38f37ced213600f114b161df0379",
+    "bytes": 36750,
+    "zip_members": 26,
+    "manifest_files": 25,
+    "manifest_metadata": {
+      "change_id": "95268048-e3a0-428c-a85f-a74c4c110680",
+      "format": "sdlc-local-delivery-2",
+      "head_commit": "02a498129f458a769eb967a30f15c8cfb38d1428",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "revision_id": "1a4f3f43-6782-4ceb-ab39-921928b1f734",
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "snapshot_id": "aa1e042b-286a-437d-b50a-08a60596a4f0",
+      "subject_digest": "35fd1f74e9f6b857a20cbadc1074df82f069d252ba21ea6a9f8cbad26c422d9f"
+    },
+    "manifest_digest": "a8dd54e73678b59c5eb1e07358b579ae7651e6d069d6db952620e03f4371505b",
+    "all_member_bytes_verified": true,
+    "asset_files": 5
+  },
+  "workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r1/.sdlc/exports/workspace/a5bb6cc2322e6281763451d04fab24c7fd464b9d3d653d2d60ad7e74f8c77e00.zip",
+    "sha256": "97806cd21e8870f756c9e83e1468847c43ba6554e40327a507650829ad5727ba",
+    "bytes": 286666,
+    "zip_members": 189,
+    "manifest_files": 188,
+    "manifest_metadata": {
+      "change_id": "95268048-e3a0-428c-a85f-a74c4c110680",
+      "format": "sdlc-workspace-2",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "resources": {
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r1",
+      "source_store_id": "03671d8a-f89c-48f9-a3c7-92093620eeed",
+      "source_workspace_id": "f3824641-015d-4aff-a768-1fc4785e5fc8"
+    },
+    "manifest_digest": "a5bb6cc2322e6281763451d04fab24c7fd464b9d3d653d2d60ad7e74f8c77e00",
+    "all_member_bytes_verified": true,
+    "asset_files": 32,
+    "table_counts": {
+      "asset_links": 0,
+      "assets": 32,
+      "authorizations": 3,
+      "changes": 1,
+      "check_criteria": 28,
+      "check_results": 6,
+      "checks": 10,
+      "code_snapshots": 12,
+      "context_entries": 8,
+      "contexts": 2,
+      "criteria": 21,
+      "criterion_requirements": 21,
+      "deliveries": 1,
+      "design_requirements": 14,
+      "designs": 8,
+      "findings": 1,
+      "operations": 41,
+      "preconditions": 6,
+      "projects": 1,
+      "requirement_sources": 21,
+      "requirements": 21,
+      "revisions": 3,
+      "runs": 3,
+      "sources": 3,
+      "steps": 25,
+      "task_criteria": 18,
+      "task_dependencies": 4,
+      "task_designs": 10,
+      "tasks": 5,
+      "workspaces": 2
+    },
+    "row_count": 331
+  },
+  "full_report": ".local-runs/sdlc-v2/final-admin/r1/REPORT.json",
+  "root_readback": ".local-runs/sdlc-v2/final-integration/admin-r1.readback.json",
+  "boundary": "Current client explicit installed Skills; independent executions can overlap formal tests; original failures and input corrections retained.",
+  "workflow_evidence": "workflow/branch-identity.json and independent-review/retest-001/WORKFLOW-READBACK.json: real same-directory branch switch, full primary/control data unchanged separately; implicit selection refused"
+}
