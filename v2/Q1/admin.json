@@ -1,0 +1,44 @@
+{
+  "scenario": "R1-ADMIN",
+  "status": "closed",
+  "source": "Exact code/main bytes from actual RLS package",
+  "runtime_packages": {
+    "REQ": "b4d4bc4/q1-entry",
+    "DSN_through_RLS": "586d133/q1-dsn"
+  },
+  "change_id": "1a5af67f-d09f-4b99-b156-cbc640f6535e",
+  "run_id": "79def12c-866b-4411-bf5f-00eca46a5478",
+  "business_tests": {
+    "original": 13,
+    "new": 15,
+    "all_pass": true
+  },
+  "product_defects_fixed": 2,
+  "repair_rounds": 1,
+  "human_protocol_repairs": 0,
+  "agent_input_corrections": 2,
+  "unexpected_runtime_blockers": 0,
+  "unhandled_runtime_errors": 0,
+  "package_sha256": "2d0459a99a2d00df5e0a6d97b166d64704a7d9b0077aa860dee7b96a305f458e",
+  "archive_sha256": "28ef60a771f25724246359063d7382b066a8c1ed0aa1c5da28fce6d768c8cda3",
+  "source_files": {
+    ".gitignore": "cd19b7994492ce00ed25b312b41bfe841f64694415796d70b999501e88a04e11",
+    "ACCOUNT-STATUS.md": "24a3c5e78471a03f974a3ec49cb824e8b68447c30b028c3572d8ec4f0226d362",
+    "BULK-STATUS.md": "910dd6e2e174efdeadd5823d96f72b5f4c78c515b0d057440757bb1611124be4",
+    "LICENSE": "7052007174ecc90a2b91e7bf25132d463caae33adef281c54db9601ac0a61607",
+    "README.md": "ed333d304b9923103d49e5331f2b5a0570d9960793fc173a5869e1602536de53",
+    "SOURCE.md": "586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+    "main.py": "82c72dd1bf1a77042ac6e9570947ad988540218c28db2f119c572f0a199c1a29",
+    "requirements.lock": "ec89b08207a42d816d06d006912a3fe4c9a28ed8ff6b92d233945732e2a0d377",
+    "templates/admin/index.html": "7ea47d2a115082175f80ac97bde843293206a2fa03d32321ff75498bb256076e",
+    "templates/auth.html": "d149a83a6b9be2ffe83dc378fd47244c3265865e28476ab65129a6eaa2bddea1",
+    "templates/bulk_users.html": "b3603b534eaeb16c24e7fc55704a864e6cb792f39e31bf0136be6964bc4cfff4",
+    "templates/index.html": "c2e8c03554f399dfbbecbfde3f195860864532b29d523a2d5029ec4b93167b1f",
+    "templates/my_master.html": "bf375a5fff937c43e1471c22531a749e23760315be9c7e1a3bdebe71b1f87cbe",
+    "test_bulk_status.py": "83fe257574e3d1a4b6890ba9f0c4d5dddc972ed80dee8b09b0583d4569172586",
+    "test_enabled.py": "a8cbb1f808742e82c1dccf30839cd6e3141b8b63eb68eb684f07832ce3081afb"
+  },
+  "evidence": ".local-runs/sdlc-v2/q1-admin/REPORT.json",
+  "independent_review": ".local-runs/sdlc-v2/q1-admin/independent-review/retest-001/REPORT.md",
+  "workflow_acceptance": "V2-017 actual Git branch switch, explicit identity selection, unrelated change retained"
+}

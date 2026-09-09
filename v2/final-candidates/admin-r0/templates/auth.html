@@ -1,0 +1,14 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>{{ title }}</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {% for field in form if field.type != 'CSRFTokenField' %}
+  <div class="form-group">{{ field.label }} {{ field(class_='form-control') }}
+    {% for error in field.errors %}<p role="alert">{{ error }}</p>{% endfor %}
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">{{ title }}</button>
+</form>
+<p><a href="{{ other_url }}">{{ other_label }}</a></p>
+{% endblock %}

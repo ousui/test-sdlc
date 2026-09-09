@@ -1,0 +1,189 @@
+{
+  "scene": "fansite-r0",
+  "evidence_kind": "actual_current_agent_explicit_installed_skill_and_public_cli",
+  "status": "verified",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "source_origin": "cases/fansite/baseline six-file skeleton; original 24 tests and agreed UI checker retained",
+  "source_files": {
+    "README.md": "cc23f79ae003b2eb68b936fb312e91c83f4367b3bc7ea28ffa0d0cb217166d08",
+    "SOURCE.md": "b9d230c484bcdbd4ddbc911be0d48d5d1aa9c09a8415919d34c617cbebd2f454",
+    "check_ui.py": "d5859d2335f8bead80ef874478311b3c3a97922966bf71242fa65ab470df0737",
+    "go.mod": "a0b0b27b7aef3dc0ba61c70b4b7a9e1fbbc0d5b613ed3cbb28be1280647f85c7",
+    "main.go": "8c1cf912fac514e469c3be8715bcbde89c504bf44860b96e74433d085989f8bd",
+    "sample_media.py": "98b6768b372842e91033332b46e1906e0ebdb47092126ec7a2c1efe91193ab1d",
+    "server.go": "089980df813ebef75b876f9a4e20a2cb733d730f777c67febe336e6ddb916743",
+    "site_test.go": "067531f845ee51b9da5fe88cf90644369c5e20829a1a4c6853e61169d69328cc",
+    "store.go": "08238779ab7596969dc8def25012713b8ca3a99e523846dd0b4deb6238848d7f",
+    "ui_reset_test.js": "272405ee28730e6cbd2ee56e5f1e02da7f8af96fe94edecf490b23d243cdd93f",
+    "vendor/golang.org/x/crypto/LICENSE": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+    "vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go": "f46c5590b983ffae1d37e9a1a9cbfb47b2bcf4339cd7e7782d01f9e501e2cf17",
+    "vendor/modules.txt": "f77021936cc2cf77b0ceadbfd06d04501ac9e0e991d19292391176db21cec25e",
+    "verify_format.py": "98dc398f514e2813bcce137d7e352054a6da902915cdf7add3772b3093722930",
+    "web/app.js": "65d4202432e2b9182800b8645d80d0929400cf9a970e613a4bfe22d312e498c4",
+    "web/index.html": "227d1a080b9565a239d8cc3afffaa2a2f2ac5b65f50db218687d4cbb8e74f857",
+    "web/style.css": "fafff9e90e056681ed933886c73c72539250623e86869dc1f6a43a53da97b739"
+  },
+  "source_projection": "17 exact code/main source files; generated 11MB .build/fansite remains in original native ZIP",
+  "excluded_from_git": {
+    ".build/fansite": {
+      "sha256": "4bfe3302348a795217d1278d9b9bebd0e61ead1f6674c0ea59fa51e10fb8ed21",
+      "size_bytes": 11074626
+    }
+  },
+  "source_tree_sha256": "b5d0abbfbc42a6e5161aca866321a67ba36a072d15e5ffb618dcbad86344b861",
+  "git_discovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc",
+    "head": "f41d048414d3b212e793ddffcd049d19c2273434",
+    "independent_product_repository": false
+  },
+  "bindings": {
+    "change_id": "55d61453-a3cb-4dd3-a37b-816aa8ba0a67",
+    "run_id": "289c22fe-7a4d-4c74-9772-52466b7f5426",
+    "delivery_id": "af2fee12-d2c3-47f1-b713-f3b72dc1583b"
+  },
+  "tests": {
+    "original_go_tests": 24,
+    "original_go_file_sha256": "067531f845ee51b9da5fe88cf90644369c5e20829a1a4c6853e61169d69328cc",
+    "original_ui_exact": true,
+    "native_js_syntax": "pass",
+    "reset_model_assertions": 4,
+    "native_edge_dom_only": "pass; two forms, programmatic reset/new-button click clear ID; not native full journey certification",
+    "format_and_build": "pass",
+    "independent_review": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/r0/review/REPORT.md"
+  },
+  "repair_rounds": {
+    "product_defects": 2,
+    "vfy_repair_rounds": 2,
+    "human_protocol_repair": 0,
+    "runtime_or_skill_patch": 0,
+    "agent_protocol_input_corrections": [
+      {
+        "kind": "recorder",
+        "count": 2,
+        "details": "run_id envelope and revision_id field assumptions; saved successful receipts consumed, no business replay; 3 local KeyErrors across module reload"
+      },
+      {
+        "kind": "authorization",
+        "count": 1,
+        "raw": "0041",
+        "details": "cache edit_local resource grants missing; added from existing total authority 0042"
+      },
+      {
+        "kind": "plan_scope",
+        "count": 1,
+        "raw": [
+          "0046",
+          "0048"
+        ],
+        "details": "directory itself omitted by /** scope; actual mkdir denied; public PLN revision fixes own .build/.check-work"
+      },
+      {
+        "kind": "finding_target",
+        "count": 1,
+        "raw": "0112",
+        "details": "different Check PASS cannot resolve review finding; exact original Review Check new PASS closes0114"
+      }
+    ],
+    "product_red_green": [
+      {
+        "raw_red": "0044",
+        "defect": "duplicate email with missing Name returned400 rather than409",
+        "raw_green": "0067 and0102"
+      },
+      {
+        "raw_red": "0081 plus review/hidden-reset-result.json, ui-reset-red.log and native-payload-backend-red.log",
+        "defect": "hidden ID after editing remained through reset and new action",
+        "raw_green": "0107,0113, review/final-hidden-reset-result.json"
+      }
+    ]
+  },
+  "public_receipts": 125,
+  "archived_operations_verified": 92,
+  "delivery": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r0/.sdlc/exports/final-fansite-r0/f8e7669d62493f1431c71a841327203c79eeb6b6ef7ad31431af185865b11272.zip",
+    "sha256": "f8e7669d62493f1431c71a841327203c79eeb6b6ef7ad31431af185865b11272",
+    "bytes": 6045740,
+    "zip_members": 45,
+    "manifest_files": 44,
+    "manifest_metadata": {
+      "change_id": "55d61453-a3cb-4dd3-a37b-816aa8ba0a67",
+      "format": "sdlc-local-delivery-2",
+      "head_commit": "f41d048414d3b212e793ddffcd049d19c2273434",
+      "project_id": "c601831b-b136-4142-9329-33674fdd2d8b",
+      "revision_id": "0f6be39b-6846-4560-af3c-ae417c829fd6",
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "snapshot_id": "c71590a5-b9b6-4595-b840-3a0aef076e63",
+      "subject_digest": "f6a959a59858f12352eb5c6feaf0658ffaae83ecafa047747fb200678ab27cb2"
+    },
+    "manifest_digest": "aa18adbaeadfd1d2d6d98729088021c83b913f64d645f9e52a1fa7bd34631827",
+    "all_member_bytes_verified": true,
+    "asset_files": 23
+  },
+  "workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r0/.sdlc/exports/workspace/8cca68d11c12e17fdfa5349b05fa54e8856ebaa54543024d6a5f418323cd4ccb.zip",
+    "sha256": "e29d455c4e1404233d768e6903b9bbf7c56ab3c7033f2eef4f9721b7c2e0128c",
+    "bytes": 18476270,
+    "zip_members": 440,
+    "manifest_files": 439,
+    "manifest_metadata": {
+      "change_id": "55d61453-a3cb-4dd3-a37b-816aa8ba0a67",
+      "format": "sdlc-workspace-2",
+      "project_id": "c601831b-b136-4142-9329-33674fdd2d8b",
+      "resources": {
+        "go_cache": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-build",
+        "go_path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-fansite/cache/go-path",
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-fansite-r0",
+      "source_store_id": "0ffea9aa-0abe-45ae-b2d5-09f8a04d1828",
+      "source_workspace_id": "bb8ca7e0-bf0b-4056-aab8-df72f6816f79"
+    },
+    "manifest_digest": "8cca68d11c12e17fdfa5349b05fa54e8856ebaa54543024d6a5f418323cd4ccb",
+    "all_member_bytes_verified": true,
+    "asset_files": 45,
+    "table_counts": {
+      "asset_links": 21,
+      "assets": 45,
+      "authorizations": 5,
+      "changes": 1,
+      "check_criteria": 321,
+      "check_results": 19,
+      "checks": 29,
+      "code_snapshots": 32,
+      "context_entries": 7,
+      "contexts": 1,
+      "criteria": 130,
+      "criterion_requirements": 135,
+      "deliveries": 1,
+      "design_requirements": 32,
+      "designs": 12,
+      "findings": 4,
+      "operations": 92,
+      "preconditions": 22,
+      "projects": 1,
+      "requirement_sources": 30,
+      "requirements": 30,
+      "revisions": 5,
+      "runs": 2,
+      "sources": 5,
+      "steps": 54,
+      "task_criteria": 468,
+      "task_dependencies": 15,
+      "task_designs": 36,
+      "tasks": 18,
+      "workspaces": 1
+    },
+    "row_count": 1574
+  },
+  "full_report": ".local-runs/sdlc-v2/final-fansite/r0/REPORT.json",
+  "root_readback": ".local-runs/sdlc-v2/final-integration/fansite-r0.readback.json",
+  "boundary": [
+    "Not GoEdge six interfaces or MySQL qualification.",
+    "Edge proof only isolated offline DOM behavior; no Codex/Claude/Cursor native certification.",
+    "No remote deployment, package installation or real media/credentials.",
+    "This root used direct ServeHTTP and filesystem checks; no claim of relocating its source root."
+  ]
+}

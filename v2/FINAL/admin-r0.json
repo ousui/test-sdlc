@@ -1,0 +1,145 @@
+{
+  "scene": "admin-r0",
+  "evidence_kind": "actual_current_agent_explicit_installed_skill_and_public_cli",
+  "status": "verified",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "source_origin": "cases/admin/baseline plus unchanged 13-test source",
+  "source_files": {
+    ".gitignore": "2a912cd0fb17801c88c0b4a1ae0f4265732fe2d619ec95c8d90cea4d8f2c1830",
+    "ACCOUNT-STATUS.md": "e90d39a8ae91ac692006d578d0ed10bada99aa4fa4de01bb2bcfcdfb60106f34",
+    "LICENSE": "7052007174ecc90a2b91e7bf25132d463caae33adef281c54db9601ac0a61607",
+    "README.md": "6e2f08c645180b63a3c5851569b2996c2265dc435cf6fca32c4fc6808c52efe1",
+    "SOURCE.md": "586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+    "main.py": "3eeaf9345cd5cda953b5ad00a63fa69d72ee6383a16613ce5bc789c62d0a13af",
+    "requirements.lock": "ec89b08207a42d816d06d006912a3fe4c9a28ed8ff6b92d233945732e2a0d377",
+    "templates/admin/index.html": "1d5d42e33ab0a062dac32476d25e26674990702323c1383f31b6e3c544a76e77",
+    "templates/auth.html": "942c0125ac30b2347e6659948206caa3aa8291fe3d3723502794e3224c4d7e50",
+    "templates/index.html": "c2e8c03554f399dfbbecbfde3f195860864532b29d523a2d5029ec4b93167b1f",
+    "templates/my_master.html": "f1726b835f1691b0fb3b64b3857a570532018ec541c741d8d5c2d62a9e5de8ca",
+    "test_enabled.py": "a8cbb1f808742e82c1dccf30839cd6e3141b8b63eb68eb684f07832ce3081afb",
+    "test_final_r0.py": "3e574c0c03df85d10b06151ffdcf55e96d9f6b7ac84319d004119033cb2f0a62"
+  },
+  "source_projection": "Exact local RLS code/main bytes; no evidence or .sdlc copied into candidate Git",
+  "source_tree_sha256": "9772bb3d7b3a684d4f4691c17112f076f2ef91864352b191322e8e6af3114f86",
+  "git_discovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r0",
+    "head": "02a498129f458a769eb967a30f15c8cfb38d1428",
+    "independent_product_repository": true
+  },
+  "bindings": {
+    "change_id": "bb0317be-83ee-4889-bfd1-24769156c686",
+    "run_id": "4130c6d5-8cdb-47c1-a149-e34e97c12fd1",
+    "delivery_id": "9ba1c497-23f0-427d-8dfd-276dc61229a6"
+  },
+  "tests": {
+    "initial": {
+      "count": 15,
+      "pass": 14,
+      "fail": 1
+    },
+    "form_repair": {
+      "count": 15,
+      "pass": 15
+    },
+    "final": {
+      "count": 16,
+      "pass": 16,
+      "skip": 0,
+      "errors": 0
+    },
+    "composition": "13 unchanged original +2 new config/marker checks +1 expired ORM revocation regression",
+    "final_result_id": "8d497e1b-5ca5-47b3-8e2b-6fd0a88e558f",
+    "independent_final_executions": 19,
+    "independent_overlap": 1
+  },
+  "repair_rounds": 2,
+  "agent_input_corrections": [
+    {
+      "request": "054-finding.resolve",
+      "code": "RETEST_REQUIRED",
+      "reason": "Used command result for finding owned by convergence review; later proper applicable review result closed it at058."
+    }
+  ],
+  "public_receipts": 68,
+  "archived_operations_verified": 50,
+  "delivery": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r0/.sdlc/exports/final-admin-r0/0b49ff4b144cf8e47fb6f74edadcc7b85d9f1504b31ea480b884591b0d506e1b.zip",
+    "sha256": "0b49ff4b144cf8e47fb6f74edadcc7b85d9f1504b31ea480b884591b0d506e1b",
+    "bytes": 28720,
+    "zip_members": 23,
+    "manifest_files": 22,
+    "manifest_metadata": {
+      "change_id": "bb0317be-83ee-4889-bfd1-24769156c686",
+      "format": "sdlc-local-delivery-2",
+      "head_commit": "40fd1b681630c5d43a3b7ee453962d8b0ace9f69",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "revision_id": "ce529b2d-78dd-4002-aff7-420130a19c39",
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "snapshot_id": "4be3b454-a047-42a6-ad8d-aadb33c5b684",
+      "subject_digest": "bde465e7eea2ff9ffcccf511a9afdc113ea1370c2d3fe3db5ca040a491005152"
+    },
+    "manifest_digest": "a3f8eebee149a00e51ac88ac466c3462a7780da4785d1b1831ebceb919a38602",
+    "all_member_bytes_verified": true,
+    "asset_files": 6
+  },
+  "workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r0/.sdlc/exports/workspace/60621722cf70ca677fd12a173b5b7db9f2f8b23537f47c7bc07a08b521aa55a2.zip",
+    "sha256": "a28cf1b3afe5f1981051dbb07838a5571033078fd270362cca3ddccf63b6a49b",
+    "bytes": 302076,
+    "zip_members": 221,
+    "manifest_files": 220,
+    "manifest_metadata": {
+      "change_id": "bb0317be-83ee-4889-bfd1-24769156c686",
+      "format": "sdlc-workspace-2",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "resources": {
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r0",
+      "source_store_id": "867ef3fe-eefa-4c72-97f1-267bcb3da12e",
+      "source_workspace_id": "a61c17b7-4020-45d0-b0d3-b43662da2298"
+    },
+    "manifest_digest": "60621722cf70ca677fd12a173b5b7db9f2f8b23537f47c7bc07a08b521aa55a2",
+    "all_member_bytes_verified": true,
+    "asset_files": 30,
+    "table_counts": {
+      "asset_links": 0,
+      "assets": 30,
+      "authorizations": 3,
+      "changes": 1,
+      "check_criteria": 20,
+      "check_results": 7,
+      "checks": 8,
+      "code_snapshots": 15,
+      "context_entries": 4,
+      "contexts": 1,
+      "criteria": 15,
+      "criterion_requirements": 15,
+      "deliveries": 1,
+      "design_requirements": 10,
+      "designs": 6,
+      "findings": 2,
+      "operations": 50,
+      "preconditions": 5,
+      "projects": 1,
+      "requirement_sources": 15,
+      "requirements": 15,
+      "revisions": 3,
+      "runs": 2,
+      "sources": 3,
+      "steps": 31,
+      "task_criteria": 14,
+      "task_dependencies": 4,
+      "task_designs": 8,
+      "tasks": 5,
+      "workspaces": 1
+    },
+    "row_count": 295
+  },
+  "full_report": ".local-runs/sdlc-v2/final-admin/r0/REPORT.json",
+  "root_readback": ".local-runs/sdlc-v2/final-integration/admin-r0.readback.json",
+  "boundary": "Explicit Skill read, not native other-client certification; raw initial failures remain in local evidence."
+}

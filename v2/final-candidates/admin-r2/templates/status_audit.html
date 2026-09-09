@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>Status audit</h1>
+<form method="get">
+  <label>Actor ID <input name="actor_id" value="{{ data.actor_id or '' }}"></label>
+  <label>Target ID <input name="target_id" value="{{ data.target_id or '' }}"></label>
+  <label>Per page <input type="number" name="per_page" min="1" max="100" value="{{ data.per_page }}"></label>
+  <button type="submit">Filter audit</button>
+</form>
+<p>Total: {{ data.total }} · Page: {{ data.page }} / {{ data.pages }}</p>
+{% for operation in data['items'] %}
+<article>
+  <h2>{{ operation.operation_id }}</h2>
+  <p>Actor: {{ operation.actor_name }} ({{ operation.actor_id }}) · {{ operation.created_at }}</p>
+  <p>Requested: {{ operation.requested }} · Changed: {{ operation.changed }}</p>
+  <table class="table"><thead><tr><th>Target</th><th>ID</th><th>Before</th><th>After</th><th>Changed</th></tr></thead><tbody>
+  {% for target in operation.targets %}
+  <tr><td>{{ target.target_name }}</td><td>{{ target.target_id }}</td><td>{{ target.before_enabled }}</td><td>{{ target.after_enabled }}</td><td>{{ target.changed }}</td></tr>
+  {% endfor %}
+  </tbody></table>
+</article>
+{% else %}<p>No matching audit entries</p>{% endfor %}
+<nav aria-label="Pagination">{% if previous %}<a rel="prev" href="{{ previous }}">Previous</a>{% endif %} {% if following %}<a rel="next" href="{{ following }}">Next</a>{% endif %}</nav>
+{% endblock %}

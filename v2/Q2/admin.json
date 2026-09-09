@@ -1,0 +1,91 @@
+{
+  "scenario": "R2-ADMIN",
+  "status": "closed",
+  "mode": "Current Agent real installed Skill and public CLI chain; implementation only formed during task attempts",
+  "source": "Exact original RLS code/main bytes; empty Runtime .sdlc-clone.lock excluded from source candidate only",
+  "source_files": {
+    ".gitignore": "cd19b7994492ce00ed25b312b41bfe841f64694415796d70b999501e88a04e11",
+    "ACCOUNT-STATUS.md": "24a3c5e78471a03f974a3ec49cb824e8b68447c30b028c3572d8ec4f0226d362",
+    "BULK-STATUS.md": "910dd6e2e174efdeadd5823d96f72b5f4c78c515b0d057440757bb1611124be4",
+    "LICENSE": "7052007174ecc90a2b91e7bf25132d463caae33adef281c54db9601ac0a61607",
+    "README.md": "5c6c307ae5d6361d29c195a2218be661da0caecb5150e8566b885488024dd8f8",
+    "SOURCE.md": "586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+    "main.py": "70d666873a48e32cc6c713984ebece65b8c2ed6614578b1d772251a9dc07bd33",
+    "requirements.lock": "ec89b08207a42d816d06d006912a3fe4c9a28ed8ff6b92d233945732e2a0d377",
+    "templates/admin/index.html": "7ea47d2a115082175f80ac97bde843293206a2fa03d32321ff75498bb256076e",
+    "templates/auth.html": "d149a83a6b9be2ffe83dc378fd47244c3265865e28476ab65129a6eaa2bddea1",
+    "templates/bulk_users.html": "c113c8510a7c12dd7b8946f1bba57ac84a755da1eeaa8f76d23f391b2625533d",
+    "templates/index.html": "c2e8c03554f399dfbbecbfde3f195860864532b29d523a2d5029ec4b93167b1f",
+    "templates/my_master.html": "bf375a5fff937c43e1471c22531a749e23760315be9c7e1a3bdebe71b1f87cbe",
+    "templates/status_audit.html": "a92b9ba62a36aa1cbe6f092fad874ee6ce3e4dc2ae2a42a9abd28d9c3c32542b",
+    "test_bulk_status.py": "83fe257574e3d1a4b6890ba9f0c4d5dddc972ed80dee8b09b0583d4569172586",
+    "test_enabled.py": "a8cbb1f808742e82c1dccf30839cd6e3141b8b63eb68eb684f07832ce3081afb",
+    "test_sqlite_probe.py": "6e86312f7b15009ad9df389178853fce8c0039177a289d774241dbc0af2cfb92",
+    "test_status_audit.py": "2a9e642d5f02121205a7ce7a9ad548bc0accc854b9bffde74da7017635005766"
+  },
+  "source_tree_digest": "6ce66ab2511f0ec5a93d0d7d630cd4737afecc94c1fa4ac00597cd05b2eb59f4",
+  "runtime_packages": {
+    "business_chain": {
+      "source_head": "7d7179328712194bf362b752a585e7f044ba8260",
+      "package_digest": "7c4102ba61608adcec35c2ee97a4b8a20f2c2a9ff2145a5ff9727b83afdf9625"
+    },
+    "collect_recovery": {
+      "defect": "mutable revision fork could not import source head; misleading change.resolve next_action",
+      "fix_head": "6214e5cb47a29f4ba78122adac667d482f787f0d",
+      "package_digest": "4495c7599cac5a25458769294d431cb0210aa1f52d91dd463a27d68bdd0fafe3",
+      "actual_recovery_calls": 22,
+      "all_recovery_calls_ok": true,
+      "evidence": "collect-recovery/artifact-readback.json"
+    }
+  },
+  "product_head": "988b148ea06d7161baa8fb28c0be5a5b1cf5c4d7",
+  "bindings": {
+    "change_id": "5a26f38e-6cba-4865-b3ca-67dea842393a",
+    "run_id": "48144026-9293-47d2-85b0-19cb28d125a7"
+  },
+  "revision_id": "727a87da-9ffa-42c4-9983-d61790bc6eee",
+  "delivery_id": "b0bce2bb-8dd3-484a-97f3-daadb1a50b49",
+  "business_tests": {
+    "initial": {
+      "count": 46,
+      "outcome": "pass"
+    },
+    "identity_repair_first": {
+      "count": 53,
+      "errors": 52,
+      "outcome": "fail",
+      "reason": "new migration SQL quote defect"
+    },
+    "final": {
+      "count": 53,
+      "outcome": "pass",
+      "seconds": 15.444,
+      "result_id": "6159ce2e-14a7-48b8-8af4-1034b31b8029"
+    },
+    "composition": "13 original +15 R1 +17 R2 +4 independent integrated +3 stable identity/migration +1 prep probe; original28 test bytes unchanged"
+  },
+  "independent": "reviews/q2-admin-independent/retest-002:58 executions incl4 overlaps and1 new two-subcase migration test; 17.054s,494 HTTP calls, no remaining finding",
+  "repair_rounds": 2,
+  "agent_request_corrections": 4,
+  "human_protocol_repairs": 0,
+  "unhandled_runtime_errors": 0,
+  "runtime_defects_found_and_fixed": 1,
+  "product_delivery_sha256": "61cd52bf9d8ce72b904d950f979f3ba3da05e0cba1d95b8a5dc1484e027673d3",
+  "original_workspace_archive_sha256": "c4b9edd3bef877b14d360dd7fbffdcea1dd7bc8a81eedb98aaa4696d019bd279",
+  "post_collect_workspace_archive_sha256": "6d6bfb4d0ba4f9b660d78a67fa6dfd1fc478c80c46a0ce4e84e957c0da4a56d9",
+  "workflow_acceptance": "Actual independent worktree clone + same mutable revision forks + target/control preservation + explicit alias collect + normal content checkpoints and change.resolve + duplicate and original receipt replay",
+  "evidence": ".local-runs/sdlc-v2/q2-admin/REPORT.json",
+  "recovery_evidence": ".local-runs/sdlc-v2/q2-admin/collect-recovery/artifact-readback.json",
+  "limitations": [
+    "Native source package contains empty Runtime .sdlc-clone.lock; excluded from product Git commit.",
+    "Source archive captured before post-delivery product Git commit, intentionally preserves exact execution Git boundaries.",
+    "Current client explicit Skill reads and CLI, not native other-host certification.",
+    "Shared Header redaction failure discovered separately in fansite is fixed in fc07245; this Admin chain retains q2-entry version and is rerun under H_final later."
+  ],
+  "original_input": {
+    "path": ".local-runs/sdlc-v2/q2-admin/007-change.create.request.json",
+    "sha256": "b4b417d25adefa4d5c40238ac5ba7e01d472bbf688c90a4ddafe2cf1bd8b68b9",
+    "field": "payload.original_text"
+  },
+  "independent_collect_review": ".local-runs/sdlc-v2/reviews/q2-collect-independent/admin-actual/REPORT.md"
+}

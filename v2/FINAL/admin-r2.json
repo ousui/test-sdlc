@@ -1,0 +1,198 @@
+{
+  "scene": "admin-r2",
+  "evidence_kind": "actual_current_agent_explicit_installed_skill_and_public_cli",
+  "status": "verified_product_and_same_change_conflict_recovery; separate approved V2-022 supplement verified",
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "parent_scene": "admin-r1",
+  "parent_delivery_sha256": "2e41b9c122ac2ecec008a469e5f3c076f31e38f37ced213600f114b161df0379",
+  "source_files": {
+    ".gitignore": "0932beacb1c643afe8096de980071db303f2f21c0756d0357f623ec794e5063f",
+    "ACCOUNT-STATUS.md": "e90d39a8ae91ac692006d578d0ed10bada99aa4fa4de01bb2bcfcdfb60106f34",
+    "BULK-STATUS.md": "50f2003facfa4394d51f8feba99a3a447ad39622e100dec7e26cca183680e29f",
+    "LICENSE": "7052007174ecc90a2b91e7bf25132d463caae33adef281c54db9601ac0a61607",
+    "README.md": "2ca09b061105af7a0ff61b8904f1b1507576e9cfad2e40a51400aee162f118ec",
+    "SOURCE.md": "586b189ceac7bf1ad8312f7c576880a5d40a5009ce6971c27753aa747549da46",
+    "main.py": "345e018ada35818ce9349e2ffc7acbebdfa36c74ec01a3674be41e2feb3eb649",
+    "requirements.lock": "ec89b08207a42d816d06d006912a3fe4c9a28ed8ff6b92d233945732e2a0d377",
+    "templates/admin/index.html": "1d5d42e33ab0a062dac32476d25e26674990702323c1383f31b6e3c544a76e77",
+    "templates/auth.html": "942c0125ac30b2347e6659948206caa3aa8291fe3d3723502794e3224c4d7e50",
+    "templates/bulk_users.html": "775984406dde3be9d3143fe16ee3a994e942ca67e48d064627f9ce35b2332849",
+    "templates/index.html": "c2e8c03554f399dfbbecbfde3f195860864532b29d523a2d5029ec4b93167b1f",
+    "templates/my_master.html": "0db16f9fbd7b3730ac6f52fca9072acab067dc8d8f426fd7fb397a07e3a66791",
+    "test_bulk_status.py": "83fe257574e3d1a4b6890ba9f0c4d5dddc972ed80dee8b09b0583d4569172586",
+    "test_enabled.py": "a8cbb1f808742e82c1dccf30839cd6e3141b8b63eb68eb684f07832ce3081afb",
+    "test_final_r0.py": "3e574c0c03df85d10b06151ffdcf55e96d9f6b7ac84319d004119033cb2f0a62",
+    "test_final_r1.py": "5f03078f8f4e2ecdee169d395ebef3bb78161950b678cc8e093c7308018537af",
+    "test_status_audit.py": "2a9e642d5f02121205a7ce7a9ad548bc0accc854b9bffde74da7017635005766",
+    "test_sqlite_probe.py": "6e86312f7b15009ad9df389178853fce8c0039177a289d774241dbc0af2cfb92",
+    "test_final_r2.py": "d6e58caf39b7779b8749bfe50d199859fe312e8d7231fbb583917334263fce4e",
+    "STATUS-AUDIT.md": "6f839dce4f48834cd28e1fdbc5a2f1c92a694b8fc1886e5492e1bad44afea762",
+    "templates/status_audit.html": "d817870104a26c1da5c15d30abddc3a71512eb70d2f34c4171c0becb3e6e1df6"
+  },
+  "source_projection": "Exact code/main source bytes from this FINAL R2 native delivery",
+  "source_tree_sha256": "37aa9c887513629c39d2f30f1904da787e92591be25a86a2c69cbd6a7f0aed9c",
+  "git_discovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-impl",
+    "head": "b2022879cc905b0b1eaccbd3d508d4d2e7378b7f",
+    "independent_product_repository": true
+  },
+  "bindings": {
+    "change_id": "a71a7827-e4d6-4a71-a1ee-0e0fb93aabbb",
+    "run_id": "3d58735c-a098-4991-a61b-d5267ad6ebbe",
+    "delivery_id": "0bd57907-2861-4d40-a1f7-8a403a8214f6"
+  },
+  "phase_run_bindings": {
+    "DSN": "3d58735c-a098-4991-a61b-d5267ad6ebbe",
+    "IMP": "3d58735c-a098-4991-a61b-d5267ad6ebbe",
+    "PLN": "3d58735c-a098-4991-a61b-d5267ad6ebbe",
+    "REQ": "9baf1495-0762-4564-a8fe-999a4d471c28",
+    "RLS": "3d58735c-a098-4991-a61b-d5267ad6ebbe",
+    "VFY": "3d58735c-a098-4991-a61b-d5267ad6ebbe"
+  },
+  "phase_inheritance_reason": "REQ genuinely completed in original main009 before public workspace.clone010; source implementation starts local Run after clone and preserves same change/revision. No unrelated recovery pair Runs supply phase completion.",
+  "tests": {
+    "final": {
+      "count": 59,
+      "pass": 59,
+      "errors": 0,
+      "skip": 0
+    },
+    "composition": "53 inherited: original13+Q1fifteen+Q2twentyfour+SQLiteprobe; FINAL6: R0three+R1one+R2two",
+    "result_id": "c22e6e36-cac1-4b02-bbec-df56ac93d199",
+    "independent_executions": 60,
+    "independent_note": "59 suite plus one deferred COMMIT failure method deepens overlapping atomicity requirements; not60 distinct acceptance requirements"
+  },
+  "repair_rounds": 0,
+  "agent_input_corrections": [
+    {
+      "request": "025-031",
+      "reason": "Before IMP, retain full workflow criterion but move its actual acceptance before final VFY; release_readback alone cannot prove collect."
+    },
+    {
+      "request": "033",
+      "code": "MISSING_FIELD",
+      "reason": "task.next missing revision_id;034 corrected."
+    },
+    {
+      "request": "078",
+      "code": "PHASE_INCOMPLETE",
+      "reason": "Recovery-only source design lacked task_design coverage;080 adds relation,081 passes."
+    }
+  ],
+  "workflow_setup_failures": [
+    "049 WORKSPACE_BUSY",
+    "053 shared Run identity conflict after target cancel",
+    "057 RUN_CLOSED; original main collection not repaired in place"
+  ],
+  "workflow_recovery": {
+    "root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/final-admin/r2/workflow",
+    "original_main": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2",
+    "original_main_failures": "052/053 retain rows_imported=false; original target/control and shared draft preserved.",
+    "successful_target": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-collect-target",
+    "successful_source": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-collect-source",
+    "clone_provenance": "058 actual implementation workspace -> new target;063 shared content Run cancelled BEFORE064 target -> new source clone; each side starts distinct local Run afterwards.",
+    "same_change": "a71a7827-e4d6-4a71-a1ee-0e0fb93aabbb",
+    "result": "084 rows_imported=true/target_draft_pending;090+093 normal checkpoints/094 resolve;097+098 idempotency;100 reexport",
+    "business_evidence": "Both recovery archives preserve exact original22 code assets, original045 result/step/snapshot and59-test raw logs. Content Run421e is not implementation Run3d58.",
+    "original_run_scope": "Original Run3d58 keeps historical origin_kind=local but workspace b69 is foreign to recovery source86ac/targetd63; original history remains VFY/running.099 RUN_SCOPE directly tested content Run421e only.",
+    "source_zip_sha256": "c824e32f2805fac2c4cdda566d7ef67f319ba718b9c26bcff1d9862fa25822fc",
+    "target_zip_sha256": "650358b64187c73f81638f5d633d67fd553f3ac07001ade01e31626f1d41ff3f",
+    "revision_mapped_rows": 261,
+    "spec_scope": "This recovery establishes V2-023/024. Separate completed new-change V2-022 is independently verified in admin-v22.json; original main collection remains failed."
+  },
+  "human_protocol_repairs": 0,
+  "public_receipts": 114,
+  "archived_operations_verified": 38,
+  "delivery": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-impl/.sdlc/exports/final-admin-r2/c54c9d2beac332c4dcbf144e1b0b0fde49d9bf99eb8ad877cceb2a2547e46cd3.zip",
+    "sha256": "c54c9d2beac332c4dcbf144e1b0b0fde49d9bf99eb8ad877cceb2a2547e46cd3",
+    "bytes": 48107,
+    "zip_members": 30,
+    "manifest_files": 29,
+    "manifest_metadata": {
+      "change_id": "a71a7827-e4d6-4a71-a1ee-0e0fb93aabbb",
+      "format": "sdlc-local-delivery-2",
+      "head_commit": "70c48deb316fcca590e2288d4321eeb22a7b3770",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "revision_id": "74d7e462-1bea-4c03-a89e-06ff1e1677e9",
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "snapshot_id": "f4480de4-83ae-45cf-8841-be6b2eb1d6cc",
+      "subject_digest": "1e095dbce59176ebf3cb1c2f76ab0db5230c9c8838b4cc7d4e4a2ff66dd1dab2"
+    },
+    "manifest_digest": "f0d0356a59da365c9f0bf777d46d801f76de2c6e57e7199e299b205f0cd297d4",
+    "all_member_bytes_verified": true,
+    "asset_files": 4
+  },
+  "workspace_archive": {
+    "path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-impl/.sdlc/exports/workspace/eb9d9d6f2a4a5677ccf0bd893f77d67880844bc858d5431349092d22d5cc6463.zip",
+    "sha256": "eaaf9deb500d58fd864df03e46809ec7415501348ceabd7839bf6e85306b5e8d",
+    "bytes": 314434,
+    "zip_members": 184,
+    "manifest_files": 183,
+    "manifest_metadata": {
+      "change_id": "a71a7827-e4d6-4a71-a1ee-0e0fb93aabbb",
+      "format": "sdlc-workspace-2",
+      "project_id": "c8de0ec0-78d8-49ee-ad11-07eeb79dff1c",
+      "resources": {
+        "main": "."
+      },
+      "runtime_digest": "b6d526ab3f03e64c75cbffe405ee7ac249de3a128a57ab185a36b19037a30e49",
+      "schema_digest": "2014d50acbde2c02006d7426e61d05cffb742ab6a9570fd4ba1ac60616ab1bd9",
+      "source_root": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/products/final-admin-r2-impl",
+      "source_store_id": "e0b340a5-e1f3-40cc-a6f3-a38d69dab3eb",
+      "source_workspace_id": "b69dab88-4493-41c7-ac20-f447a95596fb"
+    },
+    "manifest_digest": "eb9d9d6f2a4a5677ccf0bd893f77d67880844bc858d5431349092d22d5cc6463",
+    "all_member_bytes_verified": true,
+    "asset_files": 34,
+    "table_counts": {
+      "asset_links": 0,
+      "assets": 34,
+      "authorizations": 6,
+      "changes": 1,
+      "check_criteria": 72,
+      "check_results": 5,
+      "checks": 18,
+      "code_snapshots": 10,
+      "context_entries": 12,
+      "contexts": 3,
+      "criteria": 45,
+      "criterion_requirements": 45,
+      "deliveries": 1,
+      "design_requirements": 36,
+      "designs": 20,
+      "findings": 0,
+      "operations": 40,
+      "preconditions": 16,
+      "projects": 1,
+      "requirement_sources": 45,
+      "requirements": 45,
+      "revisions": 5,
+      "runs": 5,
+      "sources": 5,
+      "steps": 22,
+      "task_criteria": 75,
+      "task_dependencies": 12,
+      "task_designs": 39,
+      "tasks": 15,
+      "workspaces": 4
+    },
+    "row_count": 637
+  },
+  "full_report": ".local-runs/sdlc-v2/final-admin/r2/REPORT.json",
+  "root_readback": ".local-runs/sdlc-v2/final-integration/admin-r2.readback.json",
+  "boundary": "Original implementation worktree completed59 tests and RLS. Original main collect failed; corrected same-change content pair preserves historical VFY/running evidence and verifies conflict/version/idempotency. admin-v22.json separately records completed new-change collect with original target preserved and explicit unfulfilled extra nested-format assumption.",
+  "supplemental_v22": "admin-v22.json",
+  "final_report_readback": {
+    "path": ".local-runs/sdlc-v2/final-admin/r2/REPORT.json",
+    "sha256": "c6aa87923490d4aed9f6fe0254d6d8a8129c5e76380ff86d14069e17fe7f3e83",
+    "bytes": 15958
+  },
+  "report_revision_boundary": "Original root readback predates authorized classification/inheritance/V22 report additions. Original report bytes preserved in pre-V22 evidence ZIP; current report and original preservation index are separate.",
+  "original_evidence_preservation": {
+    "path": ".local-runs/sdlc-v2/final-admin/ORIGINAL-EVIDENCE-PRESERVATION.json",
+    "sha256": "96c60ae6b23974ff01361afcb3da7bdb09eddc15eecb53a3fe45bca1691a7fd0",
+    "bytes": 910
+  }
+}

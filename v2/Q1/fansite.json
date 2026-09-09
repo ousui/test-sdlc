@@ -1,0 +1,58 @@
+{
+  "scenario": "R1-FANSITE",
+  "status": "closed",
+  "source": "Exact code/main bytes from actual final RLS package; generated binary retained only in artifact",
+  "runtime_packages": {
+    "INIT_CTX_REQ": {
+      "package": "q1-entry",
+      "requests": "001-008"
+    },
+    "DSN_onward_including_repairs": {
+      "package": "q1-dsn",
+      "requests": "009-121"
+    },
+    "reason": "Parent supplied one DSN sentence correction before DSN submit; Runtime and contract bytes unchanged; later shared packages not used"
+  },
+  "change_id": "8351aa8b-49c1-4425-8c5c-1b6eebd698c0",
+  "run_id": "12f79bb4-2cea-442d-8d14-675da158cda7",
+  "business_tests": {
+    "original": 24,
+    "new": 10,
+    "go_total": 34,
+    "js_html_assertions": 47,
+    "all_pass": true
+  },
+  "product_defects_fixed": 1,
+  "repair_rounds": 1,
+  "format_cleanup_rounds": 1,
+  "human_protocol_repairs": 0,
+  "agent_input_corrections": 2,
+  "unexpected_runtime_blockers": 0,
+  "unhandled_runtime_errors": 0,
+  "package_sha256": "c933081d960fb880db547c87573af86e653d912fb9faaa038316d52e8e39583a",
+  "archive_sha256": "9f64b4bdca7e97484dd5965b2094340da0f4a208c130c50f965ca32afc365c49",
+  "source_files": {
+    "CASE-TRACEABILITY.md": "0713bf30a76fed0553d55ec737cddbfd851f6a1db8dc9200b7c4903a4ddb9604",
+    "README.md": "947a48560f8c2e781d28397e19aa9f367a4ee632ccdb3ba4d0a77b7d1a5708ac",
+    "SOURCE.md": "b9d230c484bcdbd4ddbc911be0d48d5d1aa9c09a8415919d34c617cbebd2f454",
+    "catalog.go": "8aae1629c0447fffa39687585e5d37a1e0575d23f35a3a67417707af8a6963f6",
+    "check_ui.py": "d5859d2335f8bead80ef874478311b3c3a97922966bf71242fa65ab470df0737",
+    "go.mod": "a0b0b27b7aef3dc0ba61c70b4b7a9e1fbbc0d5b613ed3cbb28be1280647f85c7",
+    "independent_review_test.go": "43efd86511ec48165839f27815073f76ae95f5af3cd8da6f5c6efa8df6356b42",
+    "main.go": "43caff23118cd5772cc8621748c950500766cbcb396d4cbe525d76d9ec782263",
+    "r1_test.go": "bea1bc8e1e07ff33a1761d7f49df759e30613ce201b29540be9fc98c970412f4",
+    "sample_media.py": "436770fb4c3af135d8f8f3483d9b5e15b161974dccbf3a29a437cddd318c28d6",
+    "server.go": "02b611eddc0bd8d32c1c7061ad7448c1f5ff321500b9ddfc4a4e7a372900a330",
+    "site_test.go": "067531f845ee51b9da5fe88cf90644369c5e20829a1a4c6853e61169d69328cc",
+    "store.go": "7595f8aa3e498024f583c754e65a3612f170371f4e4801daa3c8233cd0bb5415",
+    "ui_catalog_test.js": "05a78e703f08fb4ef6d2aca600b99eee74ef150febb38a7c82964d29ed6ec09d",
+    "vendor/golang.org/x/crypto/LICENSE": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+    "vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go": "f46c5590b983ffae1d37e9a1a9cbfb47b2bcf4339cd7e7782d01f9e501e2cf17",
+    "vendor/modules.txt": "f77021936cc2cf77b0ceadbfd06d04501ac9e0e991d19292391176db21cec25e",
+    "web/app.js": "4409c984e7c70fbb9f3201d97773de298bdda2d780cbddfdee3375e5dc6adf4d",
+    "web/index.html": "6312e6750da00fcfce4a0a96cf691d2d5d8645e223a958deaef35090c2c076e4",
+    "web/style.css": "147b06b1ebd9a1e9c7e01603d93f5ee6849ec055fcdcf9c42c2d29935af42f31"
+  },
+  "evidence": ".local-runs/sdlc-v2/q1-fansite/REPORT.json",
+  "independent_review": ".local-runs/sdlc-v2/reviews/q1-fansite-independent/retest-001/REPORT.md"
+}

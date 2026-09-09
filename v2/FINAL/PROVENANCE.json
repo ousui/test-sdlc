@@ -1,0 +1,192 @@
+{
+  "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+  "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+  "package": {
+    "H_final": "495177acf777251d378652e2a50e47a1b5c4c41a",
+    "package_path": "/Users/shuaiw/Workspace/goedge.cloud/test-sdlc/.local-runs/sdlc-v2/installed/final-v1",
+    "package_digest": "a3ecb85d9286fe61b80f98882da4e4f6b91ca33aa25616401d0b043967f9a310",
+    "archive_sha256": "2ff7ab13010ea7bf8a8831e4149e6bc1127f07ef8216032195d16c5281b968cc",
+    "files_verified": 53,
+    "all_installed_and_zip_bytes_equal": true,
+    "runtime_full": {
+      "result_sha256": "e78331fcb32f2f17783f72990d41a3944b3b4e276e2932bd3a66490d617bfbd3",
+      "log_sha256": "ebf6b4ba9ba4b2bb770b1855adc25d78cb4f98ebd7d93227de489224ae0fb344",
+      "tests": 159,
+      "seconds": 51.055,
+      "source_clean": true,
+      "status": "passed"
+    },
+    "scope": "Readback of already executed frozen validation and original package; no new test execution"
+  },
+  "evidence_files": [
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/final-provenance.json",
+      "sha256": "e06aaa54c693092e8dea7147c5e7202d7ad272c63d8da1db0385369c3671a5a8",
+      "bytes": 807
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/check-outcome-field-correction.json",
+      "sha256": "39798aa1e399285c2425a9dc5b2a5a1dc17e9405ba7820af9c94c45126f27f2b",
+      "bytes": 16633
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/phase-identity-readback.json",
+      "sha256": "daaf4e898fe64b4b65152f5fa46872629572330450193dd8d094b84a104e891d",
+      "bytes": 17742
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/helper-corrections.json",
+      "sha256": "775980eb37cbede1d9d2cdd6838f17a3c983bf397b6ee984b4fdae490e94697d",
+      "bytes": 685
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/fansite-r2-checker.diff",
+      "sha256": "922a42783d953dd68ca1a41668c16ddb0e694752dbf2d9c3bbd7e5cc4c925a6a",
+      "bytes": 1812
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/admin-v22-transfer.readback.json",
+      "sha256": "76ee9e54c58da7bc195419d79c59932121a69540cf065587127a0bb242e7ce5d",
+      "bytes": 3626
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-admin/REPORT.md",
+      "sha256": "1c0908de1a7e28c7a489d862e2def0b26223dd2e8ede61f515e5c2174ee6ad9c",
+      "bytes": 4361
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-admin/EVIDENCE-ARCHIVES.json",
+      "sha256": "41dd97173777bf9614d1cbed3765625de79132cd76262d6d6a95383358188875",
+      "bytes": 1522
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-fansite/REPORT.md",
+      "sha256": "62ba920651ab3f9441f454e165b9f30d3b001347b73f35e9d3b6e1cd6bea7b61",
+      "bytes": 4661
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-fansite/EVIDENCE-INDEX.json",
+      "sha256": "d07de72c4bc42d3247662de7e0f702e01067300cc940f227e2c7d44815f4f298",
+      "bytes": 308851
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/pass-003-final/mapping.json",
+      "sha256": "2142043937dbc156c77f024a77c70729badf2ec5c40282faa7e044ca3fd8d117",
+      "bytes": 248264
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/pass-003-final/mapping.md",
+      "sha256": "6c7ecce136fc7818b0120e6014ef384defba53810f1c91ef2dfbfe9fbf092c9a",
+      "bytes": 16573
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/replays/RESULT.json",
+      "sha256": "613b441557766f0dc11985b5d1e75bf9a681136dbc0f371d669cf50587bc52cf",
+      "bytes": 9325
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-closeout-quick/result.json",
+      "sha256": "e7cc1dd3d43b1445ee9badabccf9d5f494ea8b2bd980faf74f2f13980501f2e8",
+      "bytes": 1513
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-r0-audit/REPORT.md",
+      "sha256": "5856767df6bb32a64c9eb8777e78b1296b9fdc981e2fe397797d18c8c1ddeb16",
+      "bytes": 9892
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-r0-audit/INDEX.json",
+      "sha256": "aede78b36d2da8d413b6b842977e6eda46e9afaba55655ae1104320f471c8be6",
+      "bytes": 6344
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-r1-spring-r2-audit/REPORT.md",
+      "sha256": "61672db509eb55dd7741a70f06365e5db793ac8fe5db1bfb4d2f71cd26f19f10",
+      "bytes": 8365
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-r1-spring-r2-audit/INDEX.json",
+      "sha256": "1611cbd94b0fb8ec117c624c8c8b3d2317fecae464aee82687a2b0ebb7bd621f",
+      "bytes": 15739
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-admin-r2-audit/REPORT.md",
+      "sha256": "a32246500f313838d80574f8fe38c4f35874794967c61f3e977ca66b0a3133bf",
+      "bytes": 4733
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/real-chain-admin-r2-audit/INDEX.json",
+      "sha256": "40e5ad4b62a5198ee9bf2a04a723a126ccdf13b3af4f6e038489ac32e4d6528f",
+      "bytes": 6230
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/final-two-special-audit/REPORT.md",
+      "sha256": "d51bcd940446b4b9d4ea7e46d58130139bc0bb2c204f4da876d317a1a5934910",
+      "bytes": 7017
+    },
+    {
+      "path": ".local-runs/sdlc-v2/reviews/final-acceptance-46/final-two-special-audit/INDEX.json",
+      "sha256": "0004294d590d7b60a7f0f16a5420a075cdc421330532ade06d1f5fb065bc605d",
+      "bytes": 7979
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/admin-r0.readback.json",
+      "sha256": "11ecea436c5becec64d02ccd4228a61da258e07b8558e0697be95717b0282904",
+      "bytes": 52202
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/admin-r1.readback.json",
+      "sha256": "4a753979c4f9963d8f1f83540cf5012ae6b2b5887b620f07c8ba8ecff1635ec8",
+      "bytes": 50785
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/admin-r2.readback.json",
+      "sha256": "ba2958e56297a1c4d0f202609f3f32ff63266c80f75533dceb15f34d376e0589",
+      "bytes": 89599
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/springgear-r0.readback.json",
+      "sha256": "8ea5df62f257e22d979d3ca69fc4eaff6e14912c5a7f8cfd9654a90290940ebc",
+      "bytes": 73405
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/springgear-r1.readback.json",
+      "sha256": "cad2f160323aae1d49563aff6526d8a97e0836ab750352d03c6bdf3de3907108",
+      "bytes": 59779
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/springgear-r2.readback.json",
+      "sha256": "3b9af63bf540d5e67ad0f2116738b4720d0bfb32e6f38c7ba376beb8785f2edd",
+      "bytes": 69802
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/fansite-r0.readback.json",
+      "sha256": "bcea62cba1549644b136044766dfe5bae6912462db86933e3586d7c2ef24c4bc",
+      "bytes": 100016
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/fansite-r1.readback.json",
+      "sha256": "f8564797c809f5e1b5d5215bd07dcf863984d63c20d8c0ddafbc0c15a2df9702",
+      "bytes": 60881
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/fansite-r2.readback.json",
+      "sha256": "709a43440d903352193725b9adc3f164e3e8d43d7d5eb96cc289341f09cbe3c3",
+      "bytes": 54226
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/final-source-map-readback.json",
+      "sha256": "03486fd96dd398e57f2b3c10429cdee9ee2e682873b6e0629fc06025038a0bde",
+      "bytes": 561
+    },
+    {
+      "path": ".local-runs/sdlc-v2/final-integration/independent-index-readback.json",
+      "sha256": "1116c1f01b045f0c099765cae3af1e3e849aa5ef6ff088cd918e3b5cafdd15f4",
+      "bytes": 323
+    }
+  ],
+  "current_client": "Codex Desktop0.153.4/openai; recorded gpt-6-astra/xhigh, not effective-model authentication",
+  "authority_source": "User goal-objective.md and root-visible conversation; encrypted delegated prompt body was not independently decrypted",
+  "native_certification": false,
+  "audits_are_readback_not_new_test_execution": true
+}

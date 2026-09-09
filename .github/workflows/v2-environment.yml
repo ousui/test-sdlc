@@ -1,0 +1,49 @@
+name: v2-environment
+on:
+  push:
+    branches: [verify/sdlc-v2-structured-runtime]
+    paths: [.github/workflows/v2-environment.yml]
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 849783ddbc9b2ffd5300e3b1582049a390a2e2a8
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ousui/springgear
+          ref: e855096ff19dcdb303dc4250ba19c30acd743ac7
+          path: _upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare public dependencies and record provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v2-env/wheels"
+          python -m pip download -r cases/admin/requirements.lock --dest "$RUNNER_TEMP/v2-env/wheels"
+          python scripts/prepare_springgear.py --upstream _upstream --out "$RUNNER_TEMP/springgear-inputs"
+          (cd "$RUNNER_TEMP/springgear-inputs/candidate" && mvn -B -ntp verify) > "$RUNNER_TEMP/v2-env/maven-prepare.log" 2>&1
+          tar -czf "$RUNNER_TEMP/v2-env/maven-repository.tar.gz" -C "$HOME/.m2" repository
+          maven_root="$(dirname "$(dirname "$(readlink -f "$(command -v mvn)")")")"
+          tar -czf "$RUNNER_TEMP/v2-env/maven-tool.tar.gz" -C "$maven_root" bin boot conf lib
+          { python --version; java -version; mvn -version; git rev-parse HEAD; git -C _upstream rev-parse HEAD; } > "$RUNNER_TEMP/v2-env/environment.txt" 2>&1
+          echo 'DEPENDENCY_PREPARATION_ONLY: this is not v2 Runtime or Skill closure evidence.' > "$RUNNER_TEMP/v2-env/README.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v2-public-environment-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2-env/
+          if-no-files-found: error
+          retention-days: 14
