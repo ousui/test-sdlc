@@ -1,0 +1,196 @@
+{
+  "scenario": "R2-FANSITE",
+  "status": "closed",
+  "stop": "After Q2, before FINAL",
+  "source": "Exact verified code/main bytes from actual native RLS ZIP; generated binary retained only in artifact, following Q1 source candidate convention.",
+  "candidate": {
+    "path": "v2/candidates/fansite-r2",
+    "source_files": 24,
+    "tree_sha256": "88f8fd48b7620c0d86346008101daed764b85ee69b30ec377b2ba861f39f7e75",
+    "tree_digest_format": "SHA256 of UTF-8 JSON path->SHA256; sorted keys; comma/colon separators; no trailing newline",
+    "all_bytes_match_native_delivery": true
+  },
+  "delivery": {
+    "path": ".local-runs/sdlc-v2/products/fansite-r2/.sdlc/exports/fansite-q2/8145cb8daafa385863684ad5bcf2569acc347f9d188e627a2367c6cdd3a34eae.zip",
+    "artifact_copy": ".local-runs/sdlc-v2/q2-fansite/artifacts/fansite-q2.zip",
+    "sha256": "8145cb8daafa385863684ad5bcf2569acc347f9d188e627a2367c6cdd3a34eae",
+    "bytes": 6688887,
+    "zip_members": 70,
+    "manifest_files_verified": 69,
+    "code_main_members": 25,
+    "code_main_tree_sha256": "6efafe87e38614876b2e7ef5ae971f48c7a0b4ddb6129686d07b61aabd3c221c"
+  },
+  "excluded_generated_binary": {
+    "package_member": "code/main/.build/fansite",
+    "sha256": "42e1c7011542a3954ac6e9676f4599872eab5cd314cb5b38f04ae110edd9b3a9",
+    "bytes": 11195090,
+    "candidate_copy": false,
+    "retained_in_original_delivery": true
+  },
+  "excluded_runtime_coordination": {
+    "rule": "Only code/main product sources extracted. No .sdlc, Run/Store data, content.json, verification.json, package manifest, USAGE.md, assets or raw coordination logs copied into source candidate.",
+    "outside_code_main_zip_members_excluded": 45,
+    "original_package_and_full_archive_preserved": true
+  },
+  "archive": {
+    "path": ".local-runs/sdlc-v2/q2-fansite/artifacts/workspace-archive.zip",
+    "sha256": "251996b274f00dc93cef11a4b919758c629c9c32ad6a019ae1f67ce38208f796",
+    "bytes": 20212321,
+    "manifest_files_verified": 767,
+    "database_rows": 1106,
+    "change_completed": true,
+    "delivery_succeeded": true,
+    "both_interruption_evidence_ZIPs_retained": true
+  },
+  "runtime_packages": {
+    "q2-entry": {
+      "source_head": "7d7179328712194bf362b752a585e7f044ba8260",
+      "package_digest": "7c4102ba61608adcec35c2ee97a4b8a20f2c2a9ff2145a5ff9727b83afdf9625",
+      "source_dirty": false,
+      "verified_files": 53
+    },
+    "q2-headerfix": {
+      "source_head": "fc07245d93515108fbaf4e7da072106c8c0f5e72",
+      "package_digest": "c12cb10c94bd69457a70e5fe4bf6518a0cad668a84aeac669a3f7bdd94c21a61",
+      "source_dirty": false,
+      "verified_files": 53
+    }
+  },
+  "runtime_package_boundary": {
+    "main_INIT_CTX_and_all_six_phases": "q2-entry",
+    "original_interruption_copy_proof": "q2-entry",
+    "affected_header_interruption_copy_retest_only": "q2-headerfix"
+  },
+  "change_id": "abf2ba1b-02bf-4323-b554-beafab4eec0d",
+  "run_id": "3b488830-c5f0-45a2-b909-3cd49695d8be",
+  "revision_id": "8e3000d1-3fa0-4cf6-81e6-08b735424a6a",
+  "counts_by_version": {
+    "Q0": {
+      "go_top_level_passed": 24,
+      "original_go": 24,
+      "incremental_go": 0,
+      "code_main_members": 17,
+      "source_candidate_files": 16,
+      "generated_binaries": 1,
+      "package_sha256": "d6dd4a6d16d851e35b8db34dc1444fd2dd8c3eae3466ad4a1a13c7800a6a4111",
+      "evidence": ".local-runs/sdlc-v2/q0-fansite/REPORT.json",
+      "public_cli_calls": 48,
+      "extra_verification": "Original UI check, Node syntax and build; catalog JS suite introduced in Q1."
+    },
+    "Q1": {
+      "go_top_level_passed": 34,
+      "original_go": 24,
+      "incremental_go": 10,
+      "code_main_members": 21,
+      "source_candidate_files": 20,
+      "generated_binaries": 1,
+      "package_sha256": "c933081d960fb880db547c87573af86e653d912fb9faaa038316d52e8e39583a",
+      "evidence": ".local-runs/sdlc-v2/q1-fansite/REPORT.json",
+      "public_cli_calls": 121,
+      "catalog_js_assertions_passed": 47
+    },
+    "Q2": {
+      "go_top_level_passed": 44,
+      "original_go": 24,
+      "incremental_go": 10,
+      "code_main_members": 25,
+      "source_candidate_files": 24,
+      "generated_binaries": 1,
+      "package_sha256": "8145cb8daafa385863684ad5bcf2569acc347f9d188e627a2367c6cdd3a34eae",
+      "evidence": ".local-runs/sdlc-v2/q2-fansite/REPORT.json",
+      "public_cli_calls": 175,
+      "catalog_js_assertions_passed": 47,
+      "version_js_assertions_passed": 49,
+      "new_go_breakdown": {
+        "Q2": 9,
+        "independent": 1
+      },
+      "auxiliary_cli_calls": {
+        "original_interruption": 50,
+        "headerfix_retest": 30
+      }
+    }
+  },
+  "input_originals": [
+    {
+      "path": ".local-runs/sdlc-v2/q2-fansite/SCENARIO-source.md",
+      "sha256": "696ae11ff21b239b42abc726eaa3eca525b74fec7025238131c50b0a99a5b5de"
+    },
+    {
+      "path": ".local-runs/sdlc-v2/q2-fansite/REQUIREMENTS.md",
+      "sha256": "1256f7730241be66f588d5bfe7f4a1f9bc7e57a290d0d99b38db766b5efec27f"
+    },
+    {
+      "path": ".local-runs/sdlc-v2/q2-fansite/007-change.create.request.json",
+      "sha256": "dd8587de41159f338add3a2f2bad9c296a3964000f90f9f8575b4473aacd841f",
+      "original_text_pointer": "/payload/original_text",
+      "original_text_sha256": "0b1d8a2e2821e7b91a3ead4a40443ac9500074f4c272c71982ee934d55a2eb11"
+    }
+  ],
+  "original_test_contract": {
+    "original24_and_Q1_ten_business_assertions_preserved": true,
+    "site_test_helper_only_adapted": true,
+    "exact_helper_normalization_then_original_file_SHA_and_new_helper_SHA": true,
+    "no_auto_retry_or_extra_GET": true,
+    "explicit_stale_or_null_version_preserved": true,
+    "independent_guard_mutations_before_inside_after_rejected": true,
+    "original_47_JS_file_unchanged": true
+  },
+  "real_Q2_results": {
+    "final_command_checks_passed": 9,
+    "main_cli_calls": 175,
+    "main_cli_successes": 167,
+    "VFY_repair_rounds": 4,
+    "real_failed_command_checks": 5,
+    "resolved_finding_ids": 3,
+    "manual_store_or_protocol_bypass_repairs": 0,
+    "public_input_or_order_corrections": 4,
+    "shared_Runtime_header_defect_found": 1,
+    "headerfix_actual_retest_passed": true,
+    "remaining_blockers": 0,
+    "native_client_certification": false
+  },
+  "R1_preservation": {
+    "file_count": 698,
+    "including_sdlc": true,
+    "unchanged": true
+  },
+  "source_files": {
+    "CASE-TRACEABILITY.md": "0ebc92f7bc98322d875dacddeca0699af42efaf7ecd8d6a886a3b3c6ed838d26",
+    "README.md": "04946c2a47ae7520603b5c19382b1a5d7f92467907aa59982ff29f86bd27e55f",
+    "SOURCE.md": "b9d230c484bcdbd4ddbc911be0d48d5d1aa9c09a8415919d34c617cbebd2f454",
+    "catalog.go": "f2cc99cc6f2d3b19514ac382c17fe527b58be9adf11e6ee7224417b8c88d121d",
+    "check_ui.py": "35781c3868b6ebd2749e3eb2c7ef6d3524d642d99e8d925384bb865b4f1f4b06",
+    "go.mod": "a0b0b27b7aef3dc0ba61c70b4b7a9e1fbbc0d5b613ed3cbb28be1280647f85c7",
+    "independent_r2_review_test.go": "37c17179468c62605b28711714024d094f16921eaf9dae531595f4c0850d478d",
+    "independent_review_test.go": "43efd86511ec48165839f27815073f76ae95f5af3cd8da6f5c6efa8df6356b42",
+    "main.go": "43caff23118cd5772cc8621748c950500766cbcb396d4cbe525d76d9ec782263",
+    "r1_test.go": "bea1bc8e1e07ff33a1761d7f49df759e30613ce201b29540be9fc98c970412f4",
+    "r2_test.go": "4691483fae17bf3c3035ced9da91107ce455e5264461485524b522f35b1c76e5",
+    "sample_media.py": "436770fb4c3af135d8f8f3483d9b5e15b161974dccbf3a29a437cddd318c28d6",
+    "server.go": "5d642e2fbf91c952597c62bef9152372b79e633054877540bfa3dc9bd3811425",
+    "site_test.go": "0b66e7c5f98fe1e7f37d3884ee67ee2ec02f57a58ef8f1978434a8ae9e56b88f",
+    "store.go": "a4f4a2f3772eeb2da25bd3f3b7ec115bcfe5b40fb1ed0a9232c30fc6558bb63d",
+    "ui_catalog_test.js": "05a78e703f08fb4ef6d2aca600b99eee74ef150febb38a7c82964d29ed6ec09d",
+    "ui_photo_test.js": "7e193239247d6a4756b62e14cbbbc042bd9d2f0bd3efac4d3338351b10bd0a8b",
+    "ui_version_test.js": "33be1d77c52817929edc1911abceb1dd3c0dbed5f03fcf91ef5d5c9dc1d172a4",
+    "vendor/golang.org/x/crypto/LICENSE": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+    "vendor/golang.org/x/crypto/pbkdf2/pbkdf2.go": "f46c5590b983ffae1d37e9a1a9cbfb47b2bcf4339cd7e7782d01f9e501e2cf17",
+    "vendor/modules.txt": "f77021936cc2cf77b0ceadbfd06d04501ac9e0e991d19292391176db21cec25e",
+    "web/app.js": "4d29f38b07404da4547c48792b2128118bfc38423b947725fcd43bdf9d40fd97",
+    "web/index.html": "01e98580fec0a531a2d298c1c13b79cf67009e1965299da02e2159e63f230be6",
+    "web/style.css": "147b06b1ebd9a1e9c7e01603d93f5ee6849ec055fcdcf9c42c2d29935af42f31"
+  },
+  "evidence": ".local-runs/sdlc-v2/q2-fansite/REPORT.json",
+  "independent_readback": ".local-runs/sdlc-v2/q2-fansite/independent-readback.json",
+  "independent_review": ".local-runs/sdlc-v2/reviews/q2-fansite-independent/retest-002/REPORT.md",
+  "git_boundary": {
+    "lab_head": "b406546f57ca6eed8f3eab2a237cdcd5c1b35056",
+    "branch": "verify/sdlc-v2-structured-runtime",
+    "no_commit": true,
+    "writes_only": [
+      "v2/candidates/fansite-r2",
+      "v2/Q2/fansite.json"
+    ]
+  }
+}

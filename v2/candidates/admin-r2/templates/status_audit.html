@@ -1,0 +1,26 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h1>Status audit</h1>
+<p>Successful bulk status requests. Times are UTC. Historical account names are retained.</p>
+<p><a href="{{ url_for('admin.users_bulk') }}">Batch account status</a></p>
+<form method="get">
+  <label>Actor ID <input name="actor_id" value="{{ listing.actor_id }}" type="number" min="1"></label>
+  <label>Target ID <input name="target_id" value="{{ listing.target_id }}" type="number" min="1"></label>
+  <label>Per page <input name="per_page" value="{{ listing.per_page }}" type="number" min="1" max="100"></label>
+  <button type="submit">Filter</button>
+</form>
+<p>Total: {{ listing.total }} | Page: {{ listing.page }} | Pages: {{ listing.pages }}</p>
+{% for operation in listing['items'] %}
+<section>
+<h2>Operation {{ operation.operation_id }}</h2>
+<p>Actor {{ operation.actor_id }}: {{ operation.actor_name }} | {{ operation.created_at }} | Requested: {{ operation.requested }} | Changed: {{ operation.changed }}</p>
+<table class="table"><caption>Account status snapshots</caption><thead><tr><th>ID</th><th>Name</th><th>Before</th><th>After</th><th>Changed</th></tr></thead><tbody>
+{% for target in operation.targets %}<tr><td>{{ target.target_id }}</td><td>{{ target.target_name }}</td><td>{{ target.before_enabled }}</td><td>{{ target.after_enabled }}</td><td>{{ target.changed }}</td></tr>{% endfor %}
+</tbody></table>
+</section>
+{% else %}<p>No audit records</p>{% endfor %}
+<nav aria-label="Audit pages">
+{% if listing.page > 1 %}<a rel="prev" href="{{ url_for('admin.audit_view', actor_id=listing.actor_id, target_id=listing.target_id, page=listing.page-1, per_page=listing.per_page) }}">Previous</a>{% endif %}
+{% if listing.page < listing.pages %}<a rel="next" href="{{ url_for('admin.audit_view', actor_id=listing.actor_id, target_id=listing.target_id, page=listing.page+1, per_page=listing.per_page) }}">Next</a>{% endif %}
+</nav>
+{% endblock %}
